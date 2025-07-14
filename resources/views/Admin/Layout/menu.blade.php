@@ -31,7 +31,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -59,15 +59,47 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
+                </li> --}}
+                {{-- <li class="nav-item">
+                    <a href="/admin/category" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Widgets
+                            Danh Mục
                             <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
+                </li> --}}
+                {{-- <li class="nav-item">
+                    <a href="/admin/category" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Danh Mục
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Menu Trang Chủ
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/category" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Mục Cha</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/subcategory" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Mục Con</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

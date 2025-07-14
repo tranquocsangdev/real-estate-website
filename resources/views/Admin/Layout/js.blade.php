@@ -17,3 +17,9 @@
 <script src="/assets_admin/dist/js/adminlte.js"></script>
 <script src="/assets_admin/dist/js/demo.js"></script>
 <script src="/assets_admin/dist/js/pages/dashboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+<script src="/assets_admin/dist/js/general.js"></script>
