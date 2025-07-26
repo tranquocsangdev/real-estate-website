@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -109,5 +110,23 @@ class AdminController extends Controller
             'status'         => true,
             'message'        => $message,
         ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $request->all();
+
+        DB::transaction(function () use (&$data) {
+            $admin = Admin::find($data['id']);
+
+            if (!$data['avatar'] ?? null) {
+                $data['avatar'] = $admin->avatar;
+            }
+
+            $admin->update($data);
+        });
+
+        Toastr::success("Cập nhật thành công!", 'Thành Công!');
+        return redirect('/admin/profile');
     }
 }

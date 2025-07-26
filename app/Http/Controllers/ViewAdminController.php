@@ -35,4 +35,9 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Admin.index');
     }
+
+    public function viewProfile()
+    {
+        return view('Admin.Profile.index');
+    }
 }

@@ -59,4 +59,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/change', [AdminController::class, 'changeStatus']);
         Route::post('/upload', [AdminController::class, 'uploadAvatar']);
     });
+
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewProfile']);
+        Route::post('/update', [AdminController::class, 'updateProfile']);
+    });
 });
