@@ -208,7 +208,7 @@
                             displaySuccess(res);
                         })
                         .catch((err) => {
-                            displayError(err);
+                            displayErrors(err);
                         });
                 },
                 updateSubCategory() {

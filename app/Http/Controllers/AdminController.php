@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -35,12 +36,14 @@ class AdminController extends Controller
 
     public function createAdmin(Request $request)
     {
-        Admin::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => bcrypt($request->password),
-            'avatar'    => $request->avatar,
-        ]);
+        DB::transaction(function () use ($request) {
+            Admin::create([
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'password'  => bcrypt($request->password),
+                'avatar'    => $request->avatar,
+            ]);
+        });
 
         return response()->json([
             'status'         => true,
@@ -52,19 +55,26 @@ class AdminController extends Controller
     {
         $admin = Admin::find($request->id);
 
-        if ($admin) {
+        if (!$admin) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Không tìm thấy tài khoản admin',
+            ]);
+        }
+
+        DB::transaction(function () use ($request, $admin) {
             $admin->update([
                 'name'      => $request->name,
                 'email'     => $request->email,
                 'password'  => bcrypt($request->password),
                 'avatar'    => $request->avatar,
             ]);
+        });
 
-            return response()->json([
-                'status'         => true,
-                'message'        => 'Đã cập nhật tài khoản admin thành công',
-            ]);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'Đã cập nhật tài khoản admin thành công',
+        ]);
     }
 
     public function deleteAdmin(Request $request)

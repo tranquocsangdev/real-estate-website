@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Subcategory\CreateRequest;
+use App\Http\Requests\Subcategory\UpdateRequest;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +23,7 @@ class SubcategoryController extends Controller
         ]);
     }
 
-    public function createSubCategory(Request $request)
+    public function createSubCategory(CreateRequest $request)
     {
         DB::transaction(function () use ($request) {
             Subcategory::create([
@@ -38,9 +40,9 @@ class SubcategoryController extends Controller
         ]);
     }
 
-    public function updateSubCategory(Request $request)
+    public function updateSubCategory(UpdateRequest $request)
     {
-       $sub_category = Subcategory::find($request->id);
+        $sub_category = Subcategory::find($request->id);
 
         DB::transaction(function () use ($request, $sub_category) {
             $sub_category->update([

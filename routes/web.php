@@ -17,7 +17,7 @@ Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
 Route::get('/admin/logout', [AdminAuthController::class, 'actionLogout']);
 
 
-Route::prefix('/admin')->middleware('adminMiddle')->group(function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
     Route::prefix('/category')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewCategory']);
