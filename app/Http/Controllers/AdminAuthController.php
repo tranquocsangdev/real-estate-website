@@ -15,19 +15,19 @@ class AdminAuthController extends Controller
         $data['password']   = $request->password;
         $check = Auth::guard('admin')->attempt($data);
         if ($check) {
-            $nhan_vien = Admin::where('email', $request->email)
+            $admin = Admin::where('email', $request->email)
                               ->where('is_open', 1)
                               ->first();
-            if ($nhan_vien) {
-                Toastr::success("Bạn đã đăng nhập thành công!");
+            if ($admin) {
+                Toastr::success("Bạn đã đăng nhập thành công!", 'Success');
                 return redirect('/admin/category');
             } else {
-                Toastr::error("Tài khoản đã bị khóa");
+                Toastr::error("Tài khoản đã bị khóa", 'Error');
                 Auth::guard('admin')->logout();
                 return redirect()->back();
             }
         } else {
-            Toastr::error("Email hoặc mật khẩu không chính xác");
+            Toastr::error("Email hoặc mật khẩu không chính xác", 'Error');
             return redirect()->back();
         }
     }
@@ -35,7 +35,7 @@ class AdminAuthController extends Controller
     public function actionLogout()
     {
         Auth::guard('admin')->logout();
-        Toastr::success("Bạn đã đăng xuất thành công!");
+        Toastr::success("Bạn đã đăng xuất thành công!", 'Success');
         return redirect('/admin/login');
     }
 }

@@ -377,7 +377,7 @@
                     <div class="user-info ps-3">
                         @if ($adminLogin)
                             <h6 class="mb-0 fw-bold">{{ $adminLogin->name }}</h6>
-                            <p class="designation mb-0 text-muted">Admin</p>
+                            <p class="designation mb-0 text-muted">Quản trị viên</p>
                         @else
                             <h6 class="mb-0 fw-bold">Chưa đăng nhập</h6>
                         @endif
