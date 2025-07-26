@@ -20,7 +20,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="/assets_admin/css/app.css" rel="stylesheet">
     <link href="/assets_admin/css/icons.css" rel="stylesheet">
-    <title>Đăng Nhập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <title>Đăng Nhập Quản Trị Viên</title>
 </head>
 
 <body class="bg-login">
@@ -41,28 +42,29 @@
                                     </div>
                                     <p class="text-center">Chào mừng bạn đến với trang quản trị.</p>
                                     <div class="form-body">
-                                        <form class="row g-3">
+                                        <form class="row g-3" method="POST" action="/admin/login">
+                                            @csrf
                                             <div class="col-12">
                                                 <label class="form-label">Email</label>
                                                 <input type="email" class="form-control" name="email"
-                                                    placeholder="Email Address">
+                                                    placeholder="Email Address" required>
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">Password</label>
                                                 <div class="input-group" id="show_hide_password">
                                                     <input type="password" class="form-control border-end-0"
-                                                        name="password"> <a href="javascript:;"
-                                                        class="input-group-text bg-transparent"><i
+                                                        name="password" required>
+                                                    <a href="javascript:;" class="input-group-text bg-transparent"><i
                                                             class='bx bx-hide'></i></a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6"> <a href="authentication-forgot-password.html">Forgot
-                                                    Password ?</a>
+                                            <div class="col-md-6">
+                                                <a href="authentication-forgot-password.html">Quên mật khẩu?</a>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-grid">
                                                     <button type="submit" class="btn btn-primary"><i
-                                                            class="bx bxs-lock-open"></i>Đăng Nhập</button>
+                                                            class="bx bxs-lock-open"></i> Đăng Nhập</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -84,6 +86,7 @@
     <script src="/assets_admin/plugins/simplebar/js/simplebar.min.js"></script>
     <script src="/assets_admin/plugins/metismenu/js/metisMenu.min.js"></script>
     <script src="/assets_admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!--Password show & hide js -->
     <script>
         $(document).ready(function() {
@@ -102,6 +105,9 @@
         });
     </script>
     <!--app JS-->
+    <!-- Hiển thị thông báo từ Toastr -->
+    {!! Toastr::message() !!}
+
     <script src="/assets_admin/js/app.js"></script>
 </body>
 

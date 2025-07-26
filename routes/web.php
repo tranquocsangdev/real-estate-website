@@ -12,16 +12,12 @@ Route::get('/', function () {
     return view('Admin.Layout.master');
 });
 
-Route::prefix('/admin')->group(function () {
-
-    Route::prefix('/login')->group(function () {
-        Route::get('/', [ViewAdminController::class, 'viewLogin']);
-        Route::post('/login', [AdminAuthController::class, 'actionLogin']);
-    });
-});
+Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);
+Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
+Route::get('/admin/logout', [AdminAuthController::class, 'actionLogout']);
 
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware('adminMiddle')->group(function () {
 
     Route::prefix('/category')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewCategory']);
@@ -63,5 +59,4 @@ Route::prefix('/admin')->group(function () {
         Route::post('/change', [AdminController::class, 'changeStatus']);
         Route::post('/upload', [AdminController::class, 'uploadAvatar']);
     });
-
 });

@@ -363,12 +363,27 @@
             <div class="user-box dropdown">
                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/assets_admin/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
+
+                    {{-- Avatar bên ngoài --}}
+                    @if ($adminLogin && $adminLogin->avatar)
+                        <img src="{{ $adminLogin->avatar }}" class="user-img rounded-circle" alt="user avatar"
+                            width="40" height="40">
+                    @else
+                        <img src="{{ asset('assets_admin/images/avatars/default-avatar.png') }}"
+                            class="user-img rounded-circle" alt="default avatar" width="40" height="40">
+                    @endif
+
+                    {{-- Thông tin người dùng --}}
                     <div class="user-info ps-3">
-                        <p class="user-name mb-0">Pauline Seitz</p>
-                        <p class="designattion mb-0">Web Designer</p>
+                        @if ($adminLogin)
+                            <h6 class="mb-0 fw-bold">{{ $adminLogin->name }}</h6>
+                            <p class="designation mb-0 text-muted">Admin</p>
+                        @else
+                            <h6 class="mb-0 fw-bold">Chưa đăng nhập</h6>
+                        @endif
                     </div>
                 </a>
+
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="javascript:;"><i
                                 class="bx bx-user"></i><span>Profile</span></a>
@@ -388,7 +403,7 @@
                     <li>
                         <div class="dropdown-divider mb-0"></div>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i
+                    <li><a class="dropdown-item" href="/admin/logout"><i
                                 class='bx bx-log-out-circle'></i><span>Logout</span></a>
                     </li>
                 </ul>
