@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\CreateRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -73,12 +74,15 @@ class CategoryController extends Controller
         $category = Category::find($request->id);
 
         if ($category) {
+            Subcategory::where('id_category', $category->id)->delete();
             $category->delete();
+
             return response()->json([
-                'status'    => true,
-                'message' => 'Đã xóa danh mục thành công',
+                'status'  => true,
+                'message' => 'Đã xóa danh mục và các danh mục con thành công',
             ]);
         }
+
 
         return response()->json([
             'status'    => false,

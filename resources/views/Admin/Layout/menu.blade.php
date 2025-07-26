@@ -1,107 +1,62 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="/assets_admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">Admin Panel</span>
-    </a>
-
-    <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="/assets_admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Tên Admin</a>
-            </div>
-        </div>
-
-        <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="./index.html" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v1</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v2</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v3</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-                {{-- <li class="nav-item">
-                    <a href="/admin/category" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Danh Mục
-                            <span class="right badge badge-danger">New</span>
-                        </p>
-                    </a>
-                </li> --}}
-                {{-- <li class="nav-item">
-                    <a href="/admin/category" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Danh Mục
-                            <span class="right badge badge-danger">New</span>
-                        </p>
-                    </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Menu Trang Chủ
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/category" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Mục Cha</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/subcategory" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Mục Con</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</aside>
+  <div class="nav-container primary-menu">
+      <div class="mobile-topbar-header">
+          <div>
+              <img src="/assets_admin/images/logo-icon.png" class="logo-icon" alt="logo icon">
+          </div>
+          <div>
+              <h4 class="logo-text">Rukada</h4>
+          </div>
+          <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+          </div>
+      </div>
+      <nav class="navbar navbar-expand-xl w-100">
+          <ul class="navbar-nav justify-content-start flex-grow-1 gap-1">
+              <li class="nav-item dropdown">
+                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                      data-bs-toggle="dropdown">
+                      <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                      </div>
+                      <div class="menu-title">Dashboard</div>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li> <a class="dropdown-item" href="index.html"><i class="bx bx-right-arrow-alt"></i>Default</a>
+                      </li>
+                      <li> <a class="dropdown-item" href="index2.html"><i
+                                  class="bx bx-right-arrow-alt"></i>Alternate</a>
+                      </li>
+                      <li> <a class="dropdown-item" href="index3.html"><i
+                                  class="bx bx-right-arrow-alt"></i>Graphical</a>
+                      </li>
+                  </ul>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/admin/category">
+                      <div class="parent-icon"><i class='bx bx-cookie'></i>
+                      </div>
+                      <div class="menu-title">Danh Mục</div>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/admin/subcategory">
+                      <div class="parent-icon"><i class='bx bx-cookie'></i>
+                      </div>
+                      <div class="menu-title">Danh Mục Con</div>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/admin/post">
+                      <div class="parent-icon"><i class='bx bx-cookie'></i>
+                      </div>
+                      <div class="menu-title">Đăng bài</div>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/admin/admin">
+                      <div class="parent-icon"><i class='bx bx-cookie'></i>
+                      </div>
+                      <div class="menu-title">Tài khoản admin</div>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+  </div>

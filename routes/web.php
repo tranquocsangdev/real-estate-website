@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ViewAdminController;
 use Illuminate\Support\Facades\Route;
@@ -11,10 +14,19 @@ Route::get('/', function () {
 
 Route::prefix('/admin')->group(function () {
 
+    Route::prefix('/login')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewLogin']);
+        Route::post('/login', [AdminAuthController::class, 'actionLogin']);
+    });
+});
+
+
+Route::prefix('/admin')->group(function () {
+
     Route::prefix('/category')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewCategory']);
         Route::post('/data', [CategoryController::class, 'getDataCategory']);
-        Route::post('/data-open', [CategoryController::class, 'getDataCategoryOpen']);
+        Route::get('/data-open', [CategoryController::class, 'getDataCategoryOpen']);
         Route::post('/create', [CategoryController::class, 'createCategory']);
         Route::post('/update', [CategoryController::class, 'updateCategory']);
         Route::post('/delete', [CategoryController::class, 'deleteCategory']);
@@ -29,4 +41,27 @@ Route::prefix('/admin')->group(function () {
         Route::post('/delete', [SubCategoryController::class, 'deleteSubCategory']);
         Route::post('/change', [SubCategoryController::class, 'changeStatusSubCategory']);
     });
+
+    // chưa viết xong
+    Route::prefix('/post')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewPost']);
+        Route::get('/create', [ViewAdminController::class, 'viewAddPost']);
+        Route::post('/data', [PostController::class, 'getDataPost']);
+        Route::post('/upload', [PostController::class, 'uploadPostImage']);
+        Route::post('/create', [PostController::class, 'createPost']);
+        Route::post('/update', [PostController::class, 'updatePost']);
+        Route::post('/delete', [PostController::class, 'deletePost']);
+    });
+    // end chưa viết xong
+
+    Route::prefix('/admin')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewAdmin']);
+        Route::post('/data', [AdminController::class, 'getDataAdmin']);
+        Route::post('/create', [AdminController::class, 'createAdmin']);
+        Route::post('/update', [AdminController::class, 'updateAdmin']);
+        Route::post('/delete', [AdminController::class, 'deleteAdmin']);
+        Route::post('/change', [AdminController::class, 'changeStatus']);
+        Route::post('/upload', [AdminController::class, 'uploadAvatar']);
+    });
+
 });

@@ -6,16 +6,16 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-primary text-white">
                     <span>Thêm mới danh mục</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-2">
-                        <label class="form-label">Tên danh mục</label>
+                        <label class="">Tên danh mục</label>
                         <input type="text" class="form-control" v-model="create.name">
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Icon</label>
+                        <label class="">Icon</label>
                         <input type="text" class="form-control" v-model="create.icon">
                     </div>
                     <div class="">
@@ -23,14 +23,14 @@
                                 rel="noopener noreferrer">tại đây</a></span>
                     </div>
                 </div>
-                <div class="card-footer text-right">
-                    <button class="btn btn-primary" v-on:click="createCategory()">Thêm mới</button>
+                <div class="card-footer text-end">
+                    <button class="btn btn-primary btn-sm" v-on:click="createCategory()">Thêm mới</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-8">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-primary text-white">
                     <span>Danh sách danh mục</span>
                 </div>
                 <div class="card-body">
@@ -54,19 +54,20 @@
                                             <span class="" v-html="v.icon"></span>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button class="btn btn-success text-white" v-if="v.status == 1"
+                                            <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"
                                                 v-on:click="changeStatus(v)">Đang mở</button>
-                                            <button class="btn btn-warning text-white" v-else
+                                            <button class="btn btn-warning btn-sm text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã tắt</button>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-primary"
-                                                data-toggle="modal" data-target="#updateModal">
-                                                <i class="fa-solid fa-pencil"></i>
+                                            <button v-on:click="update = Object.assign({}, v)"
+                                                class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
+                                                <i class="fa-solid fa-pencil ms-1"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
-                                                data-toggle="modal" data-target="#deleteModal">
-                                                <i class="fa-regular fa-trash-can"></i>
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -88,17 +89,15 @@
                     <h5 class="modal-title text-white" id="exampleModalLabel">Cập nhật danh mục
                         <b>@{{ update.name }}</b>
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label class="form-label">Tên danh mục</label>
+                        <label class="">Tên danh mục</label>
                         <input type="text" class="form-control" v-model="update.name">
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Icon</label>
+                        <label class="">Icon</label>
                         <input type="text" class="form-control" v-model="update.icon">
                     </div>
                     <div class="">
@@ -107,7 +106,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="button" class="btn btn-primary" v-on:click="updateCategory()">Xác nhận</button>
                 </div>
             </div>
@@ -123,9 +122,7 @@
                     <h5 class="modal-title text-white" id="exampleModalLabel">Xác nhận xóa danh mục
                         <b>@{{ del.name }}</b>
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -134,13 +131,11 @@
                         <br>
                         <span>Hành động này <b>không thể hoàn tác</b>. Nếu bạn đồng ý, hãy nhấn <b>Xác nhận</b> bên
                             dưới.</span>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Đóng">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="button" class="btn btn-primary" v-on:click="deleteCategory()">Xác nhận</button>
                 </div>
             </div>
