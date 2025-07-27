@@ -6,12 +6,15 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header ">
-                    <div class="d-flex align-items-center">
-                        <a href="/admin/post" class="btn btn-secondary btn-sm">Trở lại </a>
-                        <span class="ms-1"> Thêm bài đăng</span>
-                    </div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-plus-circle me-1"></i> Thêm bài đăng
+                    </h5>
+                    <a href="/admin/post" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-arrow-left me-1"></i> Trở lại
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
@@ -23,7 +26,7 @@
                             <label class="form-label">Danh mục cha ( <span class="text-danger">*</span> )</label>
                             <select class="form-select">
                                 <option selected>-- Chọn danh mục cha --</option>
-                                 <template v-for='(value, index) in list_category'>
+                                <template v-for='(value, index) in list_category'>
                                     <option :value="value.id">@{{ value.name }}</option>
                                 </template>
                             </select>
@@ -130,9 +133,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 mb-3">
+                        <div class="col-lg-12">
                             <label class="form-label">Nội dung chi tiết ( <span class="text-danger">*</span> )</label>
-                            <textarea rows="5" class="form-control" placeholder="Mô tả kỹ lô đất, tiện ích, pháp lý..."></textarea>
+                            <textarea id="ckeditor-content" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
@@ -171,6 +174,9 @@
                     images: []
                 },
                 preview: '',
+            },
+            mounted() {
+                CKEDITOR.replace('ckeditor-content');
             },
             created() {
                 this.loadDataCategory();
@@ -214,9 +220,10 @@
                         });
                 },
                 removeImage(index) {
-                    this.create.images.splice(index, 1); // Xóa ảnh khỏi danh sách
+                    this.create.images.splice(index, 1);
                 },
                 createPost() {
+                    this.create.content = CKEDITOR.instances['ckeditor-content'].getData();
                     axios
                         .post('/admin/post/create', this.create)
                         .then((res) => {})

@@ -31,29 +31,25 @@
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/category">
-                      <div class="parent-icon"><i class='bx bx-cookie'></i>
-                      </div>
+                      <div class="parent-icon"><i class="fas fa-layer-group"></i></div>
                       <div class="menu-title">Danh Mục</div>
                   </a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/subcategory">
-                      <div class="parent-icon"><i class='bx bx-cookie'></i>
-                      </div>
+                      <div class="parent-icon"><i class="fas fa-sitemap"></i></div>
                       <div class="menu-title">Danh Mục Con</div>
                   </a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/post">
-                      <div class="parent-icon"><i class='bx bx-cookie'></i>
-                      </div>
+                      <div class="parent-icon"><i class="fas fa-pen-square"></i></div>
                       <div class="menu-title">Đăng bài</div>
                   </a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/admin">
-                      <div class="parent-icon"><i class='bx bx-cookie'></i>
-                      </div>
+                      <div class="parent-icon"><i class="fas fa-user-shield"></i></div>
                       <div class="menu-title">Tài khoản admin</div>
                   </a>
               </li>

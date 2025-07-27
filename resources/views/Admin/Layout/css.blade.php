@@ -31,3 +31,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script src="https://balkan.app/js/OrgChart.js"></script>
+<!-- Lightbox CSS -->
+<link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
+{{-- Zoome ảnh --}}
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>

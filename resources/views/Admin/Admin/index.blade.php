@@ -7,7 +7,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <span>Danh sách tài khoản admin</span>
+                    <h5 class="mb-0 text-white">Danh sách tài khoản admin</h5>
                     <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
                         <i class="fa-solid fa-plus"></i> Thêm mới
                     </button>

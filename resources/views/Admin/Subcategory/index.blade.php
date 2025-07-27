@@ -7,7 +7,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <span>Thêm mới danh mục con</span>
+                    <h5 class="mb-0 text-white">Thêm mới danh mục con</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-2">
@@ -40,7 +40,7 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <span>Danh sách danh mục con</span>
+                    <h5 class="mb-0 text-white">Danh sách danh mục con</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

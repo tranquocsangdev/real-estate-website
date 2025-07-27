@@ -9,7 +9,7 @@ use App\Http\Controllers\ViewAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('Admin.Layout.master');
+    return view("Client.Layout.master");
 });
 
 Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);

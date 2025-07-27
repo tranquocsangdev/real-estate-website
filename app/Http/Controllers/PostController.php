@@ -25,6 +25,20 @@ class PostController extends Controller
         ]);
     }
 
+    public function getDataPost()
+    {
+        $data = Post::orderByDESC('id')->get();
+
+        // Chuyển đổi images từ JSON string sang array
+        foreach ($data as $post) {
+            $post->images = json_decode($post->images ?? '[]', true);
+        }
+
+        return response()->json([
+            'data'    => $data,
+        ]);
+    }
+
     public function createPost(Request $request)
     {
         Post::create([
