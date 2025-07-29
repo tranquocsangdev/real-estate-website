@@ -39,3 +39,4 @@
 <!-- Style CSS -->
 <link rel="stylesheet" href="/assets_client/css/style.css">
 <link rel="stylesheet" href="/assets_client/css/responsive.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

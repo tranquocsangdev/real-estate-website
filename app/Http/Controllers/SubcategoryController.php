@@ -23,6 +23,17 @@ class SubcategoryController extends Controller
         ]);
     }
 
+    public function getDataSubCategoryPost(Request $request)
+    {
+        $data = Subcategory::where('id_category', $request->id_category)
+                            ->where('status', 1)
+                            ->get();
+
+        return response()->json([
+            'data'  => $data
+        ]);
+    }
+
     public function createSubCategory(CreateRequest $request)
     {
         DB::transaction(function () use ($request) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\CreateRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -39,7 +40,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function createPost(Request $request)
+    public function createPost(CreateRequest $request)
     {
         Post::create([
             'title'         => $request->title,

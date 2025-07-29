@@ -24,8 +24,8 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label class="form-label">Danh mục cha ( <span class="text-danger">*</span> )</label>
-                            <select class="form-select">
-                                <option selected>-- Chọn danh mục cha --</option>
+                            <select class="form-select" v-model="create.id_category" v-on:change="loadDataSubCategoryPost($event)">
+                                <option value="">-- Chọn danh mục cha --</option>
                                 <template v-for='(value, index) in list_category'>
                                     <option :value="value.id">@{{ value.name }}</option>
                                 </template>
@@ -33,9 +33,9 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label class="form-label">Danh mục con ( <span class="text-danger">*</span> )</label>
-                            <select class="form-select">
-                                <option selected>-- Chọn danh mục con --</option>
-                                <template v-for='(value, index) in list_category'>
+                            <select class="form-select" v-model="create.id_subcategory" :disabled="!create.id_category">
+                                <option value="">-- Chọn danh mục con --</option>
+                                <template v-for='(value, index) in list_subcategory'>
                                     <option :value="value.id">@{{ value.name }}</option>
                                 </template>
                             </select>
@@ -153,6 +153,7 @@
             el: '#app',
             data: {
                 list_category: [],
+                list_subcategory: [],
                 create: {
                     title: '',
                     slug: '',
@@ -217,6 +218,16 @@
                         .then((res) => {
                             this.list_category = res.data.data;
                             displaySuccess(res, false);
+                        });
+                },
+                loadDataSubCategoryPost(e) {
+                    var payload = {
+                        id_category: e.target.value
+                    }
+                    axios
+                        .post('/admin/subcategory/data-post', payload)
+                        .then((res) => {
+                            this.list_subcategory = res.data.data
                         });
                 },
                 removeImage(index) {

@@ -53,6 +53,12 @@
                       <div class="menu-title">Tài khoản admin</div>
                   </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/chat-noi-bo">
+                    <div class="parent-icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="menu-title">Chát Nội Bộ</div>
+                </a>
+            </li>
           </ul>
       </nav>
   </div>

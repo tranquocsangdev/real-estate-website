@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
 class ViewAdminController extends Controller
@@ -39,5 +40,11 @@ class ViewAdminController extends Controller
     public function viewProfile()
     {
         return view('Admin.Profile.index');
+    }
+
+    public function viewChatNoiBo()
+    {
+        $users = Admin::where('id', '!=', auth()->id())->get();
+        return view("Admin.ChatNoiBo.index", compact('users'));
     }
 }

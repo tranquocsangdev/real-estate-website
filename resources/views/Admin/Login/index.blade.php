@@ -46,8 +46,7 @@
                                             @csrf
                                             <div class="col-12">
                                                 <label class="form-label">Email</label>
-                                                <input type="email" class="form-control" name="email"
-                                                    placeholder="Email Address" required>
+                                                <input type="email" class="form-control" name="email"required>
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">Password</label>

@@ -3,14 +3,15 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ViewAdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view("Client.Layout.master");
-});
+
+Route::get('/', [HomeController::class, 'viewHome']);
 
 Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);
 Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
@@ -32,6 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/subcategory')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewSubCategory']);
         Route::post('/data', [SubcategoryController::class, 'getDataSubCategory']);
+        Route::post('/data-post', [SubcategoryController::class, 'getDataSubCategoryPost']);
         Route::post('/create', [SubCategoryController::class, 'createSubCategory']);
         Route::post('/update', [SubCategoryController::class, 'updateSubCategory']);
         Route::post('/delete', [SubCategoryController::class, 'deleteSubCategory']);
@@ -63,5 +65,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewProfile']);
         Route::post('/update', [AdminController::class, 'updateProfile']);
+    });
+
+    Route::prefix('/chat-noi-bo')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewChatNoiBo']);
+        Route::post('/send', [MessageController::class, 'send']);
     });
 });
