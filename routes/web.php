@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/admin')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewAdmin']);
         Route::post('/data', [AdminController::class, 'getDataAdmin']);
+        Route::post('/data-chat', [AdminController::class, 'getDataAdminChat']);
         Route::post('/create', [AdminController::class, 'createAdmin']);
         Route::post('/update', [AdminController::class, 'updateAdmin']);
         Route::post('/delete', [AdminController::class, 'deleteAdmin']);
@@ -72,3 +73,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/send', [MessageController::class, 'send']);
     });
 });
+
+// Lấy 50 tin gần nhất (test)
+Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+
+// Lấy cuộc hội thoại giữa 2 user
+Route::get('/messages/{from}/{to}', [MessageController::class, 'between'])->name('messages.between');
+
+// Gửi tin nhắn
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+
+// Đánh dấu đã đọc
+Route::patch('/messages/{id}/read', [MessageController::class, 'markAsRead'])->name('messages.read');
+
+// Đánh dấu đã đọc theo cặp user
+Route::patch('/messages/read-between/{from}/{to}', [MessageController::class, 'markBetweenAsRead'])->name('messages.readBetween');

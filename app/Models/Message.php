@@ -12,5 +12,12 @@ class Message extends Model
         'from_id',
         'to_id',
         'message',
+        'is_read',
+    ];
+
+    protected $casts = [
+        'is_read' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 }
