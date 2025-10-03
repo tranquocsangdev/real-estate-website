@@ -42,9 +42,8 @@ class ViewAdminController extends Controller
         return view('Admin.Profile.index');
     }
 
-    public function viewChatNoiBo()
+    public function viewMessage()
     {
-        $users = Admin::where('id', '!=', auth()->id())->get();
-        return view("Admin.ChatNoiBo.index", compact('users'));
+        return view('Admin.Message.index');
     }
 }

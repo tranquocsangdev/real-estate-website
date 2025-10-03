@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--favicon-->
+@vite('resources/js/app.js')
 <link rel="icon" href="/assets_admin/images/favicon-32x32.png" type="image/png" />
 <!--plugins-->
 <link href="/assets_admin/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />

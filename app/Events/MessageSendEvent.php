@@ -11,13 +11,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent implements ShouldBroadcast
+class MessageSendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(public Message $message)
     {
         //
@@ -33,11 +30,11 @@ class MessageSent implements ShouldBroadcast
     }
 
     /**
-     * Tên event phía client sẽ nghe là ".MessageSent"
+     * Tên event phía client sẽ nghe là ".MessageSentEvent"
      */
     public function broadcastAs(): string
     {
-        return 'MessageSent';
+        return 'MessageSentEvent';
     }
 
     /**

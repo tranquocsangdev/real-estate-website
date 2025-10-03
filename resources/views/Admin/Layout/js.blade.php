@@ -20,4 +20,5 @@
   <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
   <!-- Lightbox JS -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
   {!! Toastr::message() !!}

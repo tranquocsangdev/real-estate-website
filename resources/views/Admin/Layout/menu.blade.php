@@ -54,11 +54,17 @@
                   </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/admin/chat-noi-bo">
-                    <div class="parent-icon"><i class="fas fa-user-shield"></i></div>
-                    <div class="menu-title">Chát Nội Bộ</div>
-                </a>
-            </li>
+                  <a class="nav-link" href="/admin/chat-noi-bo">
+                      <div class="parent-icon"><i class="fas fa-user-shield"></i></div>
+                      <div class="menu-title">Chát Nội Bộ</div>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/admin/message">
+                      <div class="parent-icon"><i class="fas fa-comments"></i></div>
+                      <div class="menu-title">Message </div>
+                  </a>
+              </li>
           </ul>
       </nav>
   </div>

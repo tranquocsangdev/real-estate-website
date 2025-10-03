@@ -55,7 +55,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/admin')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewAdmin']);
         Route::post('/data', [AdminController::class, 'getDataAdmin']);
-        Route::post('/data-chat', [AdminController::class, 'getDataAdminChat']);
         Route::post('/create', [AdminController::class, 'createAdmin']);
         Route::post('/update', [AdminController::class, 'updateAdmin']);
         Route::post('/delete', [AdminController::class, 'deleteAdmin']);
@@ -71,6 +70,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/chat-noi-bo')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewChatNoiBo']);
         Route::post('/send', [MessageController::class, 'send']);
+    });
+
+    Route::prefix('/message')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewMessage']);
+        Route::get('/user', [MessageController::class, 'userAdmin']);
+        Route::post('/send', [MessageController::class, 'sendMessage']);
+    });
+
+    // conversation: đoạn hội thoại
+    Route::prefix('/conversation')->group(function () {
+        Route::post('/data', [MessageController::class, 'getDataConversation']);
     });
 });
 

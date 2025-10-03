@@ -24,29 +24,29 @@ class AdminController extends Controller
     {
         $user = Auth::guard('admin')->user();
         $data = Admin::where('is_open', 1)
-            ->orderByDESC('id')
-            ->where('id', '!=', $user->id)
-            ->get()
-            ->map(function ($admin) use ($user) {
-                $admin->unread_count = Message::where('from_id', $admin->id)
-                    ->where('to_id', $user->id)
-                    ->where('is_read', 0)
-                    ->count();
+                    ->orderByDESC('id')
+                    ->where('id', '!=', $user->id)
+                    ->get();
+            // ->map(function ($admin) use ($user) {
+            //     $admin->unread_count = Message::where('from_id', $admin->id)
+            //         ->where('to_id', $user->id)
+            //         ->where('is_read', 0)
+            //         ->count();
 
-                $lastMessage = Message::where(function ($q) use ($user, $admin) {
-                        $q->where('from_id', $admin->id)->where('to_id', $user->id);
-                    })
-                    ->orWhere(function ($q) use ($user, $admin) {
-                        $q->where('from_id', $user->id)->where('to_id', $admin->id);
-                    })
-                    ->orderBy('id', 'desc')
-                    ->first();
+            //     $lastMessage = Message::where(function ($q) use ($user, $admin) {
+            //             $q->where('from_id', $admin->id)->where('to_id', $user->id);
+            //         })
+            //         ->orWhere(function ($q) use ($user, $admin) {
+            //             $q->where('from_id', $user->id)->where('to_id', $admin->id);
+            //         })
+            //         ->orderBy('id', 'desc')
+            //         ->first();
 
-                $admin->last_message = optional($lastMessage)->message;
-                $admin->last_message_at = optional(optional($lastMessage)->created_at)->toDateTimeString();
-                $admin->last_message_from_id = optional($lastMessage)->from_id;
-                return $admin;
-            })->values();
+            //     $admin->last_message = optional($lastMessage)->message;
+            //     $admin->last_message_at = optional(optional($lastMessage)->created_at)->toDateTimeString();
+            //     $admin->last_message_from_id = optional($lastMessage)->from_id;
+            //     return $admin;
+            // })->values();
 
         return response()->json([
             'data' => $data,

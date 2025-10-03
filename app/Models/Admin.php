@@ -21,5 +21,4 @@ class Admin extends Authenticatable
         'avatar',
     ];
 
-
 }

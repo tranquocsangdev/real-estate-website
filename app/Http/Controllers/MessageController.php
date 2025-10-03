@@ -4,12 +4,67 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
 use App\Events\MessageRead;
+use App\Events\MessageSendEvent;
+use App\Models\Admin;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    public function userAdmin()
+    {
+        $user = Auth::guard('admin')->user();
+
+        $data = Admin::where('admins.is_open', 1)
+                        ->where('admins.id', '!=', $user->id)
+                        ->select('admins.id', 'admins.name', 'admins.avatar')
+                        ->get();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function getDataConversation(Request $request)
+    {
+        $id_login = Auth::guard('admin')->user()->id;
+        $id_user_dang_chon = $request->id;
+
+        $data  = Message::where(function ($query) use ($id_login, $id_user_dang_chon) {
+        $query->where('from_id', $id_login)
+                ->where('to_id', $id_user_dang_chon);
+                })->orWhere(function ($query) use ($id_login, $id_user_dang_chon) {
+                    $query->where('from_id', $id_user_dang_chon)
+                        ->where('to_id', $id_login);
+                })
+                ->join('admins as nguoi_gui', 'messages.from_id', 'nguoi_gui.id')
+                ->join('admins as nguoi_nhan', 'messages.to_id', 'nguoi_nhan.id')
+                ->select(
+                    'messages.*',
+                    'nguoi_nhan.name as ten_nguoi_gui',
+                    'nguoi_gui.name as ten_nguoi_nhan',
+                    'nguoi_nhan.avatar'
+                )
+                ->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
+    public function sendMessage(Request $request)
+    {
+        $user = Auth::guard('admin')->user();
+        $message = Message::create([
+            'to_id'     => $request->id,
+            'from_id'   => $user->id,
+            'message'   => $request->noi_dung,
+        ]);
+        broadcast(new MessageSendEvent($message))->toOthers();
+
+    }
+
     /**
      * Gửi tin nhắn: from_id, to_id, message
      * Body JSON:
