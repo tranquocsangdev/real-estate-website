@@ -84,6 +84,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     });
 });
 
+Route::prefix('/home')->group(function () {
+    Route::prefix('/post')->group(function () {
+        Route::get('/data', [HomeController::class, 'getDataPost']);
+    });
+
+    Route::prefix('/category')->group(function () {
+        Route::get('/data', [HomeController::class, 'getDataCategory']);
+        Route::get('/{slug}', [HomeController::class, 'categoryDetail']);
+    });
+
+});
+
 // Lấy 50 tin gần nhất (test)
 Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 

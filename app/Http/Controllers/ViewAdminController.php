@@ -27,6 +27,11 @@ class ViewAdminController extends Controller
         return view('Admin.Post.create');
     }
 
+    public function viewUpdatePost($id)
+    {
+        return view('Admin.Post.update', compact('id'));
+    }
+
     public function viewLogin()
     {
         return view('Admin.Login.index');

@@ -1,102 +1,26 @@
-<footer class="footer_dark">
-    <div class="footer_top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="widget">
-                        <div class="footer_logo">
-                            <a href="#"><img src="/assets_client/images/logo_light.png" alt="logo" /></a>
-                        </div>
-                        <p>If you are going to use of Lorem Ipsum need to be sure there isn't hidden of text</p>
-                    </div>
-                    <div class="widget">
-                        <ul class="social_icons social_white">
-                            <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                            <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                            <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
-                            <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h6 class="widget_title">Useful Links</h6>
-                        <ul class="widget_links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Location</a></li>
-                            <li><a href="#">Affiliates</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h6 class="widget_title">Category</h6>
-                        <ul class="widget_links">
-                            <li><a href="#">Men</a></li>
-                            <li><a href="#">Woman</a></li>
-                            <li><a href="#">Kids</a></li>
-                            <li><a href="#">Best Saller</a></li>
-                            <li><a href="#">New Arrivals</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div class="widget">
-                        <h6 class="widget_title">My Account</h6>
-                        <ul class="widget_links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Discount</a></li>
-                            <li><a href="#">Returns</a></li>
-                            <li><a href="#">Orders History</a></li>
-                            <li><a href="#">Order Tracking</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="widget">
-                        <h6 class="widget_title">Contact Info</h6>
-                        <ul class="contact_info contact_info_light">
-                            <li>
-                                <i class="ti-location-pin"></i>
-                                <p>123 Street, Old Trafford, New South London , UK</p>
-                            </li>
-                            <li>
-                                <i class="ti-email"></i>
-                                <a href="mailto:info@sitename.com">info@sitename.com</a>
-                            </li>
-                            <li>
-                                <i class="ti-mobile"></i>
-                                <p>+ 457 789 789 65</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<footer class="footer py-5 mt-auto bg-light">
+    <div class="container text-center">
+        <h5 class="text-dark fw-bold mb-3">Liên hệ Nguyễn Thị Thùy Dung</h5>
+        <div class="d-flex justify-content-center flex-column flex-sm-row">
+            <p class="mb-1 mb-sm-0 me-sm-4">
+                <i class="bi bi-phone me-2 text-primary"></i>**Điện thoại:** <a href="tel:0901234567"
+                    class="text-decoration-none text-dark fw-bold">090 123 4567</a>
+            </p>
+            <p class="mb-3 mb-sm-0">
+                <i class="bi bi-envelope me-2 text-primary"></i>**Email:** <a href="mailto:thuy.dung.bds@example.com"
+                    class="text-decoration-none text-dark fw-bold">thuy.dung.bds@example.com</a>
+            </p>
         </div>
-    </div>
-    <div class="bottom_footer border-top-tran">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-md-0 text-center text-md-start">© 2020 All Rights Reserved by Bestwebcreator</p>
-                </div>
-                <div class="col-md-6">
-                    <ul class="footer_payment text-center text-lg-end">
-                        <li><a href="#"><img src="/assets_client/images/visa.png" alt="visa"></a>
-                        </li>
-                        <li><a href="#"><img src="/assets_client/images/discover.png" alt="discover"></a></li>
-                        <li><a href="#"><img src="/assets_client/images/master_card.png" alt="master_card"></a>
-                        </li>
-                        <li><a href="#"><img src="/assets_client/images/paypal.png" alt="paypal"></a>
-                        </li>
-                        <li><a href="#"><img src="/assets_client/images/amarican_express.png"
-                                    alt="amarican_express"></a></li>
-                    </ul>
-                </div>
-            </div>
+
+        <div class="mt-3">
+            <a href="https://zalo.me/0901234567" class="btn btn-outline-success mx-1"><i
+                    class="bi bi-chat-dots-fill me-1"></i> Zalo</a>
+            <a href="#" class="btn btn-outline-primary mx-1"><i class="bi bi-facebook me-1"></i>
+                Facebook</a>
         </div>
+
+        <p class="text-muted small mt-4 mb-0 border-top pt-3">
+            &copy; 2024 Nguyễn Thị Thùy Dung. Thiết kế bởi AI Assistant. All rights reserved.
+        </p>
     </div>
 </footer>

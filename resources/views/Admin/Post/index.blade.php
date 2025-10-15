@@ -24,24 +24,24 @@
                                     <th>Giá</th>
                                     <th>Diện tích</th>
                                     <th>Địa chỉ</th>
-                                    <th>Điện thoại</th>
-                                    <th>Hành động</th>
+                                    <th>Số Điện Thoại/Zalo</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <template v-for="(value, index) in list">
-                                    <tr class="align-middle">
+                                    <tr class="align-middle text-center">
                                         <th class="text-center">@{{ index + 1 }}</th>
-                                        <td>@{{ value.title }}</td>
-                                        <td class="text-end"><b>@{{ formatVND(value.price) }}</b></td>
-                                        <td class="text-center">@{{ value.area }} m²</td>
-                                        <td>@{{ value.address }}</td>
-                                        <td class="text-center">@{{ value.phone }}</td>
-                                        <td class="text-center">
+                                        <td class="text-wrap">@{{ value.title }}</td>
+                                        <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
+                                        <td class="text-center text-success">@{{ value.area }} m²</td>
+                                        <td class="text-wrap">@{{ value.address }}</td>
+                                        <td class="text-center">@{{ value.phone }} / <a :href="value.zalo_link" target="_blank">Zalo</a></td>
+                                        <td class="text-center align-middle">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
-                                                class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
+                                                class="btn btn-sm btn-success text-white" data-bs-toggle="modal"
                                                 data-bs-target="#postModal">
-                                                Xem
+                                                Xem thêm
                                             </button>
                                         </td>
                                     </tr>
@@ -68,7 +68,7 @@
                     <div class="row g-4">
                         <!-- Thông tin cơ bản -->
                         <div class="col-md-6">
-                            <div class="border rounded p-3 h-100">
+                            <div class="border border-primary rounded p-3 h-100">
                                 <h6 class="text-secondary fw-bold mb-3">Thông tin cơ bản</h6>
                                 <p><strong>Tiêu đề:</strong> @{{ post_detail.title }}</p>
                                 <p><strong>Giá bán:</strong> <b>@{{ formatVND(post_detail.price) }}</b></p>
@@ -80,7 +80,7 @@
 
                         <!-- Thông tin địa điểm & liên hệ -->
                         <div class="col-md-6">
-                            <div class="border rounded p-3 h-100">
+                            <div class="border border-primary rounded p-3 h-100">
                                 <h6 class="text-secondary fw-bold mb-3">Vị trí & Liên hệ</h6>
                                 <p><strong>Địa chỉ:</strong> @{{ post_detail.address }}</p>
                                 <p><strong>Khu vực:</strong> @{{ post_detail.location }}</p>

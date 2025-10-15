@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('project_name')->nullable()->comment('Tên dự án (nếu có)');
             $table->string('phone')->nullable()->comment('Số điện thoại liên hệ');
             $table->string('zalo_link')->nullable()->comment('Link Zalo tư vấn');
-            $table->string('map_link')->nullable()->comment('Link bản đồ / vị trí');
+            $table->longText('map_link')->nullable()->comment('Link bản đồ / vị trí');
             $table->json('images')->nullable()->comment('Danh sách ảnh mô tả');
             $table->timestamps();
         });

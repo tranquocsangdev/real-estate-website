@@ -51,7 +51,7 @@
                                         <th class="text-center align-middle">@{{ k + 1 }}</th>
                                         <td class="align-middle">@{{ v.name }}</td>
                                         <td class="text-center align-middle">
-                                            <span class="" v-html="v.icon"></span>
+                                            <span class="fa-2x" v-html="v.icon"></span>
                                         </td>
                                         <td class="text-center align-middle">
                                             <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"

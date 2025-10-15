@@ -24,7 +24,8 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label class="form-label">Danh mục cha ( <span class="text-danger">*</span> )</label>
-                            <select class="form-select" v-model="create.id_category" v-on:change="loadDataSubCategoryPost($event)">
+                            <select class="form-select" v-model="create.id_category"
+                                v-on:change="loadDataSubCategoryPost($event)">
                                 <option value="">-- Chọn danh mục cha --</option>
                                 <template v-for='(value, index) in list_category'>
                                     <option :value="value.id">@{{ value.name }}</option>
@@ -237,7 +238,29 @@
                     this.create.content = CKEDITOR.instances['ckeditor-content'].getData();
                     axios
                         .post('/admin/post/create', this.create)
-                        .then((res) => {})
+                        .then((res) => {
+                            displaySuccess(res, false);
+                            this.create = {
+                                title: '',
+                                slug: '',
+                                content: '',
+                                id_client: 1,
+                                id_category: '',
+                                id_subcategory: '',
+                                thumbnail: null,
+                                price: '',
+                                area: null,
+                                bedrooms: null,
+                                bathrooms: null,
+                                location: '',
+                                address: '',
+                                project_name: '',
+                                phone: '',
+                                zalo_link: '',
+                                map_link: '',
+                                images: []
+                            }
+                        })
                         .catch((err) => {
                             displayErrors(err);
                         });
