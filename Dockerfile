@@ -1,37 +1,27 @@
 FROM php:8.3-fpm
 
-# Cài dependencies PHP
+# Cài dependencies
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip sockets
+    && docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip sockets
 
 # Cài Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Làm việc tại thư mục ứng dụng
+# Copy mã nguồn
 WORKDIR /var/www/html
-
-# Copy toàn bộ mã nguồn
 COPY . .
 
-# Thiết lập biến môi trường Laravel tối thiểu để tránh lỗi khi build
-ENV APP_ENV=production
-ENV APP_KEY=base64:Cf27CglvzSJD1l2GRBAtrbpwfW7NQDs6S8sRk8e2Eu4=
-ENV CACHE_DRIVER=file
-ENV SESSION_DRIVER=file
-ENV QUEUE_CONNECTION=sync
-
-# ✅ Không chạy script của composer để tránh artisan lỗi vì thiếu env
+# Cài đặt composer dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-# Phân quyền
 RUN chmod -R 777 storage bootstrap/cache
 
-# Xóa cache cũ nếu có
-RUN php -r "file_exists('bootstrap/cache/config.php') && unlink('bootstrap/cache/config.php');"
+# Copy entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Mở cổng 8000
+# Mở port
 EXPOSE 8000
 
-# Chạy server Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Chạy script entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
