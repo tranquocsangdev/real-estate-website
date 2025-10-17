@@ -239,26 +239,29 @@
                     axios
                         .post('/admin/post/create', this.create)
                         .then((res) => {
-                            displaySuccess(res, false);
-                            this.create = {
-                                title: '',
-                                slug: '',
-                                content: '',
-                                id_client: 1,
-                                id_category: '',
-                                id_subcategory: '',
-                                thumbnail: null,
-                                price: '',
-                                area: null,
-                                bedrooms: null,
-                                bathrooms: null,
-                                location: '',
-                                address: '',
-                                project_name: '',
-                                phone: '',
-                                zalo_link: '',
-                                map_link: '',
-                                images: []
+                            if (res.data.status) {
+                                displaySuccess(res, false);
+                                this.create = {
+                                    title: '',
+                                    slug: '',
+                                    content: '',
+                                    id_client: 1,
+                                    id_category: '',
+                                    id_subcategory: '',
+                                    thumbnail: null,
+                                    price: '',
+                                    area: null,
+                                    bedrooms: null,
+                                    bathrooms: null,
+                                    location: '',
+                                    address: '',
+                                    project_name: '',
+                                    phone: '',
+                                    zalo_link: '',
+                                    map_link: '',
+                                    images: []
+                                },
+                                window.location('/admin/post')
                             }
                         })
                         .catch((err) => {

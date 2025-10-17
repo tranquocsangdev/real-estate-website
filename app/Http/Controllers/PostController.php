@@ -68,4 +68,46 @@ class PostController extends Controller
             'messages'  => 'Đã tạo bài viết thành công!'
         ]);
     }
+
+    public function deletePost(Request $request)
+    {
+
+    }
+
+    public function updatePost(Request $request)
+    {
+        $post = Post::find($request->id);
+        if (!$post) {
+            return response()->json([
+                'status'    => false,
+                'messages'  => 'Bài viết không tồn tại!'
+            ]);
+        }
+
+        $post->update([
+            'title'         => $request->title,
+            'slug'          => Str::slug($request->title),
+            'content'       => $request->content,
+            'id_client'     => $request->id_client,
+            'id_category'   => $request->id_category,
+            'id_subcategory' => $request->id_subcategory,
+            'thumbnail'     => $request->thumbnail,
+            'price'         => $request->price,
+            'area'          => $request->area,
+            'bedrooms'      => $request->bedrooms,
+            'bathrooms'     => $request->bathrooms,
+            'location'      => $request->location,
+            'address'       => $request->address,
+            'project_name'  => $request->project_name,
+            'phone'         => $request->phone,
+            'zalo_link'     => $request->zalo_link,
+            'map_link'      => $request->map_link,
+            'images'        => json_encode($request->images)
+        ]);
+
+        return response()->json([
+            'status'    => true,
+            'messages'  => 'Đã cập nhật bài viết thành công!'
+        ]);
+    }
 }
