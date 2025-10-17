@@ -15,6 +15,10 @@ WORKDIR /var/www/html
 # 5️⃣ Copy toàn bộ mã nguồn
 COPY . .
 
+# ✅ Thiết lập tạm môi trường để tránh lỗi khi artisan chạy
+ENV APP_ENV=production
+ENV APP_KEY=base64:Cf27CglvzSJD1l2GRBAtrbpwfW7NQDs6S8sRk8e2Eu4=
+
 # 6️⃣ Cài dependency Laravel
 RUN composer install --no-dev --optimize-autoloader
 
