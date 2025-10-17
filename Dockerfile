@@ -1,35 +1,37 @@
-# 1️⃣ Base image PHP 8.3 + Composer
 FROM php:8.3-fpm
 
-# 2️⃣ Cài đặt các package cần thiết
+# Cài dependencies PHP
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip sockets
 
-# 3️⃣ Cài Composer
+# Cài Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 4️⃣ Tạo thư mục ứng dụng
+# Làm việc tại thư mục ứng dụng
 WORKDIR /var/www/html
 
-# 5️⃣ Copy toàn bộ mã nguồn
+# Copy toàn bộ mã nguồn
 COPY . .
 
-# ✅ Thiết lập tạm môi trường để tránh lỗi khi artisan chạy
+# Thiết lập biến môi trường Laravel tối thiểu để tránh lỗi khi build
 ENV APP_ENV=production
 ENV APP_KEY=base64:Cf27CglvzSJD1l2GRBAtrbpwfW7NQDs6S8sRk8e2Eu4=
+ENV CACHE_DRIVER=file
+ENV SESSION_DRIVER=file
+ENV QUEUE_CONNECTION=sync
 
-# 6️⃣ Cài dependency Laravel
-RUN composer install --no-dev --optimize-autoloader
+# ✅ Không chạy script của composer để tránh artisan lỗi vì thiếu env
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# 7️⃣ Thiết lập quyền ghi cho storage & bootstrap
+# Phân quyền
 RUN chmod -R 777 storage bootstrap/cache
 
-# 8️⃣ Build cache Laravel
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+# Xóa cache cũ nếu có
+RUN php -r "file_exists('bootstrap/cache/config.php') && unlink('bootstrap/cache/config.php');"
 
-# 9️⃣ Expose cổng 8000 để Render có thể truy cập
+# Mở cổng 8000
 EXPOSE 8000
 
-# 10️⃣ Lệnh mặc định khởi chạy server Laravel
+# Chạy server Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
