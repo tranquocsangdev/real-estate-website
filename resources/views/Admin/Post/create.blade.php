@@ -42,10 +42,16 @@
                             </select>
                         </div>
 
-                        <div class="col-lg-3 mb-3">
-                            <label class="form-label">Giá bán ( <span class="text-danger">*</span> )</label>
-                            <input type="text" class="form-control" v-model="create.price"
-                                placeholder="VD: Thỏa thuận hoặc 3.xx">
+                        <div class="col-lg-3 ">
+                            <label class="form-label">
+                                Giá bán ( <span class="text-danger">*</span> )
+                                <small class="text-muted fst-italic ms-2">
+                                    @{{ create.price ? formatVietnameseMoney(create.price) : '' }}
+                                </small>
+                            </label>
+
+                            <input type="number" class="form-control" v-model="create.price"
+                                placeholder="Nhập giá bán (VD: 115000000)">
                         </div>
 
                         <div class="col-lg-3 mb-3">
@@ -184,6 +190,21 @@
                 this.loadDataCategory();
             },
             methods: {
+                formatVietnameseMoney(number) {
+                    if (!number || isNaN(number)) return ''; // nếu người dùng xóa hết
+                    const num = parseInt(number);
+
+                    const ty = Math.floor(num / 1000000000);
+                    const trieu = Math.floor((num % 1000000000) / 1000000);
+                    const nghin = Math.floor((num % 1000000) / 1000);
+                    let result = '';
+
+                    if (ty > 0) result += `${ty} tỷ `;
+                    if (trieu > 0) result += `${trieu} triệu `;
+                    if (nghin > 0 && ty === 0 && trieu === 0) result += `${nghin} nghìn`;
+
+                    return result.trim();
+                },
                 handleThumbnail(e) {
                     var formData = new FormData();
                     formData.append('file', e.target.files[0]);
@@ -192,10 +213,12 @@
                         .then((res) => {
                             this.preview = res.data.file;
                             this.create.thumbnail = res.data.file;
-                            displaySuccess(res, false);
+                            toastr.success(res.data.message, 'Success');
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 handleImages(e) {
@@ -209,7 +232,9 @@
                                 displaySuccess(res, false);
                             })
                             .catch((err) => {
-                                displayErrors(err);
+                                $.each(err.response.data.errors, function(k, v) {
+                                    toastr.error(v[0], 'Error');
+                                });
                             });
                     }
                 },
@@ -218,7 +243,6 @@
                         .get('/admin/category/data-open')
                         .then((res) => {
                             this.list_category = res.data.data;
-                            displaySuccess(res, false);
                         });
                 },
                 loadDataSubCategoryPost(e) {
@@ -240,32 +264,34 @@
                         .post('/admin/post/create', this.create)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res, false);
+                                toastr.success(res.data.message, 'Success');
                                 this.create = {
-                                    title: '',
-                                    slug: '',
-                                    content: '',
-                                    id_client: 1,
-                                    id_category: '',
-                                    id_subcategory: '',
-                                    thumbnail: null,
-                                    price: '',
-                                    area: null,
-                                    bedrooms: null,
-                                    bathrooms: null,
-                                    location: '',
-                                    address: '',
-                                    project_name: '',
-                                    phone: '',
-                                    zalo_link: '',
-                                    map_link: '',
-                                    images: []
-                                },
-                                window.location('/admin/post')
+                                        title: '',
+                                        slug: '',
+                                        content: '',
+                                        id_client: 1,
+                                        id_category: '',
+                                        id_subcategory: '',
+                                        thumbnail: null,
+                                        price: '',
+                                        area: null,
+                                        bedrooms: null,
+                                        bathrooms: null,
+                                        location: '',
+                                        address: '',
+                                        project_name: '',
+                                        phone: '',
+                                        zalo_link: '',
+                                        map_link: '',
+                                        images: []
+                                    },
+                                    window.location.href = '/admin/post';
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 }
             }

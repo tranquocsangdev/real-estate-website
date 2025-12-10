@@ -188,7 +188,6 @@
                         .get('/admin/category/data-open')
                         .then((res) => {
                             this.list_category = res.data.data;
-                            displaySuccess(res, false);
                         })
                 },
                 loadData() {
@@ -203,12 +202,18 @@
                     axios
                         .post('/admin/subcategory/create', this.create)
                         .then((res) => {
-                            this.loadData();
-                            this.create = {};
-                            displaySuccess(res);
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                this.loadData();
+                                this.create = {};
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 updateSubCategory() {
@@ -216,16 +221,18 @@
                         .post('/admin/subcategory/update', this.update)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 $('#updateModal').modal('hide');
                                 this.update = {};
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 deleteSubCategory() {
@@ -233,27 +240,31 @@
                         .post('/admin/subcategory/delete', this.del)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 $('#deleteModal').modal('hide');
                                 this.del = {};
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 changeStatus(value) {
                     axios
                         .post('/admin/subcategory/change', value)
                         .then((res) => {
-                            displaySuccess(res);
+                            toastr.success(res.data.message, 'Success');
                             this.loadData();
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 }
             }

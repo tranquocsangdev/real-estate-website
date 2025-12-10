@@ -30,7 +30,7 @@
                             </thead>
                             <tbody>
                                 <template v-for="(value, index) in list">
-                                    <tr class="align-middle text-center">
+                                    <tr class="align-middle">
                                         <th class="text-center">@{{ index + 1 }}</th>
                                         <td class="text-wrap">@{{ value.title }}</td>
                                         <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
@@ -376,7 +376,6 @@
                         .post('/admin/post/data')
                         .then((res) => {
                             this.list = res.data.data;
-                            displaySuccess(res, false);
                         })
                 },
                 formatVND(number) {
@@ -393,16 +392,18 @@
                         .post('/admin/post/update', this.update)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.update = {};
                                 $('#updateModal').modal('hide');
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 deletePost() {
@@ -410,16 +411,18 @@
                         .post('/admin/post/delete', this.del)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.del = {};
                                 $('#deleteModal').modal('hide');
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 loadDataCategory() {
@@ -427,7 +430,6 @@
                         .get('/admin/category/data-open')
                         .then((res) => {
                             this.list_category = res.data.data;
-                            displaySuccess(res, false);
                         });
                 },
                 loadDataSubCategoryPost(e) {
@@ -448,10 +450,12 @@
                         .then((res) => {
                             this.preview = res.data.file;
                             this.update.thumbnail = res.data.file;
-                            displaySuccess(res, false);
+                            toastr.success(res.data.message, 'Success');
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 handleImages(e) {
@@ -462,7 +466,7 @@
                         axios.post('/admin/post/upload', formData)
                             .then((res) => {
                                 this.update.images.push(res.data.file); // Lưu đường dẫn ảnh vào mảng images
-                                displaySuccess(res, false);
+                                toastr.success(res.data.message, 'Success');
                             })
                             .catch((err) => {
                                 displayErrors(err);

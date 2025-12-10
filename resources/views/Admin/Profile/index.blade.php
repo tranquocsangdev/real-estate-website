@@ -131,10 +131,12 @@
                         .post('/admin/admin/upload', formData)
                         .then((res) => {
                             this.preview = res.data.file;
-                            displaySuccess(res);
+                            toastr.success(res.data.message, 'Success');
                         })
-                        .catch((err) => {
-                            displayErrors(err);
+                        .catch((res) => {
+                            $.each(res.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
             }

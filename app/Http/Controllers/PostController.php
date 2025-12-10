@@ -69,10 +69,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function deletePost(Request $request)
-    {
-
-    }
+    public function deletePost(Request $request) {}
 
     public function updatePost(Request $request)
     {

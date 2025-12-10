@@ -162,19 +162,24 @@
                         .post('/admin/category/data')
                         .then((res) => {
                             this.list = res.data.data;
-                            displaySuccess(res, false);
                         })
                 },
                 createCategory() {
                     axios
                         .post('/admin/category/create', this.create)
                         .then((res) => {
-                            displaySuccess(res);
-                            this.loadData();
-                            this.create = {};
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                this.loadData();
+                                this.create = {};
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
-                        .catch((err) => {
-                            displayErrors(err);
+                        .catch((res) => {
+                            $.each(res.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 updateCategory() {
@@ -182,16 +187,18 @@
                         .post('/admin/category/update', this.update)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.update = {};
                                 $('#updateModal').modal('hide');
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(res.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 deleteCategory() {
@@ -199,27 +206,35 @@
                         .post('/admin/category/delete', this.del)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.del = {};
                                 $('#deleteModal').modal('hide');
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(res.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 changeStatus(value) {
                     axios
                         .post('/admin/category/change', value)
                         .then((res) => {
-                            displaySuccess(res);
-                            this.loadData();
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                this.loadData();
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(res.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 date_format(now) {

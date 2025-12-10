@@ -215,7 +215,6 @@
                         .post('/admin/admin/data')
                         .then((res) => {
                             this.list = res.data.data;
-                            displaySuccess(res, false);
                         })
                 },
                 createAdmin() {
@@ -224,13 +223,17 @@
                         .then((res) => {
                             if (res.data.status) {
                                 $('#createModal').modal('hide');
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.create = {};
+                            } else {
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 updateAdmin() {
@@ -239,15 +242,17 @@
                         .then((res) => {
                             if (res.data.status) {
                                 $('#updateModal').modal('hide');
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.update = {};
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 deleteAdmin() {
@@ -255,27 +260,35 @@
                         .post('/admin/admin/delete', this.del)
                         .then((res) => {
                             if (res.data.status) {
-                                displaySuccess(res);
+                                toastr.success(res.data.message, 'Success');
                                 this.loadData();
                                 this.del = {};
                                 $('#deleteModal').modal('hide');
                             } else {
-                                displaySuccess(res);
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 changeStatus(value) {
                     axios
                         .post('/admin/admin/change', value)
                         .then((res) => {
-                            displaySuccess(res);
-                            this.loadData();
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                this.loadData();
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 date_format(now) {
@@ -287,12 +300,18 @@
                     axios
                         .post('/admin/admin/upload', formData)
                         .then((res) => {
-                            this.preview = res.data.file;
-                            this.create.avatar = res.data.file;
-                            displaySuccess(res, false);
+                            if (res.data.status) {
+                                this.preview = res.data.file;
+                                this.create.avatar = res.data.file;
+                                toastr.success(res.data.message, 'Success');
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 handleUpdateAvatar(e) {
@@ -301,11 +320,17 @@
                     axios
                         .post('/admin/admin/upload', formData)
                         .then((res) => {
-                            this.update.avatar = res.data.file;
-                            displaySuccess(res, false);
+                            if (res.data.status) {
+                                this.update.avatar = res.data.file;
+                                toastr.success(res.data.message, 'Success');
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
-                            displayErrors(err);
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 }
             }
