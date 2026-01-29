@@ -1,51 +1,5 @@
 @extends('Client.Layout.master')
 @section('content')
-    <div class="filter-toolbar">
-        <div class="bg-white p-4 rounded shadow">
-            <form class="row g-3 align-items-end">
-                <div class="col-12 col-md-3">
-                    <label for="searchAddress" class="form-label visually-hidden">Địa chỉ</label>
-                    <input type="text" class="form-control form-control-lg" id="searchAddress"
-                        placeholder="Tìm kiếm địa chỉ, lô...">
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label for="priceRange" class="form-label visually-hidden">Khoảng giá</label>
-                    <select class="form-select form-select-lg" id="priceRange">
-                        <option selected>Khoảng giá</option>
-                        <option value="1">Dưới 1 tỷ</option>
-                        <option value="2">1 tỷ - 3 tỷ</option>
-                        <option value="3">Trên 3 tỷ</option>
-                    </select>
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label for="area" class="form-label visually-hidden">Diện tích</label>
-                    <select class="form-select form-select-lg" id="area">
-                        <option selected>Diện tích</option>
-                        <option value="1">Dưới 100 m²</option>
-                        <option value="2">100 m² - 200 m²</option>
-                        <option value="3">Trên 200 m²</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 pt-2 pt-md-0">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="statusUnsold" value="unsold" checked>
-                        <label class="form-check-label" for="statusUnsold">Chưa bán</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="statusSold" value="sold">
-                        <label class="form-check-label" for="statusSold">Đã bán</label>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Áp dụng</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <h2 class="mt-5 mb-4 text-center text-md-start text-dark">Các Tin Đăng Mới Nhất</h2>
 

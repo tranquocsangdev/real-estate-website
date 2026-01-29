@@ -14,22 +14,36 @@
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <template v-for="(value, index) in list">
-                        <li class="nav-item dropdown me-2">
-                            <a class="nav-link dropdown-toggle fw-bold" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                    <!-- TRANG CHỦ -->
+                    <li class="nav-item me-2">
+                        <a class="nav-link fw-bold" href="/"
+                            :class="{ active: window.location.pathname === '/' }">
+                            Trang chủ
+                        </a>
+                    </li>
+                    <!-- CATEGORY -->
+                    <template v-for="(value, index) in list" :key="index">
+                        <li class="nav-item dropdown me-2" v-if="value.subcategories && value.subcategories.length">
+
+                            <a class="nav-link dropdown-toggle fw-bold" :class="{ active: isActiveCategory(value) }"
+                                href="#" role="button" data-bs-toggle="dropdown">
                                 @{{ value.name }}
                             </a>
 
-                            <ul class="dropdown-menu" v-if="value.subcategories && value.subcategories.length > 0">
+                            <ul class="dropdown-menu">
                                 <li v-for="sub in value.subcategories" :key="sub.sub_id">
-                                    <a class="dropdown-item"
-                                        :href="'/home/category/' + sub.sub_slug">@{{ sub.sub_name }}</a>
+                                    <a class="dropdown-item" :class="{ active: isActiveSub(sub.sub_slug) }"
+                                        :href="'/home/category/' + sub.sub_slug">
+                                        @{{ sub.sub_name }}
+                                    </a>
                                 </li>
                             </ul>
+
                         </li>
                     </template>
+
                 </ul>
+
             </div>
         </div>
     </nav>

@@ -18,7 +18,7 @@ class PostController extends Controller
             return response()->json([
                 'status'    => true,
                 'file'      => '/uploads/Post/' . $fileName,
-                'messages'  => 'Đã tải lên hình ảnh thành công!'
+                'message'  => 'Đã tải lên hình ảnh thành công!'
             ]);
         }
         return response()->json([
@@ -65,11 +65,27 @@ class PostController extends Controller
 
         return response()->json([
             'status'    => true,
-            'messages'  => 'Đã tạo bài viết thành công!'
+            'message'  => 'Đã tạo bài viết thành công!'
         ]);
     }
 
-    public function deletePost(Request $request) {}
+    public function deletePost(Request $request)
+    {
+        $post = Post::find($request->id);
+        if (!$post) {
+            return response()->json([
+                'status'    => false,
+                'message'  => 'Bài viết không tồn tại!'
+            ]);
+        }
+
+        $post->delete();
+
+        return response()->json([
+            'status'    => true,
+            'message'  => 'Đã xóa bài viết thành công!'
+        ]);
+    }
 
     public function updatePost(Request $request)
     {
@@ -77,7 +93,7 @@ class PostController extends Controller
         if (!$post) {
             return response()->json([
                 'status'    => false,
-                'messages'  => 'Bài viết không tồn tại!'
+                'message'  => 'Bài viết không tồn tại!'
             ]);
         }
 
@@ -104,7 +120,7 @@ class PostController extends Controller
 
         return response()->json([
             'status'    => true,
-            'messages'  => 'Đã cập nhật bài viết thành công!'
+            'message'  => 'Đã cập nhật bài viết thành công!'
         ]);
     }
 }

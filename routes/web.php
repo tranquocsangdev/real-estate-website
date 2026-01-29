@@ -17,7 +17,6 @@ Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);
 Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
 Route::get('/admin/logout', [AdminAuthController::class, 'actionLogout']);
 
-
 Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
     Route::prefix('/category')->group(function () {
@@ -44,6 +43,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/post')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewPost']);
         Route::get('/create', [ViewAdminController::class, 'viewAddPost']);
+        Route::get('/update/{id}', [ViewAdminController::class, 'viewUpdatePost']);
         Route::post('/data', [PostController::class, 'getDataPost']);
         Route::post('/upload', [PostController::class, 'uploadPostImage']);
         Route::post('/create', [PostController::class, 'createPost']);
