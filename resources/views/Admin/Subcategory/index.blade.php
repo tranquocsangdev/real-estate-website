@@ -6,12 +6,12 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 text-white">Thêm mới danh mục con</h5>
+                <div class="card-header bg-primary">
+                    <h5 class="mt-2 text-white">Thêm mới danh mục con</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-2">
-                        <label class="">Danh Mục Cha</label>
+                    <div class="mb-3">
+                        <label class="form-label">Danh Mục Cha</label>
                         <select class="form-select" v-model="create.id_category">
                             <option value="0">-- Chọn danh mục cha --</option>
                             <template v-for="(v, k) in list_category">
@@ -19,28 +19,28 @@
                             </template>
                         </select>
                     </div>
-                    <div class="mb-2">
-                        <label class="">Tên danh mục con</label>
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục con</label>
                         <input type="text" class="form-control" v-model="create.name">
                     </div>
-                    <div class="mb-2">
-                        <label class="">Icon</label>
+                    <div class="">
+                        <label class="form-label">Icon</label>
                         <input type="text" class="form-control" v-model="create.icon">
                     </div>
-                    <div class="">
-                        <span>Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
+                    <div class="form-text">
+                        <span class="text-muted">Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
                                 rel="noopener noreferrer">tại đây</a></span>
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary btn-sm" v-on:click="createSubCategory()">Thêm mới</button>
+                    <button class="btn btn-primary" v-on:click="createSubCategory()">Thêm mới</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 text-white">Danh sách danh mục con</h5>
+                <div class="card-header bg-primary">
+                    <h5 class="mt-2 text-white">Danh sách danh mục con</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -58,25 +58,25 @@
                             <tbody>
                                 <template v-for="(v, k) in list">
                                     <tr>
-                                        <th class="text-center align-middle">@{{ k + 1 }}</th>
+                                        <th class="text-center">@{{ k + 1 }}</th>
                                         <td class="align-middle">@{{ v.category_name }}</td>
                                         <td class="align-middle">@{{ v.name }}</td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center">
                                             <span class="fa-2x" v-html="v.icon"></span>
                                         </td>
-                                        <td class="text-center align-middle">
-                                            <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"
+                                        <td class="text-center">
+                                            <button class="btn btn-success text-white" v-if="v.status == 1"
                                                 v-on:click="changeStatus(v)">Đang mở</button>
-                                            <button class="btn btn-warning btn-sm text-white" v-else
+                                            <button class="btn btn-warning text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã tắt</button>
                                         </td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center">
                                             <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#updateModal">
                                                 <i class="fa-solid fa-pencil ms-1"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                 <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
@@ -91,20 +91,20 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Cập nhật danh mục con-->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel">Cập nhật danh mục
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Cập nhật danh mục con
                         <b>@{{ update.name }}</b>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="">Danh Mục Cha</label>
+                    <div class="mb-3">
+                        <label class="form-label">Danh Mục Cha</label>
                         <select class="form-select" v-model="update.id_category">
                             <option value="0">-- Chọn danh mục cha --</option>
                             <template v-for="(v, k) in list_category">
@@ -112,16 +112,16 @@
                             </template>
                         </select>
                     </div>
-                    <div class="mb-2">
-                        <label class="">Tên danh mục con</label>
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục con</label>
                         <input type="text" class="form-control" v-model="update.name">
                     </div>
-                    <div class="mb-2">
-                        <label class="">Icon</label>
+                    <div class="">
+                        <label class="form-label">Icon</label>
                         <input type="text" class="form-control" v-model="update.icon">
                     </div>
-                    <div class="">
-                        <span>Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
+                    <div class="form-text">
+                        <span class="text-muted">Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
                                 rel="noopener noreferrer">tại đây</a></span>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Xóa danh mục con-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
