@@ -6,32 +6,32 @@
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 text-white">Thêm mới danh mục</h5>
+                <div class="card-header bg-primary">
+                    <h5 class="mt-2 text-white">Thêm mới danh mục</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-2">
-                        <label class="">Tên danh mục</label>
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục</label>
                         <input type="text" class="form-control" v-model="create.name">
                     </div>
-                    <div class="mb-2">
-                        <label class="">Icon</label>
+                    <div class="">
+                        <label class="form-label">Icon</label>
                         <input type="text" class="form-control" v-model="create.icon">
                     </div>
-                    <div class="">
-                        <span>Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
+                    <div class="form-text">
+                        <span class="text-muted">Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
                                 rel="noopener noreferrer">tại đây</a></span>
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary btn-sm" v-on:click="createCategory()">Thêm mới</button>
+                    <button class="btn btn-primary" v-on:click="createCategory()">Thêm mới</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <h5 class="mb-0 text-white">Danh sách danh mục</h5>
+                    <h5 class="mt-2 text-white">Danh sách danh mục</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -50,22 +50,21 @@
                                     <tr>
                                         <th class="text-center align-middle">@{{ k + 1 }}</th>
                                         <td class="align-middle">@{{ v.name }}</td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center">
                                             <span class="fa-2x" v-html="v.icon"></span>
                                         </td>
-                                        <td class="text-center align-middle">
-                                            <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"
+                                        <td class="text-center">
+                                            <button class="btn btn-success" v-if="v.status == 1"
                                                 v-on:click="changeStatus(v)">Đang mở</button>
-                                            <button class="btn btn-warning btn-sm text-white" v-else
+                                            <button class="btn btn-warning text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã tắt</button>
                                         </td>
-                                        <td class="text-center align-middle">
-                                            <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
+                                        <td class="text-center">
+                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#updateModal">
                                                 <i class="fa-solid fa-pencil ms-1"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                 <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
@@ -80,7 +79,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Cập nhật danh mục-->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -92,15 +91,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="">Tên danh mục</label>
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục</label>
                         <input type="text" class="form-control" v-model="update.name">
                     </div>
-                    <div class="mb-2">
-                        <label class="">Icon</label>
+                    <div class="">
+                        <label class="form-label">Icon</label>
                         <input type="text" class="form-control" v-model="update.icon">
                     </div>
-                    <div class="">
+                    <div class="form-text">
                         <span>Tìm kiếm icon <a href="https://fontawesome.com/icons" target="_blank"
                                 rel="noopener noreferrer">tại đây</a></span>
                     </div>
@@ -113,7 +112,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Xóa danh mục-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -236,25 +235,6 @@
                                 toastr.error(v[0], 'Error');
                             });
                         });
-                },
-                date_format(now) {
-                    return moment(now).format('DD/MM/yyyy');
-                },
-                number_format(number, decimals = 2, dec_point = ",", thousands_sep = ".") {
-                    var n = number,
-                        c = isNaN((decimals = Math.abs(decimals))) ? 2 : decimals;
-                    var d = dec_point == undefined ? "," : dec_point;
-                    var t = thousands_sep == undefined ? "." : thousands_sep,
-                        s = n < 0 ? "-" : "";
-                    var i = parseInt((n = Math.abs(+n || 0).toFixed(c))) + "",
-                        j = (j = i.length) > 3 ? j % 3 : 0;
-
-                    return (s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (
-                        c ? d +
-                        Math.abs(n - i)
-                        .toFixed(c)
-                        .slice(2) :
-                        ""));
                 },
             }
         });
