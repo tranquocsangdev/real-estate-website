@@ -94,7 +94,7 @@
                         <div class="card-body">
                             <div class="row">
                                 @foreach ($ds_post as $key => $value)
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 mb-2">
                                         <div class="card border-end property-card-bs h-100 d-flex flex-column">
                                             <div class="position-relative text-center">
                                                 <img src="{{ $value->thumbnail }}" class="card-img-top object-fit-cover p-1"
