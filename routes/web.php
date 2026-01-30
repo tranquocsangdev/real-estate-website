@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'viewHome']);
+Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
 
 Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);
 Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
@@ -83,12 +84,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 });
 
 Route::prefix('/home')->group(function () {
-    Route::prefix('/post')->group(function () {
-        Route::get('/data', [HomeController::class, 'getDataPost']);
-    });
-
     Route::prefix('/category')->group(function () {
-        Route::get('/data', [HomeController::class, 'getDataCategory']);
         Route::get('/{slug}', [HomeController::class, 'categoryDetail']);
     });
 

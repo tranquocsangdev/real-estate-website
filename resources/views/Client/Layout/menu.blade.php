@@ -17,40 +17,33 @@
                       <div class="menu-title">Trang chủ</div>
                   </a>
               </li>
-              <li class="nav-item dropdown">
-                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
-                      data-bs-toggle="dropdown">
-                      <div class="parent-icon"><i class='bx bx-category'></i></div>
-                      <div class="menu-title">Danh mục</div>
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li>
-                          <a class="dropdown-item" href="#">
-                              <i class="bx bx-right-arrow-alt"></i>Danh mục 1
+              @foreach ($ds_menu as $value)
+                  @if (count($value['subcategories']) > 0)
+                      <li class="nav-item dropdown">
+                          <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                              data-bs-toggle="dropdown">
+
+                              <div class="parent-icon">
+                                  {!! $value['icon'] !!}
+                              </div>
+
+                              <div class="menu-title">{{ $value['name'] }}</div>
                           </a>
+
+                          <ul class="dropdown-menu">
+                              @foreach ($value['subcategories'] as $subvalue)
+                                  <li>
+                                      <a class="dropdown-item" href="/home/category/{{ $subvalue['sub_slug'] }}">
+                                          <i class="bx bx-right-arrow-alt"></i>
+                                          {{ $subvalue['sub_name'] }}
+                                      </a>
+                                  </li>
+                              @endforeach
+                          </ul>
                       </li>
-                      <li>
-                          <a class="dropdown-item" href="#">
-                              <i class="bx bx-right-arrow-alt"></i>Danh mục 2
-                          </a>
-                      </li>
-                      <li>
-                          <a class="dropdown-item" href="#">
-                              <i class="bx bx-right-arrow-alt"></i>Danh mục 3
-                          </a>
-                      </li>
-                      <li>
-                          <a class="dropdown-item" href="#">
-                              <i class="bx bx-right-arrow-alt"></i>Danh mục 4
-                          </a>
-                      </li>
-                      <li>
-                          <a class="dropdown-item" href="#">
-                              <i class="bx bx-right-arrow-alt"></i>Danh mục 5
-                          </a>
-                      </li>
-                  </ul>
-              </li>
+                  @endif
+              @endforeach
+
           </ul>
           <hr class="my-2 d-xl-none w-100">
           <div class="text-center text-muted small d-xl-none w-100 mb-1">TÀI KHOẢN</div>

@@ -73,50 +73,82 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <p class="text-primary fw-semibold mb-1">Bất động sản nổi bật</p>
-            <h2 class="h3 fw-bold mb-2">Tin đăng mới nhất</h2>
-            <p class="text-muted mb-3">Những sản phẩm đất nền, nhà phố được cập nhật liên tục từ đối tác uy tín.</p>
-            <div class="col-lg-4">
-                <div class="card border-end property-card-bs">
-                    <div class="position-relative">
-                        <img src="/assets_client/images/gallery/14.png" class="card-img-top object-fit-cover p-1"
-                            alt="Bất động sản">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="mb-3">
+                        <small class="text-primary fw-semibold d-block mb-1">
+                            BẤT ĐỘNG SẢN NỔI BẬT
+                        </small>
 
-                        <div
-                            style="
-                            position:absolute;
-                            top:0;
-                            left:0;
-                            padding:6px 14px;
-                            font-size:12px;
-                            font-weight:700;
-                            color:#fff;
-                            background:#dc3545;
-                            border-bottom-right-radius:12px;
-                        ">
-                            BÁN
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title mb-1">
-                            Lô đất mặt tiền đường 20m, Quận 9
-                        </h5>
+                        <h3 class="fw-bold mb-1">
+                            Tin đăng mới nhất
+                        </h3>
 
-                        <p class="text-muted small mb-2">
-                            <b> <i class="fas fa-map-marker-alt me-1"></i> Địa điểm:</b> Quận 9, TP. Hồ Chí Minh
+                        <p class="text-muted small mb-0">
+                            Cập nhật nhanh – thông tin rõ ràng – dễ lựa chọn.
                         </p>
-
-                        <div class="d-flex gap-3 small text-muted mb-3">
-                            <span><b><i class="fas fa-area-chart me-1"></i> Diện tích:</b> 100 m²</span>
-                            <span><b><i class="fas fa-road me-1"></i> Đường:</b> 20m</span>
-                        </div>
-                        <div class="cta-actions">
-                            <button type="button" class="btn btn-cta-pro btn-cta-pro--sky w-50">Xem chi tiết
-                            </button>
-                        </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach ($ds_post as $key => $value)
+                                    <div class="col-lg-3">
+                                        <div class="card border-end property-card-bs h-100 d-flex flex-column">
+                                            <div class="position-relative text-center">
+                                                <img src="{{ $value->thumbnail }}" class="card-img-top object-fit-cover p-1"
+                                                    style="width: 100%; height: 200px;" alt="Bất động sản">
+
+                                                <div
+                                                    style="
+                                                        position:absolute;
+                                                        top:0;
+                                                        left:0;
+                                                        padding:6px 14px;
+                                                        font-size:12px;
+                                                        font-weight:700;
+                                                        color:#fff;
+                                                        background:#dc3545;
+                                                        border-bottom-right-radius:12px;
+                                                    ">
+                                                    BÁN
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-1" title="{{ $value->title }}"
+                                                    style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">
+                                                    {{ $value->title }}
+                                                </h5>
+
+
+                                                <p class="text-muted small mb-2">
+                                                    <b> <i class="fas fa-map-marker-alt me-1"></i> Địa điểm:</b>
+                                                    {{ $value->address }}
+                                                </p>
+
+                                                <div class="d-flex gap-3 small text-muted mb-3">
+                                                    <span><b><i class="fas fa-money-bill me-1"></i> Giá bán:</b>
+                                                        <span
+                                                            class="text-danger fw-bold">{{ number_format($value->price, 0, ',', '.') }}
+                                                            VNĐ</span></span>
+                                                </div>
+                                                <div class="cta-actions">
+                                                    <a href="/post/{{ $value->slug }}/{{ $value->id }}"
+                                                        class="btn btn-cta-pro btn-cta-pro--sky w-60"> Xem chi tiết
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
             <div class="col-lg-12 text-center mb-3">
                 <div class="cta-actions ">
                     <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald">Xem tất cả tin đăng

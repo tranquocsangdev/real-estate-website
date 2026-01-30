@@ -11,59 +11,18 @@ class HomeController extends Controller
 {
     public function viewHome()
     {
-        return view('Client.Home.index');
-    }
-
-    public function getDataPost()
-    {
-        $data = Post::get();
-
-        return response()->json([
-            'data' => $data,
-        ]);
-    }
-
-    public function getDataCategory()
-    {
-        $data = Category::join('subcategories', 'categories.id', 'subcategories.id_category')
-                        ->select(
-                            'categories.id',
-                            'categories.name',
-                            'subcategories.id as sub_id',
-                            'subcategories.name as sub_name',
-                            'subcategories.slug as sub_slug',
-                            'subcategories.id_category'
-                        )
-                        ->where('categories.status', 1)
-                        ->where('subcategories.status', 1)
+        $ds_post = Post::orderByDESC('id')
+                        ->select('id', 'title', 'slug', 'thumbnail', 'price', 'address', 'created_at', 'images')
                         ->get();
 
-        $groupedData = $data->groupBy('id');
+        return view('Client.Home.index', compact('ds_post'));
+    }
 
-        $result = [];
-        foreach ($groupedData as $value => $key) {
-            $parent = [
-                'id'            => $key[0]['id'],
-                'name'          => $key[0]['name'],
-            ];
-
-            foreach ($key as $sub) {
-                $parent['subcategories'][] = [
-                    'sub_id' => $sub['sub_id'],
-                    'sub_name' => $sub['sub_name'],
-                    'sub_slug' => $sub['sub_slug'],
-                ];
-            }
-
-            $result[] = $parent;
-        }
-
-        // Nếu bạn muốn Category không có Subcategory cũng được hiển thị, bạn cần query Category riêng và merge lại.
-        // Với yêu cầu hiện tại (dữ liệu join), cách trên là đủ.
-
-        return response()->json([
-            'data' => $result,
-        ]);
+    public function viewPostDetail($slug, $id)
+    {
+        $post_detail = Post::where('id', $id)->first();
+        $post_images = json_decode($post_detail->images ?? '[]', true);
+        return view('Client.PostDetail.index', compact('post_detail', 'post_images'));
     }
 
     public function categoryDetail($slug)
