@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Setting;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,5 +55,10 @@ class ViewAdminController extends Controller
     public function viewMessage()
     {
         return view('Admin.Message.index');
+    }
+
+    public function viewSettings()
+    {
+        return view('Admin.Settings.index', compact('settings'));
     }
 }

@@ -6,13 +6,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ViewAdminController;
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/', [HomeController::class, 'viewHome']);
-Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
 
 Route::get('admin/login', [ViewAdminController::class, 'viewLogin']);
 Route::post('/admin/login', [AdminAuthController::class, 'actionLogin']);
@@ -61,14 +59,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/upload', [AdminController::class, 'uploadAvatar']);
     });
 
+    Route::prefix('/settings')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewSettings']);
+    });
+
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewProfile']);
         Route::post('/update', [AdminController::class, 'updateProfile']);
-    });
-
-    Route::prefix('/chat-noi-bo')->group(function () {
-        Route::get('/', [ViewAdminController::class, 'viewChatNoiBo']);
-        Route::post('/send', [MessageController::class, 'send']);
     });
 
     Route::prefix('/message')->group(function () {
@@ -83,11 +80,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     });
 });
 
+Route::get('/', [HomeController::class, 'viewHome']);
+Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
+
 Route::prefix('/home')->group(function () {
     Route::prefix('/category')->group(function () {
         Route::get('/{slug}', [HomeController::class, 'categoryDetail']);
     });
-
 });
 
 // Lấy 50 tin gần nhất (test)

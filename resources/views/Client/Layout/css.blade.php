@@ -1,9 +1,12 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{ setting('meta_description') }}">
+<meta name="keywords" content="{{ setting('meta_keywords') }}">
+<meta name="author" content="{{ setting('site_name') }}">
 <!--favicon-->
 @vite('resources/js/app.js')
-<link rel="icon" href="/assets_client/images/favicon-32x32.png" type="image/png" />
+<link rel="icon" href="{{ setting('favicon') }}" type="image/png" />
 <!--plugins-->
 <link href="/assets_client/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
 <link href="/assets_client/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
@@ -22,7 +25,7 @@
 <link rel="stylesheet" href="/assets_client/css/dark-theme.css" />
 <link rel="stylesheet" href="/assets_client/css/semi-dark.css" />
 <link rel="stylesheet" href="/assets_client/css/header-colors.css" />
-<title>@yield('title')</title>
+<title>@yield('title') - {{ setting('site_name') }}</title>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
     integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="

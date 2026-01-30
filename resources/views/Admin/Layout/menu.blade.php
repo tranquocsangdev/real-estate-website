@@ -53,6 +53,18 @@
                       <div class="menu-title">Tài khoản admin</div>
                   </a>
               </li>
+              <li class="nav-item dropdown">
+                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                      data-bs-toggle="dropdown">
+                      <div class="parent-icon"><i class='bx bx-cog'></i>
+                      </div>
+                      <div class="menu-title">Cài đặt</div>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li> <a class="dropdown-item" href="/admin/settings"><i class="bx bx-right-arrow-alt"></i>Cài đặt thông tin</a>
+                      </li>
+                  </ul>
+              </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/message">
                       <div class="parent-icon"><i class="fas fa-comments"></i></div>

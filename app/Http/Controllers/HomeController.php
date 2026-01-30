@@ -29,7 +29,7 @@ class HomeController extends Controller
     {
         $category = Subcategory::where('slug', $slug)->first();
 
-        $list_posts = Post::where('id_category', $category->id)->get();
+        $list_posts = Post::where('id_subcategory', $category->id)->get();
 
         return view('Client.CategoryDetail.index', compact('category', 'list_posts'));
     }

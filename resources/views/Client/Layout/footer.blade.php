@@ -5,15 +5,15 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <h5 class="text-white mb-2 fw-bold">
-                        <i class="fas fa-building me-2"></i> Bất động sản Đà Nẵng
+                        <i class="fas fa-building me-2"></i> Bất động sản {{ setting('site_name') }}
                     </h5>
                     <p class="text-white-50 mb-0 small">
-                        Kết nối bạn với những cơ hội đầu tư và an cư tốt nhất tại thành phố đáng sống.
+                        Kết nối bạn với những cơ hội đầu tư và an cư tốt nhất tại {{ setting('site_name') }}.
                     </p>
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
-                        <a href="tel:0909999888" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                        <a href="tel:{{ setting('phone') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">
                             <i class="fas fa-phone me-1"></i> Gọi ngay
                         </a>
                         <a href="#lien-he" class="btn btn-light btn-sm rounded-pill px-3 text-dark">
@@ -32,22 +32,22 @@
                 <!-- Công ty / Giới thiệu -->
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-brand d-flex align-items-center mb-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/200px-Flag_of_Vietnam.svg.png"
+                        <img src="/assets_client/images/logo.jpg"
                             alt="Logo" class="footer-logo me-2" style="width: 40px; height: auto;">
-                        <span class="text-white fw-bold fs-5">REAL ESTATE</span>
+                        <span class="text-white fw-bold fs-5">THUYDUNGBDS</span>
                     </div>
                     <p class="text-white-50 small mb-3" style="line-height: 1.7;">
-                        Chuyên tư vấn, môi giới và đầu tư bất động sản tại Đà Nẵng. Cam kết minh bạch, chuyên nghiệp và
+                        Chuyên tư vấn, môi giới và đầu tư bất động sản tại {{ setting('site_name') }}. Cam kết minh bạch, chuyên nghiệp và
                         đồng hành lâu dài cùng khách hàng.
                     </p>
                     <div class="footer-social">
                         <a href="#" class="footer-social-link" aria-label="Facebook"><i
                                 class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Zalo"><i
+                        <a href="{{ setting('zalo') }}" class="footer-social-link" aria-label="Zalo"><i
                                 class="fas fa-comment-dots"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="YouTube"><i
+                        <a href="{{ setting('youtube') }}" class="footer-social-link" aria-label="YouTube"><i
                                 class="fab fa-youtube"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Instagram"><i
+                        <a href="{{ setting('instagram') }}" class="footer-social-link" aria-label="Instagram"><i
                                 class="fab fa-instagram"></i></a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="col-lg-2 col-md-6">
                     <h6 class="footer-title text-uppercase fw-bold text-white mb-3">Danh mục</h6>
                     <ul class="footer-links list-unstyled mb-0">
-                        <li><a href="#">Nhà phố Đà Nẵng</a></li>
+                        <li><a  chref="#">Nhà phố Đà Nẵng</a></li>
                         <li><a href="#">Căn hộ chung cư</a></li>
                         <li><a href="#">Đất nền dự án</a></li>
                         <li><a href="#">Biệt thự, liền kề</a></li>
@@ -82,20 +82,20 @@
                     <ul class="footer-contact list-unstyled mb-0">
                         <li class="d-flex align-items-start mb-2">
                             <i class="fas fa-map-marker-alt mt-1 me-2 text-primary"></i>
-                            <span class="text-white-50">Số 123 Hải Phòng, Q. Hải Châu, TP. Đà Nẵng</span>
+                            <span class="text-white-50">{{ setting('address') }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-2">
                             <i class="fas fa-phone mt-1 me-2 text-primary"></i>
-                            <a href="tel:0909999888" class="text-white-50 text-decoration-none">0909 999 888</a>
+                            <a href="tel:{{ setting('phone') }}" class="text-white-50 text-decoration-none">{{ setting('phone') }}</a>
                         </li>
                         <li class="d-flex align-items-center mb-2">
                             <i class="fas fa-envelope mt-1 me-2 text-primary"></i>
-                            <a href="mailto:contact@batdongsandanang.vn"
-                                class="text-white-50 text-decoration-none">contact@batdongsandanang.vn</a>
+                            <a href="mailto:{{ setting('email') }}"
+                                class="text-white-50 text-decoration-none">{{ setting('email') }}</a>
                         </li>
                         <li class="d-flex align-items-center">
                             <i class="fas fa-clock mt-1 me-2 text-primary"></i>
-                            <span class="text-white-50">8:00 - 21:00 (T2 - CN)</span>
+                            <span class="text-white-50">{{ setting('working_time') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -105,7 +105,7 @@
 
     <!-- Copyright -->
     <div class="footer-bottom py-3"
-        style="background-color: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.06);">
+        style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-bottom: none;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
@@ -114,7 +114,7 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <span class="text-white-50 small">Thiết kế bởi <a href="/"
-                            class="text-white text-decoration-none">REAL ESTATE</a></span>
+                            class="text-white text-decoration-none">TRẦN QUỐC SANG</a></span>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
 
     .footer-links a,
     .footer-contact a:hover {
-        color: #fff !important;
+        color: rgba(255, 255, 255, 0.7) !important;
     }
 
     .footer-links li+li {
