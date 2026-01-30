@@ -60,7 +60,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary w-100">Tìm kiếm</button>
+                                    <div class="cta-actions">
+                                        <button type="button" class="btn btn-cta-pro btn-cta-pro--amber w-100"><i
+                                                class="fas fa-search me-1"></i> Tìm kiếm
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,32 +73,55 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <p class="text-primary fw-semibold small mb-1">Bất động sản nổi bật</p>
+            <p class="text-primary fw-semibold mb-1">Bất động sản nổi bật</p>
             <h2 class="h3 fw-bold mb-2">Tin đăng mới nhất</h2>
-            <p class="text-muted mb-4">Những sản phẩm đất nền, nhà phố được cập nhật liên tục từ đối tác uy tín.</p>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border shadow-sm rounded-3 overflow-hidden">
-                        <div class="position-relative ratio ratio-4x3">
-                            <img src="/assets_client/images/banner/banner4.png" class="card-img-top object-fit-cover"
-                                alt="Đất nền">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title h6 fw-semibold">Đất nền mặt tiền đường 20m, quận 9</h5>
-                            <p class="card-text small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Quận
-                                9,
-                                TP. Hồ Chí Minh</p>
-                            <div class="small text-muted d-flex gap-3">
-                                <span><i class="fas fa-ruler-combined me-1"></i> 100 m²</span>
-                                <span><i class="fas fa-bed me-1"></i> 2 phòng</span>
-                            </div>
+            <p class="text-muted mb-3">Những sản phẩm đất nền, nhà phố được cập nhật liên tục từ đối tác uy tín.</p>
+            <div class="col-lg-4">
+                <div class="card border-end property-card-bs">
+                    <div class="position-relative">
+                        <img src="/assets_client/images/gallery/14.png" class="card-img-top object-fit-cover p-1"
+                            alt="Bất động sản">
+
+                        <div
+                            style="
+                            position:absolute;
+                            top:0;
+                            left:0;
+                            padding:6px 14px;
+                            font-size:12px;
+                            font-weight:700;
+                            color:#fff;
+                            background:#dc3545;
+                            border-bottom-right-radius:12px;
+                        ">
+                            BÁN
                         </div>
                     </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">
+                            Lô đất mặt tiền đường 20m, Quận 9
+                        </h5>
 
+                        <p class="text-muted small mb-2">
+                            <b> <i class="fas fa-map-marker-alt me-1"></i> Địa điểm:</b> Quận 9, TP. Hồ Chí Minh
+                        </p>
+
+                        <div class="d-flex gap-3 small text-muted mb-3">
+                            <span><b><i class="fas fa-area-chart me-1"></i> Diện tích:</b> 100 m²</span>
+                            <span><b><i class="fas fa-road me-1"></i> Đường:</b> 20m</span>
+                        </div>
+                        <div class="cta-actions">
+                            <button type="button" class="btn btn-cta-pro btn-cta-pro--sky w-50">Xem chi tiết
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="text-center mt-4">
-                <a href="#" class="btn btn-outline-primary">Xem tất cả tin đăng</a>
+            <div class="col-lg-12 text-center mb-3">
+                <div class="cta-actions ">
+                    <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald">Xem tất cả tin đăng
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-lg-12 py-5 bg-light">
@@ -123,7 +150,13 @@
                                 <span class="ms-2">Hỗ trợ vay vốn ngân hàng</span>
                             </li>
                         </ul>
-                        <a href="#" class="btn btn-primary">Tìm hiểu thêm</a>
+                        <div class="col-md-12">
+                            <div class="cta-actions">
+                                <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald w-50"><i
+                                        class="fas fa-arrow-right me-1"></i> Tìm hiểu thêm
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <img src="/assets_client/images/banner/banner4.png"
@@ -133,37 +166,68 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="container">
-                <div class="row g-4 text-center">
-                    <div class="col-6 col-md-3">
-                        <div class="card border-0 h-100 py-4">
-                            <div class="card-body">
-                                <span class="fs-2 fw-bold text-primary d-block">5.000+</span>
-                                <small class="text-muted">Tin đăng</small>
+            <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5">
+                <div class="col">
+                    <div class="card radius-10">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-primary text-primary mb-3"><i
+                                        class="bx bxl-facebook-square"></i>
+                                </div>
+                                <h4 class="my-1">84K</h4>
+                                <p class="mb-0 text-secondary">Facebook Users</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <div class="card border-0 h-100 py-4">
-                            <div class="card-body">
-                                <span class="fs-2 fw-bold text-primary d-block">2.000+</span>
-                                <small class="text-muted">Khách hàng</small>
+                </div>
+                <div class="col">
+                    <div class="card radius-10">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-danger text-danger mb-3"><i
+                                        class="bx bxl-twitter"></i>
+                                </div>
+                                <h4 class="my-1">34M</h4>
+                                <p class="mb-0 text-secondary">Twitter Followers</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <div class="card border-0 h-100 py-4">
-                            <div class="card-body">
-                                <span class="fs-2 fw-bold text-primary d-block">50+</span>
-                                <small class="text-muted">Đối tác</small>
+                </div>
+                <div class="col">
+                    <div class="card radius-10">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-info text-info mb-3"><i
+                                        class="bx bxl-linkedin-square"></i>
+                                </div>
+                                <h4 class="my-1">56K</h4>
+                                <p class="mb-0 text-secondary">Linkedin Followers</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <div class="card border-0 shadow-sm h-100 py-4">
-                            <div class="card-body">
-                                <span class="fs-2 fw-bold text-primary d-block">98%</span>
-                                <small class="text-muted">Hài lòng</small>
+                </div>
+                <div class="col">
+                    <div class="card radius-10">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-success text-success mb-3"><i
+                                        class="bx bxl-youtube"></i>
+                                </div>
+                                <h4 class="my-1">38M</h4>
+                                <p class="mb-0 text-secondary">YouTube Subscribers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card radius-10">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-warning text-warning mb-3"><i
+                                        class="bx bxl-dropbox"></i>
+                                </div>
+                                <h4 class="my-1">28K</h4>
+                                <p class="mb-0 text-secondary">Dropbox Users</p>
                             </div>
                         </div>
                     </div>

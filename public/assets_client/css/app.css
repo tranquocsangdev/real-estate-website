@@ -8,7 +8,7 @@ File: app.css
 */
 
 
-/*  
+/*
   - Google Font
   - General
   - Sidebar
@@ -22,7 +22,7 @@ File: app.css
   - Navs and Tabs
   - Background Colors
   - Authentication
-  - Buttons 
+  - Buttons
   - Pricing Table
   - Forms
   - Responsive
@@ -76,7 +76,7 @@ a {
 .mobile-topbar-header {
 
 	display: none;
-	
+
 }
 
 /* Sidebar */
@@ -102,7 +102,7 @@ a {
 
 .logo-icon-2 {
 	width: 35px;
-	
+
     margin-left: 10px;
 }
 
@@ -131,10 +131,10 @@ a {
 .toggle-icon {
 
 	font-size: 26px;
-	
+
 
 	color: #0d6efd;
-	
+
 
     cursor: pointer;
 
@@ -283,7 +283,7 @@ a {
 	z-index: 9;
 
 	border-bottom: 1px solid #e4e4e4;
-	
+
 	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075)!important;
 
 	background-clip: border-box;
@@ -380,13 +380,13 @@ a {
 }
 
 
-@media all and (min-width: 1200px) { 
+@media all and (min-width: 1200px) {
 
 	.nav-container.primary-menu .navbar-nav a.nav-link {
 	  height: 60px;
   }
-  
-    
+
+
 	.primary-menu .navbar-nav .nav-item .dropdown-menu {
 	  display: none;
 	  position: absolute;
@@ -394,13 +394,13 @@ a {
 	  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
 	   -webkit-animation: .6s cubic-bezier(.25, .8, .25, 1) 0s normal forwards 1 animdropdown;
 		animation: .6s cubic-bezier(.25, .8, .25, 1) 0s normal forwards 1 animdropdown
-	  
+
 	}
-  
+
 	.primary-menu .navbar-nav .nav-item:hover>.dropdown-menu {
 	  display: block;
 	}
-  
+
   }
 
 
@@ -1426,7 +1426,7 @@ a {
 	color: #32393f;
   }
 
-  
+
   .w_chart canvas {
 	position: absolute;
 	top: 0;
@@ -3599,11 +3599,11 @@ a {
 .text-facebook{
 	color: #3b5998!important
  }
- 
+
  .text-twitter{
 	 color: #55acee!important
   }
- 
+
   .text-youtube{
 	 color: #e52d27!important
   }
@@ -4166,8 +4166,8 @@ input::placeholder {
 
 
 	background-color: #f7f7ff;
-	
-	
+
+
     border: 1px solid #e9e9f6;
 
 
@@ -4290,7 +4290,7 @@ input::placeholder {
 	border: 0px solid #e5e5e5;
 
 	padding: 0px;
-	
+
 	margin-left: 1rem;
 
 }
@@ -4366,7 +4366,7 @@ input::placeholder {
 
 
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
-	
+
 	border-radius: 10px;
 
 
@@ -4776,7 +4776,7 @@ input::placeholder {
 
 
 	font-size: 14px;
-	
+
 	border-radius: 10px;
 
 
@@ -5175,7 +5175,7 @@ input::placeholder {
 		padding-left: 0px;
 
 	}
-	
+
 	.search-show{
 		left: 15px;
 	}
@@ -5216,10 +5216,10 @@ input::placeholder {
 	}
 
 
-	
 
 
-	
+
+
 	.page-footer {
 
 
@@ -5627,9 +5627,149 @@ input::placeholder {
 
 }
 
+/* CTA buttons: base + variants (background set per variant for correct specificity) */
+.cta-actions {
+	display: flex;
+	justify-content: center;
+	gap: 0.75rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.btn-cta-primary.btn,
+.btn.btn-cta-pro {
+	border-radius: 999px;
+	padding: 0.65rem 1.25rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	border: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-cta-primary.btn {
+	color: #fff;
+	background: linear-gradient(135deg, #0d6efd 0%, #4f8dff 100%);
+	box-shadow: 0 10px 20px rgba(13, 110, 253, 0.25);
+}
+
+.btn-cta-primary.btn:hover,
+.btn-cta-primary.btn:focus {
+	color: #fff;
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px rgba(13, 110, 253, 0.32);
+	filter: brightness(1.03);
+}
+
+.btn-cta-primary.btn:active {
+	transform: translateY(0);
+	box-shadow: 0 8px 16px rgba(13, 110, 253, 0.24);
+}
+
+.btn-cta-primary.btn:focus-visible {
+	outline: 3px solid rgba(13, 110, 253, 0.4);
+	outline-offset: 2px;
+}
+
+/* Base CTA-pro (default = indigo); variants override background below */
+.btn.btn-cta-pro {
+	color: #fff;
+	background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+	box-shadow: 0 12px 24px rgba(99, 102, 241, 0.25);
+}
+
+.btn.btn-cta-pro:hover,
+.btn.btn-cta-pro:focus {
+	color: #fff;
+	transform: translateY(-1px);
+	box-shadow: 0 14px 28px rgba(99, 102, 241, 0.32);
+	filter: brightness(1.04);
+}
+
+.btn.btn-cta-pro:active {
+	transform: translateY(0);
+	box-shadow: 0 10px 20px rgba(99, 102, 241, 0.24);
+}
+
+.btn.btn-cta-pro:focus-visible {
+	outline: 3px solid rgba(99, 102, 241, 0.4);
+	outline-offset: 2px;
+}
+
+/* Variants: same specificity as base, placed after so they win */
+.btn.btn-cta-pro.btn-cta-pro--emerald {
+	background: linear-gradient(135deg, #12b76a 0%, #2dd4bf 100%);
+	box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--emerald:hover,
+.btn.btn-cta-pro.btn-cta-pro--emerald:focus {
+	box-shadow: 0 14px 28px rgba(16, 185, 129, 0.32);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--emerald:active {
+	box-shadow: 0 10px 20px rgba(16, 185, 129, 0.24);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--indigo {
+	background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+	box-shadow: 0 12px 24px rgba(99, 102, 241, 0.25);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--indigo:hover,
+.btn.btn-cta-pro.btn-cta-pro--indigo:focus {
+	box-shadow: 0 14px 28px rgba(99, 102, 241, 0.32);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--indigo:active {
+	box-shadow: 0 10px 20px rgba(99, 102, 241, 0.24);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--amber {
+	background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+	box-shadow: 0 12px 24px rgba(245, 158, 11, 0.25);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--amber:hover,
+.btn.btn-cta-pro.btn-cta-pro--amber:focus {
+	box-shadow: 0 14px 28px rgba(245, 158, 11, 0.32);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--amber:active {
+	box-shadow: 0 10px 20px rgba(245, 158, 11, 0.24);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--rose {
+	background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+	box-shadow: 0 12px 24px rgba(244, 63, 94, 0.25);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--rose:hover,
+.btn.btn-cta-pro.btn-cta-pro--rose:focus {
+	box-shadow: 0 14px 28px rgba(244, 63, 94, 0.32);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--rose:active {
+	box-shadow: 0 10px 20px rgba(244, 63, 94, 0.24);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--sky {
+	background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+	box-shadow: 0 12px 24px rgba(14, 165, 233, 0.25);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--sky:hover,
+.btn.btn-cta-pro.btn-cta-pro--sky:focus {
+	box-shadow: 0 14px 28px rgba(14, 165, 233, 0.32);
+}
+
+.btn.btn-cta-pro.btn-cta-pro--sky:active {
+	box-shadow: 0 10px 20px rgba(14, 165, 233, 0.24);
+}
 
 @media screen and (max-width: 767px) {
-
+	.cta-actions {
+		flex-direction: column;
+	}
 
 	.user-box .user-info {
 
