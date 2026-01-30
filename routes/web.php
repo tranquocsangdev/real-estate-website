@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
@@ -82,8 +83,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 });
 
 Route::get('/', [HomeController::class, 'viewHome']);
+
 Route::get('/user/login', [ViewClientController::class, 'viewLogin']);
+Route::post('/user/login', [KhachHangController::class, 'actionLogin']);
+
 Route::get('/user/register', [ViewClientController::class, 'viewRegister']);
+Route::post('/user/register', [KhachHangController::class, 'actionRegister']);
+
+Route::get('/user/logout', [KhachHangController::class, 'actionLogout']);
+
 Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
 
 Route::prefix('/home')->group(function () {

@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link href="/assets_client/css/app.css" rel="stylesheet">
 	<link href="/assets_client/css/icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<title>Đăng Nhập</title>
 	<style>
 		/* Trang Login – chỉ form đăng nhập, giao diện chuyên nghiệp */
@@ -77,7 +78,7 @@
 						</div>
 						<div class="divider">hoặc đăng nhập bằng email</div>
 
-						<form class="row g-3" method="POST" action="">
+						<form class="row g-3" method="POST" action="/user/login">
 							@csrf
 							<div class="col-12">
 								<label for="inputEmailAddress" class="form-label">Email</label>
@@ -133,6 +134,8 @@
 			});
 		});
 	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	{!! Toastr::message() !!}
 	<script src="/assets_client/js/app.js"></script>
 </body>
 

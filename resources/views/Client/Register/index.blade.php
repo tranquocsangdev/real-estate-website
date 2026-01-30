@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link href="/assets_client/css/app.css" rel="stylesheet">
 	<link href="/assets_client/css/icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<title>Đăng Ký</title>
 	<style>
 		/* Trang Đăng ký – cùng phong cách Login, giao diện chuyên nghiệp */
@@ -105,7 +106,7 @@
 					</form>
 					<div class="text-center pt-3 mt-2 border-top">
 						<span class="text-muted small">Đã có tài khoản?</span>
-						<a class="link-login ms-1" href="{{ url('/user/login') }}">Đăng nhập</a>
+						<a class="link-login ms-1" href="/user/login">Đăng nhập</a>
 					</div>
 				</div>
 			</div>
@@ -137,6 +138,7 @@
 			togglePassword('#show_hide_password_confirm');
 		});
 	</script>
+    {!! Toastr::message() !!}
 	<script src="/assets_client/js/app.js"></script>
 </body>
 

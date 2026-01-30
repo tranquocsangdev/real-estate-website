@@ -1,16 +1,19 @@
 @extends('Client.Layout.master')
-@section('title', 'Chi tiết tin đăng')
+@section('title','' . $post_detail->title)
 @section('content')
-
     <div class="card">
         <div class="row g-0">
-            <div class="col-md-4 border-end ">
-                <img src="{{ $post_detail->thumbnail }}" class="img-fluid p-3" alt="...">
+            <div class="col-md-4 border-end">
+                <a href="{{ $post_detail->thumbnail }}" data-lightbox="post" data-title="{{ $post_detail->title }}">
+                    <img src="{{ $post_detail->thumbnail }}" class="img-fluid p-3" alt="...">
+                </a>
+                <hr class="m-1">
                 @if ($post_images)
                     <div class="row mb-3 row-cols-auto g-2 justify-content-center p-3">
                         @foreach ($post_images as $image)
-                            <div class="col"><img src="{{ $image }}" width="70"
-                                    class="border rounded cursor-pointer" alt=""></div>
+                            <div class="col"><a href="{{ $image }}" data-lightbox="post" data-title="Ảnh {{ $loop->iteration }}">
+                                <img src="{{ $image }}" width="70" class="border rounded">
+                            </a></div>
                         @endforeach
                     </div>
                 @endif

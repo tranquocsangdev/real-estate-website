@@ -48,6 +48,21 @@
           <hr class="my-2 d-xl-none w-100">
           <div class="text-center text-muted small d-xl-none w-100 mb-1">TÀI KHOẢN</div>
           <ul class="navbar-nav justify-content-end flex-grow-1 gap-1">
+              @if ($khach_hangLogin)
+              <li class="nav-item dropdown">
+                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                      data-bs-toggle="dropdown">
+                      <div class="parent-icon">
+                              <img src="/assets_client/images/avatars/avatar-2.png" class="rounded-circle" width="32" height="32" alt="avatar">
+                      </div>
+                      <div class="menu-title ms-2"><b>{{ $khach_hangLogin->name }}</b></div>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/user/profile"><i class="fa-solid fa-user me-2"></i>Tài khoản</a></li>
+                      <li><a class="dropdown-item" href="/user/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
+                  </ul>
+              </li>
+              @else
               <li class="nav-item">
                   <a class="nav-link" href="/user/login">
                       <div class="parent-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
@@ -60,26 +75,7 @@
                       <div class="menu-title">Đăng kí</div>
                   </a>
               </li>
-
-              {{-- Khi đã đăng nhập: ẩn 2 nút trên, hiển thị avatar + tên user có dropdown --}}
-              {{-- <li class="nav-item dropdown">
-                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
-                      data-bs-toggle="dropdown">
-                      <div class="parent-icon"><img src="/assets_client/images/avatars/avatar-2.png" class="rounded-circle"
-                              width="32" height="32" alt="avatar"></div>
-                      <div class="menu-title ms-2"><b>Nguyễn Văn A</b></div>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i>Tài khoản</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-cog me-2"></i>Cài đặt</a></li>
-                      <li>
-                          <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng
-                              xuất</a></li>
-                  </ul>
-              </li> --}}
-
+              @endif
           </ul>
       </nav>
   </div>
