@@ -49,13 +49,13 @@
           <div class="text-center text-muted small d-xl-none w-100 mb-1">TÀI KHOẢN</div>
           <ul class="navbar-nav justify-content-end flex-grow-1 gap-1">
               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/user/login">
                       <div class="parent-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
                       <div class="menu-title">Đăng nhập</div>
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/user/register">
                       <div class="parent-icon"><i class="fa-solid fa-user-plus"></i></div>
                       <div class="menu-title">Đăng kí</div>
                   </a>

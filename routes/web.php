@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ViewAdminController;
+use App\Http\Controllers\ViewClientController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -81,6 +82,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 });
 
 Route::get('/', [HomeController::class, 'viewHome']);
+Route::get('/user/login', [ViewClientController::class, 'viewLogin']);
+Route::get('/user/register', [ViewClientController::class, 'viewRegister']);
 Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
 
 Route::prefix('/home')->group(function () {

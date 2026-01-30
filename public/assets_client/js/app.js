@@ -11,7 +11,7 @@ $(function () {
 		$(".search-bar").removeClass("full-search-bar");
 	});
 	$(".mobile-toggle-menu").on("click", function () {
-		$(".wrapper").addClass("toggled");
+		$(".wrapper").toggleClass("toggled");
 	});
 	// toggle menu button
 	$(".toggle-icon").click(function () {
@@ -52,7 +52,7 @@ $(function () {
 			o = o.parent("").addClass("").parent("").addClass("");
 		}
 	}),
-	
+
 	// chat toggle
 	$(".chat-toggle-btn").on("click", function () {
 		$(".chat-wrapper").toggleClass("chat-toggled");

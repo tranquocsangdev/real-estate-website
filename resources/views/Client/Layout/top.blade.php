@@ -1,22 +1,24 @@
 <header>
     <div class="topbar d-flex align-items-center"
-         style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-bottom: none;">
+        style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-bottom: none;">
         <nav class="navbar navbar-expand w-100 px-3">
 
             <div class="topbar-logo-header d-flex align-items-center" style="border-color: rgba(255,255,255,0.2);">
                 <div>
-                    <img src="/assets_client/images/logo.jpg"
-                         class="logo-icon rounded-5" alt="Logo"
-                         style="width: 42px; height: auto;">
+                    <a href="/">
+                        <img src="/assets_client/images/logo.jpg" class="logo-icon rounded-5" alt="Logo"
+                            style="width: 42px; height: auto;">
+                    </a>
                 </div>
                 <div>
-                    <h4 class="logo-text text-white mb-0 ms-2" style="color: #fff !important; font-size: 1.25rem; letter-spacing: 1px;">
+                    <h4 class="logo-text text-white mb-0 ms-2"
+                        style="color: #fff !important; font-size: 1.25rem; letter-spacing: 1px;">
                         THUYDUNGBDS
                     </h4>
                 </div>
             </div>
 
-            <div class="mobile-toggle-menu text-white" style="cursor: pointer; margin-left: 8rem;">
+            <div class="mobile-toggle-menu text-white ms-auto" style="cursor: pointer;" title="Mở menu">
                 <i class='bx bx-menu' style="font-size: 26px;"></i>
             </div>
 
