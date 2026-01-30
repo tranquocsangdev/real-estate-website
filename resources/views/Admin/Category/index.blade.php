@@ -7,7 +7,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <h5 class="mt-2 text-white">Thêm mới danh mục</h5>
+                    <h5 class="mt-2 text-white text-uppercase">Thêm mới danh mục</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -31,13 +31,13 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <h5 class="mt-2 text-white">Danh sách danh mục</h5>
+                    <h5 class="mt-2 text-white text-uppercase">Danh sách danh mục</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="text-center text-uppercase">
                                     <th>#</th>
                                     <th>Tên danh mục</th>
                                     <th>Icon</th>
@@ -85,7 +85,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel">Cập nhật danh mục
+                    <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Cập nhật danh mục
                         <b>@{{ update.name }}</b>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -118,7 +118,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel">Xác nhận xóa danh mục
+                    <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Xác nhận xóa danh mục
                         <b>@{{ del.name }}</b>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

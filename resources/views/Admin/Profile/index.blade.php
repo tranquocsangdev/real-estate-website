@@ -14,37 +14,11 @@
                                     width="110">
                                 <div class="mt-3">
                                     <h4>{{ $adminLogin->name }}</h4>
-                                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                    <button class="btn btn-primary">Follow</button>
-                                    <button class="btn btn-outline-primary">Message</button>
+                                    <p class="text-secondary mb-1">Admin</p>
+                                    <span class="badge bg-success">Đang hoạt động</span>
+
                                 </div>
                             </div>
-                            <hr class="my-4" />
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-instagram me-2 icon-inline text-danger">
-                                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5">
-                                            </rect>
-                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                        </svg>Instagram</h6>
-                                    <span class="text-secondary">codervent</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-facebook me-2 icon-inline text-primary">
-                                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                            </path>
-                                        </svg>Facebook</h6>
-                                    <span class="text-secondary">codervent</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -78,22 +52,41 @@
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Ảnh đại diện</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col-sm-6 text-secondary">
                                         <input type="file" name="avatar_upload" class="form-control" accept="image/*"
                                             v-on:change="handleAvatar($event)" />
 
-                                        <input type="hidden" name="avatar" :value="preview">
+                                        <input type="hidden" name="avatar" :value="preview ? preview : currentAvatar">
 
                                         <small class="text-muted fst-italic d-block mt-2">
                                             * Ảnh đại diện sẽ được hiển thị là avatar của tài khoản.
                                         </small>
 
-                                        <div class="row">
-                                            <div class="col-lg-12 text-center">
-                                                <label>Ảnh mới được tải lên</label>
-                                                <div class="mt-3 d-flex justify-content-center align-items-center">
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="col-lg-12 text-center">
+                                            <div v-if="preview">
+                                                <label class="form-label">Ảnh xem trước khi cập nhật</label>
+                                                <div class="d-flex justify-content-center align-items-center">
                                                     <img :src="preview" class="img-fluid rounded-circle border"
-                                                        style="width: 100px; height: 100px;" alt="Chưa tải ảnh lên" />
+                                                        style="width: 100px; height: 100px;" alt="Ảnh xem trước" />
+                                                </div>
+                                            </div>
+
+                                            <div v-else>
+                                                <label class="form-label">Ảnh hiện tại</label>
+
+                                                <div v-if="currentAvatar"
+                                                    class="d-flex justify-content-center align-items-center">
+                                                    <img :src="currentAvatar" class="img-fluid rounded-circle border"
+                                                        style="width: 100px; height: 100px;" alt="Ảnh hiện tại" />
+                                                </div>
+
+                                                <div v-else
+                                                    class="d-flex flex-column justify-content-center align-items-center">
+                                                    <i class="bi bi-image" style="font-size: 40px; margin-bottom: 8px;"></i>
+                                                    <span>Chưa có ảnh</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +113,8 @@
         new Vue({
             el: '#app',
             data: {
-                preview: '{{ $adminLogin->avatar }}'
+                currentAvatar: '{{ $adminLogin->avatar }}',
+                preview: ''
             },
             created() {},
             methods: {

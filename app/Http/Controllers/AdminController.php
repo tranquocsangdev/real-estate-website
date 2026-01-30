@@ -62,7 +62,7 @@ class AdminController extends Controller
             return response()->json([
                 'status'    => true,
                 'file'      => '/uploads/Avatar_Admin/' . $fileName,
-                'messages'  => 'Đã tải lên hình ảnh thành công!'
+                'message'  => 'Đã tải lên hình ảnh thành công!'
             ]);
         }
         return response()->json([
@@ -161,7 +161,7 @@ class AdminController extends Controller
             $admin->update($data);
         });
 
-        Toastr::success("Cập nhật thành công!", 'Thành Công!');
+        Toastr::success("Cập nhật thành công!", 'Success!');
         return redirect('/admin/profile');
     }
 }

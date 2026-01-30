@@ -39,7 +39,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/change', [SubCategoryController::class, 'changeStatusSubCategory']);
     });
 
-    // chưa viết xong
     Route::prefix('/post')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewPost']);
         Route::get('/create', [ViewAdminController::class, 'viewAddPost']);
@@ -50,7 +49,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/update', [PostController::class, 'updatePost']);
         Route::post('/delete', [PostController::class, 'deletePost']);
     });
-    // end chưa viết xong
 
     Route::prefix('/admin')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewAdmin']);

@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="/assets_admin/css/dark-theme.css" />
 <link rel="stylesheet" href="/assets_admin/css/semi-dark.css" />
 <link rel="stylesheet" href="/assets_admin/css/header-colors.css" />
-<title>Admin | @yield('title')</title>
+<title>AdminPanel | @yield('title')</title>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
     integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="

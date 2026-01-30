@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use Illuminate\Http\Request;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Auth;
 
 class ViewAdminController extends Controller
 {
@@ -34,6 +35,9 @@ class ViewAdminController extends Controller
 
     public function viewLogin()
     {
+        if (Auth::guard('admin')->check()) {
+            return redirect('/admin/profile');
+        }
         return view('Admin.Login.index');
     }
 

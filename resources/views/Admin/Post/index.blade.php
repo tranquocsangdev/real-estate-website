@@ -6,19 +6,19 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-white">Danh sách bài đăng</h5>
+                <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+                    <h5 class="mt-2 text-white text-uppercase">Danh sách bài đăng</h5>
                     <a href="/admin/post/create">
-                        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
-                            <i class="fa-solid fa-plus"></i> Thêm mới
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#createModal">
+                             Thêm mới
                         </button>
                     </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped mb-0">
-                            <thead class="table-primary">
-                                <tr class="text-center">
+                        <table class="table table-bordered table-striped">
+                            <thead class="">
+                                <tr class="text-center text-uppercase">
                                     <th>#</th>
                                     <th>Tiêu đề</th>
                                     <th>Giá</th>
@@ -40,20 +40,20 @@
                                         <td class="text-nowrap">@{{ value.address }}</td>
                                         <td class="text-center">@{{ value.phone }} / <a :href="value.zalo_link"
                                                 target="_blank">Zalo</a></td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
-                                                class="btn btn-sm btn-success text-white" data-bs-toggle="modal"
+                                                class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#postModal">
-                                                Xem thêm
+                                                <i class="fa-solid fa-eye ms-1"></i>
                                             </button>
                                             <a :href="'/admin/post/update/' + value.id"
-                                                class="btn btn-sm btn-primary text-white">
-                                                Cập Nhật
+                                                class="btn btn-primary">
+                                                <i class="fa-solid fa-pencil ms-1"></i>
                                             </a>
                                             <button v-on:click="del = Object.assign({}, value)"
-                                                class="btn btn-sm btn-danger text-white" data-bs-toggle="modal"
+                                                class="btn btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal">
-                                                Xóa
+                                                <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -70,7 +70,7 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content shadow">
                 <div class="modal-header bg-primary ">
-                    <h5 class="modal-title text-white" id="postModalLabel">
+                    <h5 class="modal-title text-white text-uppercase" id="postModalLabel">
                         <i class="fas fa-file-alt me-2"></i> Chi tiết bài đăng: @{{ post_detail.title }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
@@ -152,7 +152,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel">Xác nhận xóa bài viết
+                    <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Xác nhận xóa bài viết
                         <b>@{{ del.title }}</b>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

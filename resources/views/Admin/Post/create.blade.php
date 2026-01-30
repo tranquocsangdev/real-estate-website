@@ -1,26 +1,30 @@
 @extends('Admin.Layout.master')
 
-@section('title', 'Thêm Mới')
+@section('title', 'Thêm mới bài đăng')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mt-2">
-                        <i class="fas fa-plus-circle me-1"></i> Thêm bài đăng
+                <div class="card-header bg-primary">
+                    <h5 class="mt-2 text-white text-uppercase">
+                        Thêm mới bài đăng
                     </h5>
                 </div>
-
                 <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <span class="text-danger">*</span> Là trường bắt buộc nhập
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 mb-3">
-                            <label class="form-label fw-bold">Tiêu đề bài viết ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Tiêu đề bài viết ( <span class="text-danger">*</span> )</label>
                             <input type="text" class="form-control" v-model="create.title"
                                 placeholder="VD: Bán đất nền 82m² đường Nguyễn Trãi">
                         </div>
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Danh mục cha ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Danh mục cha ( <span class="text-danger">*</span> )</label>
                             <select class="form-select" v-model="create.id_category">
                                 <option value="" disabled>-- Vui lòng chọn danh mục cha --</option>
                                 <template v-for='(value, index) in list_category'>
@@ -29,7 +33,7 @@
                             </select>
                         </div>
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Danh mục con ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Danh mục con ( <span class="text-danger">*</span> )</label>
                             <select class="form-select" v-model="create.id_subcategory" :disabled="!create.id_category">
                                 <option value="" disabled>-- Vui lòng chọn danh mục con --</option>
                                 <template v-for='(value, index) in list_subcategory'>
@@ -39,7 +43,7 @@
                         </div>
 
                         <div class="col-lg-3 ">
-                            <label class="form-label fw-bold">
+                            <label class="form-label">
                                 Giá bán ( <span class="text-danger">*</span> )
                                 <small class="text-danger fst-italic ms-2">
                                     @{{ create.price ? formatVietnameseMoney(create.price) : '' }}
@@ -51,60 +55,60 @@
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label fw-bold">Diện tích (m²) ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Diện tích (m²) ( <span class="text-danger">*</span> )</label>
                             <input type="number" class="form-control" v-model="create.area" placeholder="VD: 82">
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label fw-bold">Phòng ngủ </label>
+                            <label class="form-label">Phòng ngủ </label>
                             <input type="number" class="form-control" v-model="create.bedrooms">
                         </div>
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label fw-bold">Phòng vệ sinh</label>
+                            <label class="form-label">Phòng vệ sinh</label>
                             <input type="number" class="form-control" v-model="create.bathrooms">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Địa chỉ cụ thể ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Địa chỉ cụ thể ( <span class="text-danger">*</span> )</label>
                             <input type="text" class="form-control" v-model="create.address"
                                 placeholder="VD: Số 9, đường Láng, Đống Đa">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Tên dự án</label>
+                            <label class="form-label">Tên dự án</label>
                             <input type="text" class="form-control" v-model="create.project_name"
                                 placeholder="VD: Khu đô thị mới Tây Hồ Tây">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Khu vực (Quận, Tỉnh/TP) ( <span class="text-danger">*</span>
+                            <label class="form-label">Khu vực (Quận, Tỉnh/TP) ( <span class="text-danger">*</span>
                                 )</label>
                             <input type="text" class="form-control" v-model="create.location"
                                 placeholder="VD: Cầu Giấy, Hà Nội">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Link bản đồ (Google Maps) ( <span class="text-danger">*</span>
+                            <label class="form-label">Link bản đồ (Google Maps) ( <span class="text-danger">*</span>
                                 )</label>
                             <input type="url" class="form-control" placeholder="https://maps.google.com/..."
                                 v-model="create.map_link">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Số điện thoại liên hệ ( <span class="text-danger">*</span>
+                            <label class="form-label">Số điện thoại liên hệ ( <span class="text-danger">*</span>
                                 )</label>
                             <input type="text" class="form-control" placeholder="VD: 0386 831 999"
                                 v-model="create.phone">
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label fw-bold">Zalo liên hệ ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Zalo liên hệ ( <span class="text-danger">*</span> )</label>
                             <input type="url" class="form-control" placeholder="https://zalo.me/0386831..."
                                 v-model="create.zalo_link">
                         </div>
 
                         <div class="col-lg-9 mb-3">
-                            <label class="form-label fw-bold">Ảnh đại diện ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Ảnh đại diện ( <span class="text-danger">*</span> )</label>
                             <input type="file" class="form-control mb-1" v-on:change="handleThumbnail($event)">
                             <small class="text-muted fst-italic">
                                 * Ảnh đại diện sẽ được hiển thị trên trang chủ và trong danh sách bài đăng. Vui lòng chọn
@@ -113,13 +117,10 @@
                         </div>
 
                         <div class="col-lg-3 mb-3 mt-4">
-                            <!-- CÓ ẢNH -->
                             <div v-if="preview" class="border rounded p-3 bg-light text-center mb-2">
                                 <img :src="preview" alt="Ảnh xem trước" class="img-fluid rounded shadow-sm"
                                     style="max-height: 400px; object-fit: cover; width: 200px;">
                             </div>
-
-                            <!-- KHÔNG CÓ ẢNH -->
                             <div v-else
                                 class="border rounded p-3 bg-white text-center mb-2 d-flex flex-column justify-content-center align-items-center"
                                 style="height: 220px; border-style: dashed; color: #999;">
@@ -132,14 +133,14 @@
                         </div>
 
                         <div class="col-lg-12 mb-3">
-                            <label class="form-label fw-bold">Ảnh mô tả chi tiết</label>
+                            <label class="form-label">Ảnh mô tả chi tiết</label>
                             <input type="file" class="form-control mb-3" multiple v-on:change="handleImages($event)">
 
                             <div class="row">
                                 <div class="col-md-3 mb-3" v-for="(img, index) in create.images" :key="index">
                                     <div class="position-relative border rounded shadow-sm overflow-hidden">
                                         <img :src="img" class="img-fluid"
-                                            style="height: 200px; object-fit: cover; width: 100%;">
+                                            style="height: 400px; object-fit: cover; width: 100%;">
                                         <button type="button"
                                             class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 rounded-circle"
                                             v-on:click="removeImage(index)" title="Xóa ảnh">
@@ -151,19 +152,17 @@
                         </div>
 
                         <div class="col-lg-12">
-                            <label class="form-label fw-bold">Nội dung chi tiết ( <span class="text-danger">*</span>
+                            <label class="form-label">Nội dung chi tiết ( <span class="text-danger">*</span>
                                 )</label>
                             <textarea id="ckeditor-content" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary mt-2 mb-2" v-on:click="createPost()">
-                        <i class="fas fa-plus-circle me-1"></i>Thêm bài đăng
+                    <button class="btn btn-primary" v-on:click="createPost()">Thêm mới
                     </button>
-                    <button class="btn btn-secondary mt-2 mb-2">
-                        <a href="/admin/post" class="text-white">
-                            Hủy
+                    <button class="btn btn-secondary">
+                        <a href="/admin/post" class="text-white">Hủy
                         </a>
                     </button>
                 </div>
@@ -210,12 +209,9 @@
             },
             watch: {
                 'create.id_category'(newVal) {
-
                     this.create.id_subcategory = '';
                     this.list_subcategory = [];
-
                     if (!newVal) return;
-
                     axios
                         .post('/admin/subcategory/data-post', {
                             id_category: newVal
