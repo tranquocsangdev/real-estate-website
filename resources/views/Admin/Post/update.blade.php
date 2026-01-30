@@ -7,12 +7,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mt-2">
-                        <i class="fas fa-edit me-1"></i> Cập nhật bài đăng: @{{ update.title || 'Đang tải...' }}
+                    <h5 class="mt-2"> Cập nhật bài đăng: @{{ update.title || 'Đang tải...' }}
                     </h5>
-                    <a href="/admin/post" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left me-1"></i> Quay lại
-                    </a>
                 </div>
 
                 <div class="card-body" v-if="loaded">
@@ -44,15 +40,15 @@
 
                         <div class="col-lg-3 mb-3">
                             <label class="form-label">Giá bán ( <span class="text-danger">*</span> )<small
-                                    class="text-muted fst-italic ms-2">
+                                    class="text-danger fst-italic ms-2">
                                     @{{ update.price ? formatVietnameseMoney(update.price) : '' }}
                                 </small></label>
-                            <input type="text" class="form-control" v-model="update.price"
-                                placeholder="VD: Thỏa thuận hoặc 3.xx">
+                            <input type="text" class="form-control" v-model="priceFormatted" v-on:input="formatPrice"
+                                placeholder="Nhập giá bán (VD: 1.150.000.000)">
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label">Diện tích (m²) ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span> )</label>
                             <input type="number" class="form-control" v-model="update.area" placeholder="VD: 82">
                         </div>
 
@@ -151,8 +147,7 @@
                 </div>
 
                 <div class="card-footer" v-if="loaded">
-                    <button type="button" class="btn btn-primary" v-on:click="updatePost()">
-                        <i class="fas fa-save me-1"></i> Cập nhật
+                    <button type="button" class="btn btn-primary" v-on:click="updatePost()">Cập nhật
                     </button>
                     <a href="/admin/post" class="btn btn-secondary">Hủy</a>
                 </div>
@@ -174,6 +169,7 @@
                 list_category: [],
                 list_subcategory: [],
                 preview: '',
+                priceFormatted: '',
             },
             created() {
                 this.loadDataCategory();
@@ -192,6 +188,16 @@
                     if (nghin > 0 && ty === 0 && trieu === 0) result += `${nghin} nghìn`;
                     return result.trim();
                 },
+                formatNumberWithDots(num) {
+                    if (num == null || num === '') return '';
+                    const raw = String(num).replace(/\D/g, '');
+                    return raw.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                },
+                formatPrice() {
+                    let raw = this.priceFormatted.replace(/\D/g, '');
+                    this.priceFormatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    this.update.price = raw ? Number(raw) : 0;
+                },
                 loadPost() {
                     axios
                         .post('/admin/post/data')
@@ -199,20 +205,24 @@
                             const post = (res.data.data || []).find(p => Number(p.id) === Number(this.postId));
                             if (!post) {
                                 toastr.error('Không tìm thấy bài viết.', 'Error');
-                                setTimeout(() => { window.location.href = '/admin/post'; }, 1500);
+                                setTimeout(() => {
+                                    window.location.href = '/admin/post';
+                                }, 1500);
                                 return;
                             }
                             this.update = Object.assign({}, post);
                             if (!Array.isArray(this.update.images)) {
-                                this.update.images = typeof this.update.images === 'string'
-                                    ? (JSON.parse(this.update.images || '[]') || [])
-                                    : [];
+                                this.update.images = typeof this.update.images === 'string' ?
+                                    (JSON.parse(this.update.images || '[]') || []) : [];
                             }
                             this.preview = this.update.thumbnail || '';
+                            this.priceFormatted = this.formatNumberWithDots(this.update.price);
                             this.loaded = true;
                             if (this.update.id_category) {
                                 axios
-                                    .post('/admin/subcategory/data-post', { id_category: this.update.id_category })
+                                    .post('/admin/subcategory/data-post', {
+                                        id_category: this.update.id_category
+                                    })
                                     .then((r) => {
                                         this.list_subcategory = r.data.data || [];
                                     });
@@ -222,13 +232,16 @@
                                     if (!CKEDITOR.instances['ckeditor-content']) {
                                         CKEDITOR.replace('ckeditor-content');
                                     }
-                                    CKEDITOR.instances['ckeditor-content'].setData(this.update.content || '');
+                                    CKEDITOR.instances['ckeditor-content'].setData(this.update
+                                        .content || '');
                                 }
                             });
                         })
                         .catch(() => {
                             toastr.error('Không tải được dữ liệu bài viết.', 'Error');
-                            setTimeout(() => { window.location.href = '/admin/post'; }, 1500);
+                            setTimeout(() => {
+                                window.location.href = '/admin/post';
+                            }, 1500);
                         });
                 },
                 loadDataCategory() {
@@ -241,7 +254,9 @@
                 loadDataSubCategoryPost(e) {
                     const id_category = e.target.value;
                     axios
-                        .post('/admin/subcategory/data-post', { id_category: id_category })
+                        .post('/admin/subcategory/data-post', {
+                            id_category: id_category
+                        })
                         .then((res) => {
                             this.list_subcategory = res.data.data || [];
                         });
@@ -259,7 +274,8 @@
                         })
                         .catch((err) => {
                             if (err.response && err.response.data && err.response.data.errors) {
-                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr.error(m, 'Error')));
+                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr
+                                    .error(m, 'Error')));
                             }
                         });
                 },
@@ -276,7 +292,8 @@
                             })
                             .catch((err) => {
                                 if (err.response && err.response.data && err.response.data.errors) {
-                                    Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr.error(m, 'Error')));
+                                    Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m =>
+                                        toastr.error(m, 'Error')));
                                 }
                             });
                     }
@@ -300,7 +317,8 @@
                         })
                         .catch((err) => {
                             if (err.response && err.response.data && err.response.data.errors) {
-                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr.error(m, 'Error')));
+                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr
+                                    .error(m, 'Error')));
                             } else {
                                 toastr.error('Có lỗi xảy ra.', 'Error');
                             }

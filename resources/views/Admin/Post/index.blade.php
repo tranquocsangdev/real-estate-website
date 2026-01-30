@@ -10,7 +10,7 @@
                     <h5 class="mt-2 text-white text-uppercase">Danh sách bài đăng</h5>
                     <a href="/admin/post/create">
                         <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#createModal">
-                             Thêm mới
+                            Thêm mới
                         </button>
                     </a>
                 </div>
@@ -36,23 +36,20 @@
                                             @{{ value.title }}
                                         </td>
                                         <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
-                                        <td class="text-center text-success">@{{ value.area }} m²</td>
+                                        <td class="text-center"><b>@{{ value.area }}</b> m <sup>2</sup></td>
                                         <td class="text-nowrap">@{{ value.address }}</td>
                                         <td class="text-center">@{{ value.phone }} / <a :href="value.zalo_link"
                                                 target="_blank">Zalo</a></td>
                                         <td class="text-center">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
-                                                class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#postModal">
+                                                class="btn btn-success" data-bs-toggle="modal" data-bs-target="#postModal">
                                                 <i class="fa-solid fa-eye ms-1"></i>
                                             </button>
-                                            <a :href="'/admin/post/update/' + value.id"
-                                                class="btn btn-primary">
+                                            <a :href="'/admin/post/update/' + value.id" class="btn btn-primary">
                                                 <i class="fa-solid fa-pencil ms-1"></i>
                                             </a>
-                                            <button v-on:click="del = Object.assign({}, value)"
-                                                class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal">
+                                            <button v-on:click="del = Object.assign({}, value)" class="btn btn-danger"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                 <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
                                         </td>
@@ -71,45 +68,38 @@
             <div class="modal-content shadow">
                 <div class="modal-header bg-primary ">
                     <h5 class="modal-title text-white text-uppercase" id="postModalLabel">
-                        <i class="fas fa-file-alt me-2"></i> Chi tiết bài đăng: @{{ post_detail.title }}
+                        Chi tiết bài đăng: @{{ post_detail.title }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
 
                 <div class="modal-body">
                     <div class="row g-4">
-                        <!-- Thông tin cơ bản -->
-                        <div class="col-md-6">
-                            <div class="border border-primary rounded p-3 h-100">
-                                <h6 class="text-secondary fw-bold mb-3">Thông tin cơ bản</h6>
-                                <p><strong>Tiêu đề:</strong> @{{ post_detail.title }}</p>
-                                <p><strong>Giá bán:</strong> <b>@{{ formatVND(post_detail.price) }}</b></p>
-                                <p><strong>Diện tích:</strong> @{{ post_detail.area }} m²</p>
-                                <p><strong>Phòng ngủ:</strong> @{{ post_detail.bedrooms || 'Không có' }}</p>
-                                <p><strong>Phòng vệ sinh:</strong> @{{ post_detail.bathrooms || 'Không có' }}</p>
+                        <div class="col-lg-6">
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-heading ms-1"></i> Tiêu đề:</strong> @{{ post_detail.title }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-money-bill ms-1"></i> Giá bán:</strong> <b class="text-danger">@{{ formatVND(post_detail.price) }}</b></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-square ms-1"></i> Diện tích:</strong> <b>@{{ post_detail.area }}</b> m <sup>2</sup></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bed ms-1"></i> Phòng ngủ:</strong> @{{ post_detail.bedrooms || 'Không có' }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bath ms-1"></i> Phòng vệ sinh:</strong> @{{ post_detail.bathrooms || 'Không có' }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Địa chỉ:</strong> @{{ post_detail.address }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Khu vực:</strong> @{{ post_detail.location }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Dự án:</strong> @{{ post_detail.project_name || 'Không có' }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-phone ms-1"></i> Số điện thoại:</strong> @{{ post_detail.phone }} - <b> Zalo</b>: <a :href="post_detail.zalo_link" target="_blank">Tại đây</a></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-map-location-dot ms-1"></i> Link bản đồ:</strong>
+                                        <a :href="post_detail.map_link" target="_blank">Xem bản đồ</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
-                        <!-- Thông tin địa điểm & liên hệ -->
-                        <div class="col-md-6">
-                            <div class="border border-primary rounded p-3 h-100">
-                                <h6 class="text-secondary fw-bold mb-3">Vị trí & Liên hệ</h6>
-                                <p><strong>Địa chỉ:</strong> @{{ post_detail.address }}</p>
-                                <p><strong>Khu vực:</strong> @{{ post_detail.location }}</p>
-                                <p><strong>Dự án:</strong> @{{ post_detail.project_name || 'Không có' }}</p>
-                                <p><i class="fas fa-phone-alt me-1 text-primary"></i> <a href="tel:@{{ post_detail.phone }}"> @{{ post_detail.phone }}</a></p>
-                                <p>
-                                    <i class="fas fa-map-marker-alt me-1 text-danger"></i>
-                                    <a :href="post_detail.map_link" target="_blank">Xem bản đồ</a>
-                                </p>
-                                <p>
-                                    <i class="fa-solid fa-zalo me-1 text-info"></i> Nhắn tin :
-                                    <a :href="post_detail.zalo_link" target="_blank">Zalo</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Ảnh đại diện -->
                         <div class="col-12" v-if="post_detail.thumbnail">
                             <h6 class="text-secondary fw-bold">Ảnh đại diện</h6>
                             <a :href="post_detail.thumbnail" data-lightbox="post-thumbnail" data-title="Ảnh đại diện">
@@ -118,7 +108,6 @@
                             </a>
                         </div>
 
-                        <!-- Ảnh mô tả -->
                         <div class="col-12" v-if="post_detail.images && post_detail.images.length">
                             <h6 class="text-secondary fw-bold">Ảnh mô tả</h6>
                             <div class="row">
@@ -131,7 +120,6 @@
                             </div>
                         </div>
 
-                        <!-- Nội dung mô tả -->
                         <div class="col-12">
                             <h6 class="text-secondary fw-bold">Nội dung chi tiết</h6>
                             <div class="border p-3 rounded bg-light" v-html="post_detail.content"></div>

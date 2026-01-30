@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label">Diện tích (m²) ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span> )</label>
                             <input type="number" class="form-control" v-model="create.area" placeholder="VD: 82">
                         </div>
 

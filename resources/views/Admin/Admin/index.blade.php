@@ -7,9 +7,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-white">Danh sách tài khoản admin</h5>
-                    <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
-                        <i class="fa-solid fa-plus"></i> Thêm mới
+                    <h5 class="mb-0 text-white text-uppercase">Danh sách tài khoản admin</h5>
+                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#createModal"> Thêm mới
                     </button>
                 </div>
                 <div class="card-body">
@@ -34,18 +33,18 @@
                                             <img :src="v.avatar" alt="Avatar" class="user-img">
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button class="btn btn-success btn-sm text-white" v-if="v.is_open == 1"
+                                            <button class="btn btn-success text-white" v-if="v.is_open == 1"
                                                 v-on:click="changeStatus(v)">Đang hoạt động</button>
-                                            <button class="btn btn-danger btn-sm text-white" v-else
+                                            <button class="btn btn-danger text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã khóa</button>
                                         </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#updateModal">
                                                 <i class="fa-solid fa-pencil ms-1"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                 <i class="fa-regular fa-trash-can ms-1"></i>
                                             </button>
