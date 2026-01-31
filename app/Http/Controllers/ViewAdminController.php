@@ -61,4 +61,9 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Settings.index', compact('settings'));
     }
+
+    public function viewUserKhachHang()
+    {
+        return view('Admin.User.index');
+    }
 }

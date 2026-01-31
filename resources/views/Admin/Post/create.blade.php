@@ -133,7 +133,7 @@
                         </div>
 
                         <div class="col-lg-12 mb-3">
-                            <label class="form-label">Ảnh mô tả chi tiết</label>
+                            <label class="form-label">Ảnh chi tiết</label>
                             <input type="file" class="form-control mb-3" multiple v-on:change="handleImages($event)">
 
                             <div class="row">

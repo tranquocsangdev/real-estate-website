@@ -61,6 +61,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/upload', [AdminController::class, 'uploadAvatar']);
     });
 
+    Route::prefix('/user')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewUserKhachHang']);
+        Route::post('/data', [KhachHangController::class, 'getDataUser']);
+        Route::post('/change', [KhachHangController::class, 'changeStatusUser']);
+        Route::post('/delete', [KhachHangController::class, 'deleteUser']);
+    });
+
     Route::prefix('/settings')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewSettings']);
     });

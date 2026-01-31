@@ -13,6 +13,7 @@ class HomeController extends Controller
     {
         $ds_post = Post::orderByDESC('id')
                         ->select('id', 'title', 'slug', 'thumbnail', 'price', 'address', 'created_at', 'images')
+                        ->take(8)
                         ->get();
 
         return view('Client.Home.index', compact('ds_post'));

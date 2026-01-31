@@ -15,6 +15,7 @@ class KhachHang extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'is_active',
     ];

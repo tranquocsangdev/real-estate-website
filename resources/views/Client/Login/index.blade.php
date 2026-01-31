@@ -71,23 +71,23 @@
 						<img src="/assets_client/images/logo.jpg" class="rounded-circle w-25 h-25" alt="Logo" />
 					</div>
 					<h2 class="login-title text-center">Đăng nhập</h2>
-						<p class="login-sub text-center">Nhập email và mật khẩu để tiếp tục.</p>
+						<p class="login-sub text-center">Nhập email hoặc số điện thoại và mật khẩu để tiếp tục.</p>
 
 						<div class="d-grid gap-2 mb-3">
 							<a class="btn btn-social" href="javascript:;"><i class="bx bxl-google me-2"></i>Đăng nhập với Google</a>
 						</div>
-						<div class="divider">hoặc đăng nhập bằng email</div>
+						<div class="divider">hoặc đăng nhập bằng email / số điện thoại</div>
 
 						<form class="row g-3" method="POST" action="/user/login">
 							@csrf
 							<div class="col-12">
-								<label for="inputEmailAddress" class="form-label">Email</label>
-								<input type="email" class="form-control" id="inputEmailAddress" name="email" placeholder="vd: email@example.com" required>
+								<label for="inputEmailAddress" class="form-label">Email / Số điện thoại </label>
+								<input class="form-control" id="inputEmailAddress" name="login" placeholder="vd: email@gmail.com hoặc 0909090909" required>
 							</div>
 							<div class="col-12">
 								<label for="inputChoosePassword" class="form-label">Mật khẩu</label>
 								<div class="input-group" id="show_hide_password">
-									<input type="password" class="form-control border-end-0" id="inputChoosePassword" name="password" placeholder="Nhập mật khẩu">
+									<input type="password" class="form-control border-end-0" id="inputChoosePassword" name="password" placeholder="Nhập mật khẩu" required>
 									<a href="javascript:;" class="input-group-text bg-transparent" tabindex="-1"><i class="bx bx-hide"></i></a>
 								</div>
 							</div>

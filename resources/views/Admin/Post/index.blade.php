@@ -63,6 +63,7 @@
         </div>
     </div>
 
+    <!-- Modal Chi tiết bài viết-->
     <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content shadow">
@@ -109,12 +110,12 @@
                         </div>
 
                         <div class="col-12" v-if="post_detail.images && post_detail.images.length">
-                            <h6 class="text-secondary fw-bold">Ảnh mô tả</h6>
+                            <h6 class="text-secondary fw-bold">Ảnh chi tiết</h6>
                             <div class="row">
                                 <div class="col-md-3 mb-3" v-for="(img, i) in post_detail.images" :key="i">
                                     <a :href="img" data-lightbox="post-images" :data-title="'Ảnh ' + (i + 1)">
                                         <img :src="img" class="img-thumbnail"
-                                            style="height: 200px; object-fit: cover; width: 100%;">
+                                            style="height: 350px; object-fit: cover; width: 100%;">
                                     </a>
                                 </div>
                             </div>
@@ -135,6 +136,7 @@
         </div>
     </div>
 
+    <!-- Modal Xóa bài viết-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
