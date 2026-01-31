@@ -101,6 +101,7 @@ class KhachHangController extends Controller
             $user->is_active = 0;
             $user->save();
             $message = 'Đã đổi trạng thái thành: <b>Đã khóa</b>';
+            Auth::guard('khach_hangs')->logout();
         } else {
             $user->is_active = 1;
             $user->save();

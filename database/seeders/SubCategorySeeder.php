@@ -42,10 +42,18 @@ class SubCategorySeeder extends Seeder
                     'id_category'   => 1,
                     'status'        => 1,
                 ],
+                [
+                    'id'            => 4,
+                    'name'          => 'Đất thổ cư',
+                    'slug'          => Str::slug('Đất thổ cư'),
+                    'icon'          => '<i class="fas fa-landmark"></i>',
+                    'id_category'   => 1,
+                    'status'        => 1,
+                ],
 
                 // --- Dự án ---
                 [
-                    'id'            => 4,
+                    'id'            => 5,
                     'name'          => 'Căn hộ cao cấp',
                     'slug'          => Str::slug('Căn hộ cao cấp'),
                     'icon'          => '<i class="fas fa-building"></i>',
@@ -53,7 +61,7 @@ class SubCategorySeeder extends Seeder
                     'status'        => 1,
                 ],
                 [
-                    'id'            => 5,
+                    'id'            => 6,
                     'name'          => 'Khu đô thị mới',
                     'slug'          => Str::slug('Khu đô thị mới'),
                     'icon'          => '<i class="fas fa-city"></i>',
@@ -63,7 +71,7 @@ class SubCategorySeeder extends Seeder
 
                 // --- Mẫu nhà đẹp ---
                 [
-                    'id'            => 6,
+                    'id'            => 7,
                     'name'          => 'Nhà phố hiện đại',
                     'slug'          => Str::slug('Nhà phố hiện đại'),
                     'icon'          => '<i class="fas fa-home"></i>',
@@ -71,7 +79,7 @@ class SubCategorySeeder extends Seeder
                     'status'        => 1,
                 ],
                 [
-                    'id'            => 7,
+                    'id'            => 8,
                     'name'          => 'Biệt thự sân vườn',
                     'slug'          => Str::slug('Biệt thự sân vườn'),
                     'icon'          => '<i class="fas fa-tree"></i>',
@@ -81,7 +89,7 @@ class SubCategorySeeder extends Seeder
 
                 // --- Kinh nghiệm ---
                 [
-                    'id'            => 8,
+                    'id'            => 9,
                     'name'          => 'Phong thủy nhà ở',
                     'slug'          => Str::slug('Phong thủy nhà ở'),
                     'icon'          => '<i class="fas fa-compass"></i>',
@@ -89,7 +97,7 @@ class SubCategorySeeder extends Seeder
                     'status'        => 1,
                 ],
                 [
-                    'id'            => 9,
+                    'id'            => 10,
                     'name'          => 'Tư vấn pháp lý',
                     'slug'          => Str::slug('Tư vấn pháp lý'),
                     'icon'          => '<i class="fas fa-balance-scale"></i>',

@@ -139,7 +139,7 @@
     <!-- Modal Xóa bài viết-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Xác nhận xóa bài viết

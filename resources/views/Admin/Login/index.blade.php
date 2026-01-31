@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
-    <link rel="icon" href="/assets_admin/images/favicon-32x32.png" type="image/png" />
+    <link rel="icon" href="https://img.freepik.com/free-vector/business-user-cog_78370-7040.jpg?semt=ais_hybrid&w=740&q=80"  type="image/png" />
     <!--plugins-->
     <link href="/assets_admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
     <link href="/assets_admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
@@ -32,7 +32,7 @@
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                     <div class="col mx-auto">
                         <div class="mb-4 text-center">
-                            <img src="/assets_admin/images/logo-img.png" width="180" alt="" />
+                            <img src="https://img.freepik.com/free-vector/business-user-cog_78370-7040.jpg?semt=ais_hybrid&w=740&q=80" class="spinner-border text-light" width="80" alt="" />
                         </div>
                         <div class="card">
                             <div class="card-body">

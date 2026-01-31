@@ -3,10 +3,11 @@
         <nav class="navbar navbar-expand">
             <div class="topbar-logo-header">
                 <div class="">
-                    <img src="/assets_admin/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                    <img src="https://img.freepik.com/free-vector/business-user-cog_78370-7040.jpg?semt=ais_hybrid&w=740&q=80"
+                        class="logo-icon spinner-border text-light" alt="logo icon">
                 </div>
                 <div class="">
-                    <h4 class="logo-text">Rocker</h4>
+                    <h4 class="logo-text">Admin Panel</h4>
                 </div>
             </div>
             <div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>

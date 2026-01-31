@@ -8,13 +8,16 @@
             <div id="carouselHero" class="carousel slide rounded-3 overflow-hidden shadow" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="/assets_client/images/banner/banner4.png" class="d-block w-100" alt="Banner 1">
+                        <img src="{{ asset('assets_client/images/banner/banner4.png') }}" class="d-block w-100"
+                            alt="Banner 1">
                     </div>
                     <div class="carousel-item">
-                        <img src="/assets_client/images/banner/banner5.png" class="d-block w-100" alt="Banner 2">
+                        <img src="{{ asset('assets_client/images/banner/banner5.png') }}" class="d-block w-100"
+                            alt="Banner 2">
                     </div>
                     <div class="carousel-item">
-                        <img src="/assets_client/images/banner/banner6.png" class="d-block w-100" alt="Banner 3">
+                        <img src="{{ asset('assets_client/images/banner/banner6.png') }}" class="d-block w-100"
+                            alt="Banner 3">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselHero" data-bs-slide="prev">
@@ -142,6 +145,14 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                @if ($ds_post->isEmpty())
+                                    <div class="col-lg-12 text-center py-5 ">
+                                        <h5 class="text-center text-muted">Không có bất động sản nào</h5>
+                                        <div class="mt-3">
+                                            <i class="bx bx-search-alt-2 fs-1"></i>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
