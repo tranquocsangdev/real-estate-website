@@ -59,6 +59,7 @@ class ViewAdminController extends Controller
 
     public function viewSettings()
     {
+        $settings = Setting::where('is_active', 1)->orderBy('group')->orderBy('key')->get()->keyBy('key');
         return view('Admin.Settings.index', compact('settings'));
     }
 

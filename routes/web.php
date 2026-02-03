@@ -70,6 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
     Route::prefix('/settings')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewSettings']);
+        Route::post('/update', [SettingController::class, 'update']);
     });
 
     Route::prefix('/profile')->group(function () {
