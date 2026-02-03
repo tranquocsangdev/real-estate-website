@@ -57,7 +57,8 @@
                   <ul class="dropdown-menu">
                       <li> <a class="dropdown-item" href="/admin/admin"><i class="bx bx-right-arrow-alt"></i>Admin</a>
                       </li>
-                      <li> <a class="dropdown-item" href="/admin/user"><i class="bx bx-right-arrow-alt"></i>Khách hàng</a>
+                      <li> <a class="dropdown-item" href="/admin/user"><i class="bx bx-right-arrow-alt"></i>Khách
+                              hàng</a>
                       </li>
                   </ul>
               </li>
@@ -69,6 +70,9 @@
                       <div class="menu-title">Cài đặt</div>
                   </a>
                   <ul class="dropdown-menu">
+                      <li> <a class="dropdown-item" href="/admin/banner"><i class="bx bx-right-arrow-alt"></i>Banner
+                              trang chủ</a>
+                      </li>
                       <li> <a class="dropdown-item" href="/admin/settings"><i class="bx bx-right-arrow-alt"></i>Cài đặt
                               thông tin</a>
                       </li>

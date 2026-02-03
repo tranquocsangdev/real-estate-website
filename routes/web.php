@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhachHangController;
@@ -71,6 +72,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/settings')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewSettings']);
         Route::post('/update', [SettingController::class, 'update']);
+    });
+
+    Route::prefix('/banner')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewBanner']);
+        Route::post('/data', [BannerController::class, 'getDataBanner']);
+        Route::post('/create', [BannerController::class, 'createBanner']);
+        Route::post('/update', [BannerController::class, 'updateBanner']);
+        Route::post('/delete', [BannerController::class, 'deleteBanner']);
+        Route::post('/change', [BannerController::class, 'changeStatusBanner']);
+        Route::post('/upload', [BannerController::class, 'uploadBanner']);
     });
 
     Route::prefix('/profile')->group(function () {
