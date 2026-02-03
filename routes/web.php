@@ -91,6 +91,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 });
 
 Route::get('/', [HomeController::class, 'viewHome']);
+Route::get('/all-post', [HomeController::class, 'viewAllPost']);
 
 Route::get('/user/login', [ViewClientController::class, 'viewLogin']);
 Route::post('/user/login', [KhachHangController::class, 'actionLogin']);

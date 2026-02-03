@@ -34,4 +34,10 @@ class HomeController extends Controller
 
         return view('Client.CategoryDetail.index', compact('category', 'list_posts'));
     }
+
+    public function viewAllPost()
+    {
+        $ds_post = Post::orderByDESC('id')->get();
+        return view('Client.ViewAllPost.index', compact('ds_post'));
+    }
 }
