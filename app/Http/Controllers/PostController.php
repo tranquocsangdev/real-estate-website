@@ -9,6 +9,15 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    protected function deleteImageFile($imagePath)
+    {
+        if (!$imagePath) return;
+        $fullPath = public_path($imagePath);
+        if (file_exists($fullPath)) {
+            unlink($fullPath);
+        }
+    }
+
     public function uploadPostImage(Request $request)
     {
         if ($request->hasFile('file')) {
@@ -72,20 +81,36 @@ class PostController extends Controller
     public function deletePost(Request $request)
     {
         $post = Post::find($request->id);
+
         if (!$post) {
             return response()->json([
-                'status'    => false,
-                'message'  => 'Bài viết không tồn tại!'
+                'status'  => false,
+                'message' => 'Bài viết không tồn tại!'
             ]);
+        }
+
+        // Xóa thumbnail
+        if ($post->thumbnail) {
+            $this->deleteImageFile($post->thumbnail);
+        }
+
+        // Decode images JSON
+        $images = json_decode($post->images ?? '[]', true);
+
+        if (!empty($images)) {
+            foreach ($images as $image) {
+                $this->deleteImageFile($image);
+            }
         }
 
         $post->delete();
 
         return response()->json([
-            'status'    => true,
-            'message'  => 'Đã xóa bài viết thành công!'
+            'status'  => true,
+            'message' => 'Đã xóa bài viết thành công!'
         ]);
     }
+
 
     public function updatePost(Request $request)
     {

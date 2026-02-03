@@ -245,6 +245,7 @@
                 handleThumbnail(e) {
                     var formData = new FormData();
                     formData.append('file', e.target.files[0]);
+                    toastr.info('Đang tải lên ảnh đại diện...', 'Info');
                     axios
                         .post('/admin/post/upload', formData)
                         .then((res) => {
@@ -260,10 +261,12 @@
                 },
                 handleImages(e) {
                     const files = e.target.files;
+                    toastr.info('Đang tải lên ảnh chi tiết...', 'Info');
                     for (let i = 0; i < files.length; i++) {
                         let formData = new FormData();
                         formData.append('file', files[i]);
-                        axios.post('/admin/post/upload', formData)
+                        axios
+                            .post('/admin/post/upload', formData)
                             .then((res) => {
                                 this.create.images.push(res.data.file); // Lưu đường dẫn ảnh vào mảng images
                                 displaySuccess(res, false);
