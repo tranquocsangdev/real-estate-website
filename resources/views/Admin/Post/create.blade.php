@@ -55,7 +55,8 @@
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span>
+                                )</label>
                             <input type="number" class="form-control" v-model="create.area" placeholder="VD: 82">
                         </div>
 
@@ -202,7 +203,23 @@
                 preview: '',
             },
             mounted() {
-                CKEDITOR.replace('ckeditor-content');
+                tinymce.init({
+                    selector: '#ckeditor-content',
+                    height: 450,
+                    menubar: true,
+                    plugins: [
+                        "advlist autolink lists link image charmap preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table paste help wordcount"
+                    ],
+                    toolbar: "undo redo | bold italic underline | \
+                          fontsizeselect formatselect | \
+                          alignleft aligncenter alignright alignjustify | \
+                          bullist numlist outdent indent | \
+                          forecolor backcolor | link image media | \
+                          removeformat | help",
+                    content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
+                });
             },
             created() {
                 this.loadDataCategory();
@@ -289,7 +306,7 @@
                     this.create.images.splice(index, 1);
                 },
                 createPost() {
-                    this.create.content = CKEDITOR.instances['ckeditor-content'].getData();
+                    this.create.content = tinymce.get('ckeditor-content').getContent();
                     axios
                         .post('/admin/post/create', this.create)
                         .then((res) => {
@@ -315,7 +332,9 @@
                                         map_link: '',
                                         images: []
                                     },
-                                    window.location.href = '/admin/post';
+                                    setTimeout(() => {
+                                        window.location.href = '/admin/post';
+                                    }, 1000);
                             }
                         })
                         .catch((err) => {

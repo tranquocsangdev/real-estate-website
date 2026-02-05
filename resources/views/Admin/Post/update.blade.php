@@ -48,7 +48,8 @@
                         </div>
 
                         <div class="col-lg-3 mb-3">
-                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span> )</label>
+                            <label class="form-label">Diện tích (m <sup>2</sup>) ( <span class="text-danger">*</span>
+                                )</label>
                             <input type="number" class="form-control" v-model="update.area" placeholder="VD: 82">
                         </div>
 
@@ -228,12 +229,28 @@
                                     });
                             }
                             this.$nextTick(() => {
-                                if (typeof CKEDITOR !== 'undefined') {
-                                    if (!CKEDITOR.instances['ckeditor-content']) {
-                                        CKEDITOR.replace('ckeditor-content');
+                                if (typeof tinymce !== 'undefined') {
+                                    if (!tinymce.get('ckeditor-content')) {
+                                        tinymce.init({
+                                            selector: '#ckeditor-content',
+                                            height: 450,
+                                            menubar: true,
+                                            plugins: [
+                                                "advlist autolink lists link image charmap preview anchor",
+                                                "searchreplace visualblocks code fullscreen",
+                                                "insertdatetime media table paste help wordcount"
+                                            ],
+                                            toolbar: "undo redo | bold italic underline | \
+                                                fontsizeselect formatselect | \
+                                                alignleft aligncenter alignright alignjustify | \
+                                                bullist numlist outdent indent | \
+                                                forecolor backcolor | link image media | \
+                                                removeformat | help",
+                                            content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
+                                        });
+                                        tinymce.get('ckeditor-content').setContent(this.update
+                                            .content || '');
                                     }
-                                    CKEDITOR.instances['ckeditor-content'].setData(this.update
-                                        .content || '');
                                 }
                             });
                         })
@@ -302,15 +319,17 @@
                     this.update.images.splice(index, 1);
                 },
                 updatePost() {
-                    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances['ckeditor-content']) {
-                        this.update.content = CKEDITOR.instances['ckeditor-content'].getData();
+                    if (typeof tinymce !== 'undefined' && tinymce.get('ckeditor-content')) {
+                        this.update.content = tinymce.get('ckeditor-content').getContent();
                     }
                     axios
                         .post('/admin/post/update', this.update)
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
-                                window.location.href = '/admin/post';
+                                setTimeout(() => {
+                                    window.location.href = '/admin/post';
+                                }, 1000);
                             } else {
                                 toastr.error(res.data.message || 'Có lỗi xảy ra.', 'Error');
                             }

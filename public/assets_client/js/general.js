@@ -378,6 +378,17 @@ window.getFormData = function ($form) {
     return indexed_array;
 };
 
-window.date_format = function (now) {
-    return moment(now).format("DD/MM/yyyy");
+window.date_format_full = function (now) {
+    const formattedDate = moment(now).format("DD/MM/YYYY");
+    const formattedTime = moment(now).format("HH:mm:ss");
+
+    return "Ngày: " + formattedDate + "<br>Giờ: " + formattedTime;
+};
+
+window.date_format_time = function (now) {
+    return moment(now).format("DD/MM/YYYY [lúc] HH:mm:ss");
+};
+
+window.format_time = function (now) {
+    return moment(now).format("HH:mm:ss");
 };

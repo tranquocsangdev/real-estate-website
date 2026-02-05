@@ -77,4 +77,14 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Dashboard.index');
     }
+
+    public function viewBlog()
+    {
+        return view('Admin.Blog.index');
+    }
+
+    public function viewCreateBlog()
+    {
+        return view('Admin.Blog.create');
+    }
 }
