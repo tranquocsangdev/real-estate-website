@@ -81,7 +81,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/update', [BannerController::class, 'updateBanner']);
         Route::post('/delete', [BannerController::class, 'deleteBanner']);
         Route::post('/change', [BannerController::class, 'changeStatusBanner']);
-        Route::post('/upload', [BannerController::class, 'uploadBanner']);
     });
 
     Route::prefix('/profile')->group(function () {

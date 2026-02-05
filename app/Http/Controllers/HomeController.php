@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Subcategory;
@@ -16,7 +17,13 @@ class HomeController extends Controller
                         ->take(8)
                         ->get();
 
-        return view('Client.Home.index', compact('ds_post'));
+        $ds_banner = Banner::orderBy('order')
+                        ->select('id', 'image', 'order')
+                        ->where('status', 1)
+                        ->limit(3)
+                        ->get();
+
+        return view('Client.Home.index', compact('ds_post', 'ds_banner'));
     }
 
     public function viewPostDetail($slug, $id)

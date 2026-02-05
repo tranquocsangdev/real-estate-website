@@ -7,17 +7,11 @@
         <div class="col-lg-12">
             <div id="carouselHero" class="carousel slide rounded-3 overflow-hidden shadow" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{ asset('assets_client/images/banner/banner4.png') }}" class="d-block w-100" alt="Banner 1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('assets_client/images/banner/banner5.png') }}" class="d-block w-100"
-                            alt="Banner 2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('assets_client/images/banner/banner6.png') }}" class="d-block w-100"
-                            alt="Banner 3">
-                    </div>
+                    @foreach ($ds_banner as $key => $value)
+                        <div class="carousel-item active">
+                            <img src="{{ asset($value->image) }}" class="d-block w-100" alt="Banner {{ $key + 1 }}">
+                        </div>
+                    @endforeach
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselHero" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -161,7 +155,8 @@
 
             <div class="col-lg-12 text-center mb-3">
                 <div class="cta-actions ">
-                    <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald" onclick="window.location.href='/all-post'">Xem tất cả tin đăng
+                    <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald"
+                        onclick="window.location.href='/all-post'">Xem tất cả tin đăng
                     </button>
                 </div>
             </div>
