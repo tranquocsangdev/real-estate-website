@@ -124,6 +124,7 @@ Route::post('/user/register', [KhachHangController::class, 'actionRegister']);
 Route::get('/user/logout', [KhachHangController::class, 'actionLogout']);
 
 Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
+Route::get('/blog/{slug}/{id}', [HomeController::class, 'viewBlogDetail']);
 
 Route::prefix('/home')->group(function () {
     Route::prefix('/category')->group(function () {

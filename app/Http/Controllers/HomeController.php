@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Subcategory;
@@ -13,15 +14,15 @@ class HomeController extends Controller
     public function viewHome()
     {
         $ds_post = Post::orderByDESC('id')
-                        ->select('id', 'title', 'slug', 'thumbnail', 'price', 'address', 'created_at', 'images')
-                        ->take(8)
-                        ->get();
+            ->select('id', 'title', 'slug', 'thumbnail', 'price', 'address', 'created_at', 'images')
+            ->take(8)
+            ->get();
 
         $ds_banner = Banner::orderBy('order')
-                        ->select('id', 'image', 'order')
-                        ->where('status', 1)
-                        ->limit(3)
-                        ->get();
+            ->select('id', 'image', 'order')
+            ->where('status', 1)
+            ->limit(3)
+            ->get();
 
         return view('Client.Home.index', compact('ds_post', 'ds_banner'));
     }
@@ -38,8 +39,15 @@ class HomeController extends Controller
         $category = Subcategory::where('slug', $slug)->first();
 
         $list_posts = Post::where('id_subcategory', $category->id)->get();
+        $list_blogs = Blog::where('id_subcategory', $category->id)->where('status', 1)->get();
 
-        return view('Client.CategoryDetail.index', compact('category', 'list_posts'));
+        return view('Client.CategoryDetail.index', compact('category', 'list_posts', 'list_blogs'));
+    }
+
+    public function viewBlogDetail($slug, $id)
+    {
+        $blog_detail = Blog::where('id', $id)->first();
+        return view('Client.BlogDetail.index', compact('blog_detail'));
     }
 
     public function viewAllPost()
