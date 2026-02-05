@@ -21,6 +21,10 @@ Route::get('/admin/logout', [AdminAuthController::class, 'actionLogout']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewDashboard']);
+    });
+
     Route::prefix('/category')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewCategory']);
         Route::post('/data', [CategoryController::class, 'getDataCategory']);

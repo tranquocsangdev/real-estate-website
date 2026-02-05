@@ -72,4 +72,9 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Banner.index');
     }
+
+    public function viewDashboard()
+    {
+        return view('Admin.Dashboard.index');
+    }
 }
