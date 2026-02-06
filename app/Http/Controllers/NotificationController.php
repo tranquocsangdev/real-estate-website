@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdminNotificationReadAllEvent;
 use App\Events\AdminNotificationReadEvent;
 use App\Models\Notification;
 
@@ -29,6 +30,20 @@ class NotificationController extends Controller
         ]);
 
         event(new AdminNotificationReadEvent($notification->id));
+
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+
+    public function markAsReadAll()
+    {
+        Notification::where('is_read', 0)
+        ->update([
+            'is_read' => 1,
+        ]);
+
+        event(new AdminNotificationReadAllEvent());
 
         return response()->json([
             'status' => true,

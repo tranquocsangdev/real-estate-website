@@ -80,10 +80,10 @@
                             <a href="javascript:;">
                                 <div class="msg-header">
                                     <p class="msg-header-title">Thông báo</p>
-                                    <p class="msg-header-clear ms-auto">Đánh dấu tất cả đã đọc</p>
+                                    <p class="msg-header-clear ms-auto" v-on:click="markAsReadAll()">Đánh dấu tất cả đã đọc</p>
                                 </div>
                             </a>
-                            <div class="header-notifications-list">
+                            <div class="header-notifications-list overflow-auto vh-50" style="max-height: 400px;">
                                 <template v-if="list_notifications.length > 0">
                                     <template v-for="(value, index) in list_notifications">
                                         <a class="dropdown-item" :class="{ 'bg-unread': value.is_read == 0 }" href="javascript:;" v-on:click="markAsRead(value)">

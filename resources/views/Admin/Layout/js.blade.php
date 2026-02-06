@@ -49,6 +49,10 @@
                           this.tong_thong_bao--;
                       }
                   });
+                  // event đánh dấu tất cả đã đọc
+                  channel.listen('.admin.notification.readAll', (e) => {
+                      this.loadDataNotifications();
+                  });
               },
               methods: {
                   loadDataNotifications() {
@@ -74,6 +78,10 @@
                       axios
                           .post('/admin/notifications/read/' + value.id)
                   },
+                  markAsReadAll() {
+                      axios
+                          .post('/admin/notifications/read-all');
+                  }
               },
           });
       });
