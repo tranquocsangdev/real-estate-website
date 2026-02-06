@@ -86,7 +86,7 @@
                             <div class="header-notifications-list">
                                 <template v-if="list_notifications.length > 0">
                                     <template v-for="(value, index) in list_notifications">
-                                        <a class="dropdown-item" :class="{ 'bg-unread': value.is_read == 0 }" href="javascript:;">
+                                        <a class="dropdown-item" :class="{ 'bg-unread': value.is_read == 0 }" href="javascript:;" v-on:click="markAsRead(value)">
                                             <div class="d-flex align-items-center">
                                                 <div class="user-online">
                                                     <img src="/assets_admin/images/avatars/avatar-1.png"

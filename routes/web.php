@@ -103,6 +103,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
     Route::prefix('/notifications')->group(function () {
         Route::get('/data', [NotificationController::class, 'getDataNotification']);
+        Route::post('/read/{id}', [NotificationController::class, 'markAsRead']);
     });
 
     Route::prefix('/message')->group(function () {

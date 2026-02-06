@@ -35,13 +35,21 @@
                   this.loadDataNotifications();
               },
               mounted() {
-                  window.Echo.channel('admin-notifications')
-                      .listen('.admin.notification', (e) => {
-                          this.loadDataNotifications();
-                          toastr.info('Có thông báo mới 🔔');
-                      });
+                  const channel = window.Echo.channel('admin-notifications');
+                  // event có thông báo mới
+                  channel.listen('.admin.notification', (e) => {
+                      this.loadDataNotifications();
+                      toastr.info('Có thông báo mới 🔔');
+                  });
+                  // event đánh dấu đã đọc
+                  channel.listen('.admin.notification.read', (e) => {
+                      let item = this.list_notifications.find(n => n.id == e.id);
+                      if (item && item.is_read == 0) {
+                          item.is_read = 1;
+                          this.tong_thong_bao--;
+                      }
+                  });
               },
-
               methods: {
                   loadDataNotifications() {
                       this.isLoading = true;
@@ -60,6 +68,11 @@
                               this.isLoading = false;
                           });
 
+                  },
+                  markAsRead(value) {
+                      if (value.is_read == 1) return;
+                      axios
+                          .post('/admin/notifications/read/' + value.id)
                   },
               },
           });
