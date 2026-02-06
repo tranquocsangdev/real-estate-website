@@ -154,6 +154,6 @@ Route::prefix('/home')->group(function () {
 // Đánh dấu đã đọc theo cặp user
 // Route::patch('/messages/read-between/{from}/{to}', [MessageController::class, 'markBetweenAsRead'])->name('messages.readBetween');
 
-Route::fallback(function () {
-    return response()->view('Client.Errors.notfound', [], 404);
-});
+// Route::fallback(function () {
+//     return response()->view('Client.Errors.notfound', [], 404);
+// });

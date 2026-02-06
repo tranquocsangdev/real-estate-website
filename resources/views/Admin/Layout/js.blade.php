@@ -30,9 +30,12 @@
                   list_notifications: [],
                   tong_thong_bao: 0,
                   isLoading: false,
+                  sound_notification: null,
               },
               created() {
                   this.loadDataNotifications();
+                  this.sound_notification = new Audio(
+                      '/assets_admin/plugins/notifications/sounds/sound1.ogg');
               },
               mounted() {
                   const channel = window.Echo.channel('admin-notifications');
@@ -40,6 +43,10 @@
                   channel.listen('.admin.notification', (e) => {
                       this.loadDataNotifications();
                       toastr.info('Có thông báo mới 🔔');
+                      if (this.sound_notification) {
+                          this.sound_notification.currentTime = 0;
+                          this.sound_notification.play().catch(() => {});
+                      }
                   });
                   // event đánh dấu đã đọc
                   channel.listen('.admin.notification.read', (e) => {
@@ -81,7 +88,7 @@
                   markAsReadAll() {
                       axios
                           .post('/admin/notifications/read-all');
-                  }
+                  },
               },
           });
       });
