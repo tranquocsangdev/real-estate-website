@@ -57,7 +57,7 @@
                       <div class="menu-title">Tài Khoản</div>
                   </a>
                   <ul class="dropdown-menu">
-                      <li> <a class="dropdown-item" href="/admin/admin"><i class="bx bx-right-arrow-alt"></i>Admin</a>
+                      <li> <a class="dropdown-item" href="/admin/admin"><i class="bx bx-right-arrow-alt"></i>Quản trị viên</a>
                       </li>
                       <li> <a class="dropdown-item" href="/admin/user"><i class="bx bx-right-arrow-alt"></i>Khách
                               hàng</a>
@@ -81,21 +81,21 @@
                   </ul>
               </li>
               <li class="nav-item dropdown">
-                <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
-                    data-bs-toggle="dropdown">
-                    <div class="parent-icon"><i class='fas fa-file-alt'></i>
-                    </div>
-                    <div class="menu-title">Tin Tức</div>
-                </a>
-                <ul class="dropdown-menu">
-                    <li> <a class="dropdown-item" href="/admin/blog"><i class="bx bx-right-arrow-alt"></i>Danh
-                            sách tin tức</a>
-                    </li>
-                    <li> <a class="dropdown-item" href="/admin/blog/create"><i class="bx bx-right-arrow-alt"></i>Thêm
-                            mới tin tức</a>
-                    </li>
-                </ul>
-            </li>
+                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                      data-bs-toggle="dropdown">
+                      <div class="parent-icon"><i class='fas fa-file-alt'></i>
+                      </div>
+                      <div class="menu-title">Tin Tức</div>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li> <a class="dropdown-item" href="/admin/blog"><i class="bx bx-right-arrow-alt"></i>Danh
+                              sách tin tức</a>
+                      </li>
+                      <li> <a class="dropdown-item" href="/admin/blog/create"><i class="bx bx-right-arrow-alt"></i>Thêm
+                              mới tin tức</a>
+                      </li>
+                  </ul>
+              </li>
               <li class="nav-item">
                   <a class="nav-link" href="/admin/message">
                       <div class="parent-icon"><i class="fas fa-comments"></i></div>

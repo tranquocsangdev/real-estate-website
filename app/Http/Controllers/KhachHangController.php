@@ -2,23 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdminNotificationEvent;
 use App\Models\KhachHang;
+use App\Models\Notification;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class KhachHangController extends Controller
 {
     public function actionRegister(Request $request)
     {
         DB::transaction(function () use ($request) {
-            KhachHang::create([
+            $khach_hang = KhachHang::create([
                 'name'      => $request->name,
                 'email'     => $request->email,
                 'phone'     => $request->phone,
                 'password'  => bcrypt($request->password),
             ]);
+
+            $notification = Notification::create([
+                'type'          => Notification::KHACH_HANG_REGISTER,
+                'tieu_de'       => $khach_hang->name,
+                'noi_dung'      => 'Vừa đăng ký tài khoản mới',
+            ]);
+
+            event(new AdminNotificationEvent($notification));
+
         });
         Toastr::success('Đăng ký thành công! Vui lòng đăng nhập để tiếp tục', 'Success');
         return redirect('/user/login');

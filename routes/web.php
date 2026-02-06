@@ -7,8 +7,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhachHangController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SubcategoryController;
@@ -99,6 +99,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewProfile']);
         Route::post('/update', [AdminController::class, 'updateProfile']);
+    });
+
+    Route::prefix('/notifications')->group(function () {
+        Route::get('/data', [NotificationController::class, 'getDataNotification']);
     });
 
     Route::prefix('/message')->group(function () {

@@ -55,6 +55,9 @@ class HomeController extends Controller
                             ->where('slug', $slug)
                             ->firstOrFail();
 
+        $blog_detail->views++;
+        $blog_detail->save();
+
         return view('Client.BlogDetail.index', compact('blog_detail'));
     }
 

@@ -1,4 +1,4 @@
-@extends('Admin.Layout.master')
+{{-- @extends('Admin.Layout.master')
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
 @section('content')
@@ -199,4 +199,4 @@
             }
         });
     </script>
-@endsection
+@endsection --}}

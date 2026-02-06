@@ -90,7 +90,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal Cập nhật danh mục con-->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -132,7 +131,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal Xóa danh mục con-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

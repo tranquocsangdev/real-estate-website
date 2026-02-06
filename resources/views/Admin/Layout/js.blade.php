@@ -22,3 +22,56 @@
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
   {!! Toastr::message() !!}
+  <script>
+      $(document).ready(function() {
+          new Vue({
+              el: '#notification-app',
+              data: {
+                  list_notifications: [],
+                  tong_thong_bao: 0,
+                  isLoading: false,
+              },
+              created() {
+                  this.loadDataNotifications();
+              },
+              mounted() {
+                  window.Echo.channel('admin-notifications')
+                      .listen('.admin.notification', (e) => {
+                          this.loadDataNotifications();
+                          toastr.info('Có thông báo mới 🔔');
+                      });
+              },
+
+              methods: {
+                  loadDataNotifications() {
+                      this.isLoading = true;
+                      axios
+                          .get('/admin/notifications/data')
+                          .then((res) => {
+                              this.list_notifications = res.data.data;
+                              this.tong_thong_bao = res.data.tong_thong_bao;
+                          })
+                          .catch((err) => {
+                              $.each(err.response.data.errors, function(k, v) {
+                                  toastr.error(v[0], 'Error');
+                              });
+                          })
+                          .finally(() => {
+                              this.isLoading = false;
+                          });
+
+                  },
+              },
+          });
+      });
+  </script>
+  <style>
+      .bg-unread {
+          background-color: #f5e6d3;
+          /* nâu nhạt */
+      }
+
+      .bg-unread:hover {
+          background-color: #ead3b5;
+      }
+  </style>
