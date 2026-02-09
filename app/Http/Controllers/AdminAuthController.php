@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Notification;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,11 @@ class AdminAuthController extends Controller
                               ->where('is_open', 1)
                               ->first();
             if ($admin) {
+                Notification::create([
+                    'type'     => Notification::ADMIN_LOGIN,
+                    'tieu_de'  => 'Đăng nhập hệ thống',
+                    'noi_dung' => 'Bạn đã đăng nhập thành công!',
+                ]);
                 Toastr::success("Bạn đã đăng nhập thành công!", 'Success!');
                 return redirect('/admin/category');
             } else {

@@ -20,4 +20,5 @@ class Notification extends Model
     const KHACH_HANG_XEM_BLOG = 2;
     const KHACH_HANG_XEM_POST = 3;
     const KHACH_HANG_XEM_CATEGORY = 4;
+    const ADMIN_LOGIN = 5;
 }

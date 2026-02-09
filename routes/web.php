@@ -114,30 +114,34 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     });
 
     // conversation: đoạn hội thoại
-    Route::prefix('/conversation')->group(function () {
-        Route::post('/data', [MessageController::class, 'getDataConversation']);
-    });
+    // Route::prefix('/conversation')->group(function () {
+    //     Route::post('/data', [MessageController::class, 'getDataConversation']);
+    // });
 });
 
 Route::get('/', [HomeController::class, 'viewHome']);
-Route::get('/all-post', [HomeController::class, 'viewAllPost']);
-
-Route::get('/user/login', [ViewClientController::class, 'viewLogin']);
-Route::post('/user/login', [KhachHangController::class, 'actionLogin']);
-
-Route::get('/user/register', [ViewClientController::class, 'viewRegister']);
-Route::post('/user/register', [KhachHangController::class, 'actionRegister']);
-
-Route::get('/user/logout', [KhachHangController::class, 'actionLogout']);
-
-Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
-Route::get('/blog/{slug}/{id}', [HomeController::class, 'viewBlogDetail']);
-
 Route::prefix('/home')->group(function () {
+    Route::get('/all-post', [HomeController::class, 'viewAllPost']);
+
+    Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
+    Route::get('/blog/{slug}/{id}', [HomeController::class, 'viewBlogDetail']);
+
     Route::prefix('/category')->group(function () {
         Route::get('/{slug}', [HomeController::class, 'categoryDetail']);
     });
 });
+
+Route::prefix('/user')->group(function () {
+    Route::get('/login', [ViewClientController::class, 'viewLogin']);
+    Route::get('/register', [ViewClientController::class, 'viewRegister']);
+});
+
+Route::prefix('/user')->group(function () {
+    Route::post('/login', [KhachHangController::class, 'actionLogin']);
+    Route::post('/register', [KhachHangController::class, 'actionRegister']);
+    Route::get('/logout', [KhachHangController::class, 'actionLogout']);
+});
+
 
 // Lấy 50 tin gần nhất (test)
 // Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
@@ -153,7 +157,3 @@ Route::prefix('/home')->group(function () {
 
 // Đánh dấu đã đọc theo cặp user
 // Route::patch('/messages/read-between/{from}/{to}', [MessageController::class, 'markBetweenAsRead'])->name('messages.readBetween');
-
-// Route::fallback(function () {
-//     return response()->view('Client.Errors.notfound', [], 404);
-// });

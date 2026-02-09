@@ -68,13 +68,13 @@
                                     <div class="card">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <a href="/blog/{{ $value->slug }}/{{ $value->id }}">
+                                                <a href="/home/blog/{{ $value->slug }}/{{ $value->id }}">
                                                     <img src="{{ $value->thumbnail }}" alt="..." class="card-img">
                                                 </a>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <a href="/blog/{{ $value->slug }}/{{ $value->id }}">
+                                                    <a href="/home/blog/{{ $value->slug }}/{{ $value->id }}">
                                                         <h5 class="card-title mb-1" title="{{ $value->title }}"
                                                             style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                                                             {{ $value->title }}
