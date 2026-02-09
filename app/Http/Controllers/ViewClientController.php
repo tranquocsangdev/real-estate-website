@@ -25,4 +25,9 @@ class ViewClientController extends Controller
         }
         return view('Client.Register.index');
     }
+
+    public function viewProfile()
+    {
+        return view('Client.User.Profile.index');
+    }
 }

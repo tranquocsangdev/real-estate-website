@@ -142,6 +142,10 @@ Route::prefix('/user')->group(function () {
     Route::get('/logout', [KhachHangController::class, 'actionLogout']);
 });
 
+Route::prefix('/user')->group(function () {
+    Route::get('/profile', [ViewClientController::class, 'viewProfile']);
+});
+
 
 // Lấy 50 tin gần nhất (test)
 // Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
