@@ -71,9 +71,8 @@
                                                 v-on:click="changeStatus(v)">Đã tắt</button>
                                         </td>
                                         <td class="text-center">
-                                            <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
+                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#updateModal">
                                                 <i class="fa-solid fa-pencil ms-1"></i>
                                             </button>
                                             <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
@@ -253,11 +252,18 @@
                         });
                 },
                 changeStatus(value) {
+                    var payload = {
+                        id: value.id,
+                    }
                     axios
-                        .post('/admin/subcategory/change', value)
+                        .post('/admin/subcategory/change', payload)
                         .then((res) => {
-                            toastr.success(res.data.message, 'Success');
-                            this.loadData();
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                value.status = value.status == 1 ? 0 : 1;
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
                         })
                         .catch((err) => {
                             $.each(err.response.data.errors, function(k, v) {

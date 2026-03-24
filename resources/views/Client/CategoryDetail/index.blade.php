@@ -53,7 +53,7 @@
                                                         VNĐ</span></span>
                                             </div>
                                             <div class="cta-actions">
-                                                <a href="/post/{{ $value->slug }}/{{ $value->id }}"
+                                                <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
                                                     class="btn btn-cta-pro btn-cta-pro--sky w-60"> Xem chi tiết
                                                 </a>
                                             </div>

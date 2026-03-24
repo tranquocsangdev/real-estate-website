@@ -225,7 +225,7 @@
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
-                                this.loadData();
+                                value.status = value.status == 1 ? 0 : 1;
                             } else {
                                 toastr.error(res.data.message, 'Error');
                             }

@@ -90,7 +90,7 @@ class SubcategoryController extends Controller
 
     public function changeStatusSubCategory(Request $request)
     {
-        $sub_category = Subcategory::find($request->id);
+        $sub_category = Subcategory::where('id', $request->id)->first();
         $sub_category->status = !$sub_category->status;
         $sub_category->save();
 

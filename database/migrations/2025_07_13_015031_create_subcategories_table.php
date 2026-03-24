@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->index();
+            $table->string('slug')->index();
             $table->string('icon')->nullable();
-            $table->integer('id_category');
-            $table->integer('status')->default(0);
+            $table->integer('id_category')->index();
+            $table->integer('status')->default(0)->index();
             $table->timestamps();
         });
     }

@@ -130,7 +130,7 @@
                                                             VNĐ</span></span>
                                                 </div>
                                                 <div class="cta-actions">
-                                                    <a href="/post/{{ $value->slug }}/{{ $value->id }}"
+                                                    <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
                                                         class="btn btn-cta-pro btn-cta-pro--sky w-60"> Xem chi tiết
                                                     </a>
                                                 </div>
@@ -155,7 +155,7 @@
             <div class="col-lg-12 text-center mb-3">
                 <div class="cta-actions ">
                     <button type="button" class="btn btn-cta-pro btn-cta-pro--emerald"
-                        onclick="window.location.href='/all-post'">Xem tất cả tin đăng
+                        onclick="window.location.href='/home/all-post'">Xem tất cả tin đăng
                     </button>
                 </div>
             </div>
@@ -203,71 +203,77 @@
         </div>
         <div class="col-lg-12">
             <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5">
+
                 <div class="col">
                     <div class="card radius-10">
                         <div class="card-body">
                             <div class="text-center">
-                                <div class="widgets-icons rounded-circle mx-auto bg-light-primary text-primary mb-3"><i
-                                        class="bx bxl-facebook-square"></i>
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-success text-success mb-3">
+                                    <i class="bx bxs-star"></i>
                                 </div>
-                                <h4 class="my-1">84K</h4>
-                                <p class="mb-0 text-secondary">Facebook Users</p>
+                                <h4 class="my-1">4.9/5</h4>
+                                <p class="mb-0 text-secondary">Đánh giá trung bình</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="card radius-10">
                         <div class="card-body">
                             <div class="text-center">
-                                <div class="widgets-icons rounded-circle mx-auto bg-light-danger text-danger mb-3"><i
-                                        class="bx bxl-twitter"></i>
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-primary text-primary mb-3">
+                                    <i class="bx bxs-user"></i>
                                 </div>
-                                <h4 class="my-1">34M</h4>
-                                <p class="mb-0 text-secondary">Twitter Followers</p>
+                                <h4 class="my-1">1,280+</h4>
+                                <p class="mb-0 text-secondary">Khách hàng đã giao dịch</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="card radius-10">
                         <div class="card-body">
                             <div class="text-center">
-                                <div class="widgets-icons rounded-circle mx-auto bg-light-info text-info mb-3"><i
-                                        class="bx bxl-linkedin-square"></i>
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-warning text-warning mb-3">
+                                    <i class="bx bxs-home"></i>
                                 </div>
-                                <h4 class="my-1">56K</h4>
-                                <p class="mb-0 text-secondary">Linkedin Followers</p>
+                                <h4 class="my-1">950+</h4>
+                                <p class="mb-0 text-secondary">Lô đất đã bán tại Hòa Phước</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="card radius-10">
                         <div class="card-body">
                             <div class="text-center">
-                                <div class="widgets-icons rounded-circle mx-auto bg-light-success text-success mb-3"><i
-                                        class="bx bxl-youtube"></i>
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-danger text-danger mb-3">
+                                    <i class="bx bxs-time-five"></i>
                                 </div>
-                                <h4 class="my-1">38M</h4>
-                                <p class="mb-0 text-secondary">YouTube Subscribers</p>
+                                <h4 class="my-1">24h</h4>
+                                <p class="mb-0 text-secondary">Hỗ trợ tư vấn nhanh chóng</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="card radius-10">
                         <div class="card-body">
                             <div class="text-center">
-                                <div class="widgets-icons rounded-circle mx-auto bg-light-warning text-warning mb-3"><i
-                                        class="bx bxl-dropbox"></i>
+                                <div class="widgets-icons rounded-circle mx-auto bg-light-info text-info mb-3">
+                                    <i class="bx bxs-shield-check"></i>
                                 </div>
-                                <h4 class="my-1">28K</h4>
-                                <p class="mb-0 text-secondary">Dropbox Users</p>
+                                <h4 class="my-1">100%</h4>
+                                <p class="mb-0 text-secondary">Pháp lý minh bạch - rõ ràng</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
