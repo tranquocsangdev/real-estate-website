@@ -21,16 +21,14 @@
                     @forelse ($ds_banner as $key => $value)
                         <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
 
-                            <img src="{{ asset($value->image) }}"
-                                class="smart-banner d-block w-100"
+                            <img src="{{ asset($value->image) }}" class="smart-banner d-block w-100"
                                 alt="Hero Banner {{ $key + 1 }}">
 
                         </div>
                     @empty
                         <div class="carousel-item active">
 
-                            <img src="/assets_client/images/banner/banner4.png"
-                                class="smart-banner d-block w-100"
+                            <img src="/assets_client/images/banner/banner4.png" class="smart-banner d-block w-100"
                                 alt="Hero Banner">
 
                         </div>
@@ -58,9 +56,7 @@
                     <div class="market-search-main">
                         <div class="market-input-wrap">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <input id="heroSearchInput" type="text"
-                                placeholder="Nhập từ khóa: dự án, quận huyện, tuyến đường...">
-                            <div id="searchSuggestionBox" class="market-suggestion-box d-none"></div>
+                            <input type="text" placeholder="Nhập từ khóa: dự án, quận huyện, tuyến đường...">
                         </div>
                         <button type="button">Tìm kiếm</button>
                     </div>
@@ -112,77 +108,28 @@
                         <div class="market-skeleton-card"></div>
                     @endfor
                 </div>
-                <div id="marketPropertyGrid" class="market-grid d-none">
-                    @forelse ($ds_post as $value)
-                        <article class="market-property-card">
-                            <div class="market-property-thumb">
-                                <img src="{{ $value->thumbnail }}" alt="{{ $value->title }}">
-                                <span class="badge hot">Hot</span>
-                                <button class="favorite"><i class="fa-regular fa-heart"></i></button>
-                            </div>
-                            <div class="market-property-body">
-                                <h3 title="{{ $value->title }}">{{ $value->title }}</h3>
-                                <div class="price">{{ number_format($value->price, 0, ',', '.') }} VNĐ</div>
-                                <div class="meta">
-                                    <span><i class="fa-solid fa-vector-square"></i> 80 m2</span>
-                                    <span><i class="fa-solid fa-bed"></i> 3 PN</span>
+                <div id="marketPropertyGrid" class="row g-3 d-none">
+                    @forelse ($ds_post->take(4) as $value)
+                        <div class="col-lg-3 col-md-6">
+                            <article class="card h-100 border-0 shadow-sm">
+                                <img src="{{ $value->thumbnail }}" class="card-img-top" alt="{{ $value->title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title" title="{{ $value->title }}">{{ $value->title }}</h5>
+                                    <p class="card-text mb-2 text-muted">{{ $value->address }}</p>
+                                    <p class="card-text fw-semibold text-danger mb-0">
+                                        {{ number_format($value->price, 0, ',', '.') }} VNĐ
+                                    </p>
                                 </div>
-                                <p class="address"><i class="fa-solid fa-location-dot"></i> {{ $value->address }}</p>
-                                <a href="/home/post/{{ $value->slug }}/{{ $value->id }}">Xem chi tiết</a>
-                            </div>
-                        </article>
+                            </article>
+                        </div>
                     @empty
-                        <div class="market-empty">Chưa có bất động sản hiển thị.</div>
+                        <div class="col-12">
+                            <div class="market-empty">Chưa có bất động sản hiển thị.</div>
+                        </div>
                     @endforelse
                 </div>
             </section>
 
-            <section class="market-section market-overview fade-up">
-                <div class="row g-3">
-                    <div class="col-lg-6">
-                        <div class="market-section-card">
-                            <div class="market-section-head mb-3">
-                                <div>
-                                    <h2>Dự án nổi bật</h2>
-                                    <p>Dự án tiềm năng với pháp lý rõ ràng, hạ tầng tốt.</p>
-                                </div>
-                            </div>
-                            <div class="market-mini-grid">
-                                <div class="market-mini-card">
-                                    <h4>Sunrise Riverside</h4>
-                                    <p>Quận 7 - Tỷ lệ hấp thụ 86%</p>
-                                </div>
-                                <div class="market-mini-card">
-                                    <h4>Vinhomes Grand Park</h4>
-                                    <p>TP. Thủ Đức - Giá từ 2.8 tỷ</p>
-                                </div>
-                                <div class="market-mini-card">
-                                    <h4>The River Thu Thiem</h4>
-                                    <p>TP. Thủ Đức - Cao cấp ven sông</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="market-section-card h-100">
-                            <div class="market-section-head mb-3">
-                                <div>
-                                    <h2>Nhà đất theo khu vực</h2>
-                                    <p>Khám phá nguồn hàng theo từng cụm thị trường.</p>
-                                </div>
-                            </div>
-                            <div class="market-area-list">
-                                <a href="#">TP.HCM (2,540)</a>
-                                <a href="#">Hà Nội (1,920)</a>
-                                <a href="#">Đà Nẵng (860)</a>
-                                <a href="#">Bình Dương (640)</a>
-                                <a href="#">Đồng Nai (520)</a>
-                                <a href="#">Long An (410)</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <section class="market-section market-news-stack fade-up">
                 <div class="row g-3">
@@ -274,49 +221,6 @@
 @section('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const suggestions = [
-                'Căn hộ Quận 7',
-                'Nhà phố Thủ Đức',
-                'Đất nền Long An',
-                'Cho thuê căn hộ Hà Nội',
-                'Dự án ven sông'
-            ];
-            const input = document.getElementById('heroSearchInput');
-            const box = document.getElementById('searchSuggestionBox');
-
-            if (input && box) {
-                input.addEventListener('input', function() {
-                    const keyword = input.value.trim().toLowerCase();
-                    if (!keyword) {
-                        box.classList.add('d-none');
-                        box.innerHTML = '';
-                        return;
-                    }
-                    const filtered = suggestions.filter(item => item.toLowerCase().includes(keyword)).slice(
-                        0, 5);
-                    if (!filtered.length) {
-                        box.classList.add('d-none');
-                        box.innerHTML = '';
-                        return;
-                    }
-                    box.innerHTML = filtered.map(item => `<button type="button">${item}</button>`).join('');
-                    box.classList.remove('d-none');
-                });
-
-                box.addEventListener('click', function(e) {
-                    if (e.target.tagName === 'BUTTON') {
-                        input.value = e.target.textContent;
-                        box.classList.add('d-none');
-                    }
-                });
-
-                document.addEventListener('click', function(e) {
-                    if (!box.contains(e.target) && e.target !== input) {
-                        box.classList.add('d-none');
-                    }
-                });
-            }
-
             const skeleton = document.getElementById('marketSkeleton');
             const propertyGrid = document.getElementById('marketPropertyGrid');
             setTimeout(function() {

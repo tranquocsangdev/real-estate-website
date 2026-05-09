@@ -57,7 +57,8 @@
                       <div class="menu-title">Tài Khoản</div>
                   </a>
                   <ul class="dropdown-menu">
-                      <li> <a class="dropdown-item" href="/admin/admin"><i class="bx bx-right-arrow-alt"></i>Quản trị viên</a>
+                      <li> <a class="dropdown-item" href="/admin/admin"><i class="bx bx-right-arrow-alt"></i>Quản trị
+                              viên</a>
                       </li>
                       <li> <a class="dropdown-item" href="/admin/user"><i class="bx bx-right-arrow-alt"></i>Khách
                               hàng</a>
