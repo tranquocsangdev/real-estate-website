@@ -30,16 +30,16 @@
                                         <td class="align-middle">@{{ v.email ?? 'Không có' }}</td>
                                         <td class="align-middle text-center">@{{ v.phone }}</td>
                                         <td class="text-center align-middle">
-                                            <button v-on:click="changeStatus(v)" class="btn btn-success text-white"
+                                            <button v-on:click="changeStatus(v)" class="btn btn-success btn-sm text-white"
                                                 v-if="v.is_active == 1">Đang
                                                 hoạt động</button>
-                                            <button v-on:click="changeStatus(v)" class="btn btn-danger text-white" v-else>Đã
+                                            <button v-on:click="changeStatus(v)" class="btn btn-danger btn-sm" v-else>Đã
                                                 khóa</button>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger text-white"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                Xóa tài khoản
+                                                <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
                                     </tr>

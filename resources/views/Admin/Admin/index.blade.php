@@ -33,20 +33,20 @@
                                             <img :src="v.avatar" alt="Avatar" class="user-img">
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button class="btn btn-success text-white" v-if="v.is_open == 1"
+                                            <button class="btn btn-success btn-sm text-white" v-if="v.is_open == 1"
                                                 v-on:click="changeStatus(v)">Đang hoạt động</button>
-                                            <button class="btn btn-danger text-white" v-else
+                                            <button class="btn btn-danger btn-sm text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã khóa</button>
                                         </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-primary" data-bs-toggle="modal"
+                                                class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#updateModal">
-                                                <i class="fa-solid fa-pencil ms-1"></i>
+                                                <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                <i class="fa-regular fa-trash-can ms-1"></i>
+                                                <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
                                     </tr>

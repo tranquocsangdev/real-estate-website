@@ -31,7 +31,7 @@
                             <tbody>
                                 <template v-for="(value, index) in list">
                                     <tr class="align-middle">
-                                        <th class="text-center">@{{ index + 1 }}</th>
+                                        <th class="text-center align-middle">@{{ index + 1 }}</th>
                                         <td class="text-nowrap">
                                             @{{ value.title }}
                                         </td>
@@ -40,17 +40,17 @@
                                         <td class="text-nowrap">@{{ value.address }}</td>
                                         <td class="text-center">@{{ value.phone }} / <a :href="value.zalo_link"
                                                 target="_blank">Zalo</a></td>
-                                        <td class="text-center">
+                                        <td class="text-center align-middle">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
-                                                class="btn btn-success" data-bs-toggle="modal" data-bs-target="#postModal">
-                                                <i class="fa-solid fa-eye ms-1"></i>
+                                                class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#postModal">
+                                                <i class="fa-solid fa-eye me-0"></i>
                                             </button>
-                                            <a :href="'/admin/post/update/' + value.id" class="btn btn-primary">
-                                                <i class="fa-solid fa-pencil ms-1"></i>
+                                            <a :href="'/admin/post/update/' + value.id" class="btn btn-info btn-sm">
+                                                <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </a>
-                                            <button v-on:click="del = Object.assign({}, value)" class="btn btn-danger"
+                                            <button v-on:click="del = Object.assign({}, value)" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                <i class="fa-regular fa-trash-can ms-1"></i>
+                                                <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
                                     </tr>

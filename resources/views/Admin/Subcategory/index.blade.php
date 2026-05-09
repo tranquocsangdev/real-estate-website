@@ -58,26 +58,26 @@
                             <tbody>
                                 <template v-for="(v, k) in list">
                                     <tr>
-                                        <th class="text-center">@{{ k + 1 }}</th>
+                                        <th class="text-center align-middle">@{{ k + 1 }}</th>
                                         <td class="align-middle">@{{ v.category_name }}</td>
                                         <td class="align-middle">@{{ v.name }}</td>
                                         <td class="text-center">
                                             <span class="fa-2x" v-html="v.icon"></span>
                                         </td>
-                                        <td class="text-center">
-                                            <button class="btn btn-success text-white" v-if="v.status == 1"
+                                        <td class="text-center align-middle">
+                                            <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"
                                                 v-on:click="changeStatus(v)">Đang mở</button>
-                                            <button class="btn btn-warning text-white" v-else
+                                            <button class="btn btn-warning btn-sm text-white" v-else
                                                 v-on:click="changeStatus(v)">Đã tắt</button>
                                         </td>
-                                        <td class="text-center">
-                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-primary"
+                                        <td class="text-center align-middle">
+                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-info btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#updateModal">
-                                                <i class="fa-solid fa-pencil ms-1"></i>
+                                                <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </button>
-                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger"
+                                            <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                <i class="fa-regular fa-trash-can ms-1"></i>
+                                                <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
                                     </tr>

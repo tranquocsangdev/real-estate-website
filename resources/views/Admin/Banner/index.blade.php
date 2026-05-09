@@ -63,23 +63,23 @@
                             <template v-for="(value, index) in list">
                                 <tr>
                                     <th class="text-center align-middle">@{{ index + 1 }}</th>
-                                    <td class="text-center">
+                                    <td class="text-center align-middle">
                                         <img :src="value.image" alt="Banner" class="img-fluid"
                                             style="width: 300px; height: 100%; object-fit: cover;">
                                     </td>
                                     <td class="text-center align-middle">
-                                        <button class="btn btn-primary">@{{ value.order }}</button>
+                                        <button class="btn btn-info btn-sm text-white">@{{ value.order }}</button>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <button class="btn btn-success text-white" v-if="value.status == 1"
+                                        <button class="btn btn-success btn-sm text-white" v-if="value.status == 1"
                                             v-on:click="changeStatus(value)">Đang hoạt động</button>
-                                        <button class="btn btn-danger text-white" v-else v-on:click="changeStatus(value)">Đã
+                                        <button class="btn btn-danger btn-sm text-white" v-else v-on:click="changeStatus(value)">Đã
                                             ẩn hiện</button>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <button class="btn btn-danger" v-on:click="del = Object.assign({}, value)"
+                                        <button class="btn btn-danger btn-sm" v-on:click="del = Object.assign({}, value)"
                                             data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                            <i class="fa-regular fa-trash-can ms-1"></i>
+                                            <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                         </button>
                                     </td>
                                 </tr>
