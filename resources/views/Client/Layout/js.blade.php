@@ -21,4 +21,32 @@
   <!-- Lightbox JS -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script>
+      (function() {
+          function syncHeaderLayout() {
+              var headerWrapper = document.querySelector('.header-wrapper');
+              if (!headerWrapper) return;
+              var headerHeight = headerWrapper.offsetHeight || 0;
+              document.documentElement.style.setProperty('--mk-header-height', headerHeight + 'px');
+          }
+
+          function syncHeaderScrollState() {
+              var headerWrapper = document.querySelector('.header-wrapper');
+              if (!headerWrapper) return;
+              if (window.scrollY > 14) {
+                  headerWrapper.classList.add('scrolled');
+              } else {
+                  headerWrapper.classList.remove('scrolled');
+              }
+          }
+
+          window.addEventListener('load', syncHeaderLayout);
+          window.addEventListener('resize', syncHeaderLayout);
+          window.addEventListener('scroll', syncHeaderScrollState);
+          document.addEventListener('DOMContentLoaded', function() {
+              syncHeaderLayout();
+              syncHeaderScrollState();
+          });
+      })();
+  </script>
   {!! Toastr::message() !!}

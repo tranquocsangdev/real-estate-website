@@ -18,9 +18,10 @@
 <!-- Bootstrap CSS -->
 <link href="/assets_client/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets_client/css/bootstrap-extended.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets_client/css/app.css" rel="stylesheet">
 <link href="/assets_client/css/icons.css" rel="stylesheet">
+<link href="/assets_client/css/marketplace-2026.css" rel="stylesheet">
 <!-- Theme Style CSS -->
 <link rel="stylesheet" href="/assets_client/css/dark-theme.css" />
 <link rel="stylesheet" href="/assets_client/css/semi-dark.css" />

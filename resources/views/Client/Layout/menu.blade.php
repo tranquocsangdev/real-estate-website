@@ -1,81 +1,85 @@
-  <div class="nav-container primary-menu">
-      <div class="mobile-topbar-header">
-          <div>
-              <img src="/assets_client/images/logo-icon.png" class="logo-icon" alt="logo icon">
-          </div>
-          <div>
-              <h4 class="logo-text">Rukada</h4>
-          </div>
-          <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
-          </div>
-      </div>
-      <nav class="navbar navbar-expand-xl w-100">
-          <ul class="navbar-nav justify-content-start flex-grow-1 gap-1">
-              <li class="nav-item">
-                  <a class="nav-link" href="/">
-                      <div class="parent-icon"><i class="fas fa-home"></i></div>
-                      <div class="menu-title">Trang chủ</div>
-                  </a>
-              </li>
-              @foreach ($ds_menu as $value)
-                  @if (count($value['subcategories']) > 0)
-                      <li class="nav-item dropdown">
-                          <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
-                              data-bs-toggle="dropdown">
+<div class="market-navbar-wrap">
+    <div class="container market-container">
+        <nav class="market-navbar d-none d-xl-flex">
+            <a href="/" class="market-nav-link active">Trang chủ</a>
+            @foreach ($ds_menu as $value)
+                @if (count($value['subcategories']) > 0)
+                    <div class="dropdown">
+                        <a href="javascript:;" class="market-nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            {{ $value['name'] }}
+                        </a>
+                        <ul class="dropdown-menu market-dropdown">
+                            @foreach ($value['subcategories'] as $subvalue)
+                                <li>
+                                    <a class="dropdown-item" href="/home/category/{{ $subvalue['sub_slug'] }}">
+                                        {{ $subvalue['sub_name'] }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            @endforeach
+            <a href="/home/all-post" class="market-nav-link">Tin mới đăng</a>
+            <a href="javascript:;" class="market-nav-link">Dự án nổi bật</a>
+            <a href="javascript:;" class="market-nav-link">Wiki BĐS</a>
+        </nav>
+    </div>
 
-                              <div class="parent-icon">
-                                  {!! $value['icon'] !!}
-                              </div>
+    <div class="offcanvas offcanvas-start market-offcanvas" tabindex="-1" id="mobileMenuCanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">{{ setting('site_name') }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a href="/" class="market-mobile-link">Trang chủ</a>
+            <div class="accordion market-mobile-accordion" id="mobileMenuAccordion">
+                @foreach ($ds_menu as $value)
+                    @if (count($value['subcategories']) > 0)
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false"
+                                    aria-controls="collapse{{ $loop->index }}">
+                                    {{ $value['name'] }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
+                                aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#mobileMenuAccordion">
+                                <div class="accordion-body">
+                                    @foreach ($value['subcategories'] as $subvalue)
+                                        <a href="/home/category/{{ $subvalue['sub_slug'] }}">{{ $subvalue['sub_name'] }}</a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            <a href="/home/all-post" class="market-mobile-link">Tin mới đăng</a>
+            <a href="javascript:;" class="market-mobile-link">Đăng tin</a>
 
-                              <div class="menu-title">{{ $value['name'] }}</div>
-                          </a>
+            <div class="market-mobile-group mt-2">
+                <p>Tài khoản</p>
+                @if ($khach_hangLogin)
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="/user/profile" class="market-mobile-auth">Tài khoản</a>
+                        <a href="/user/logout" class="market-mobile-auth alt">Đăng xuất</a>
+                    </div>
+                @else
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="/user/login" class="market-mobile-auth">Đăng nhập</a>
+                        <a href="/user/register" class="market-mobile-auth alt">Đăng ký</a>
+                    </div>
+                @endif
+            </div>
 
-                          <ul class="dropdown-menu">
-                              @foreach ($value['subcategories'] as $subvalue)
-                                  <li>
-                                      <a class="dropdown-item" href="/home/category/{{ $subvalue['sub_slug'] }}">
-                                          <i class="bx bx-right-arrow-alt"></i>
-                                          {{ $subvalue['sub_name'] }}
-                                      </a>
-                                  </li>
-                              @endforeach
-                          </ul>
-                      </li>
-                  @endif
-              @endforeach
-
-          </ul>
-          <hr class="my-2 d-xl-none w-100">
-          <div class="text-center text-muted small d-xl-none w-100 mb-1">TÀI KHOẢN</div>
-          <ul class="navbar-nav justify-content-end flex-grow-1 gap-1">
-              @if ($khach_hangLogin)
-              <li class="nav-item dropdown">
-                  <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
-                      data-bs-toggle="dropdown">
-                      <div class="parent-icon">
-                              <img src="/assets_client/images/avatars/avatar-2.png" class="rounded-circle" width="32" height="32" alt="avatar">
-                      </div>
-                      <div class="menu-title ms-2"><b>{{ $khach_hangLogin->name }}</b></div>
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/user/profile"><i class="fa-solid fa-user me-2"></i>Tài khoản</a></li>
-                      <li><a class="dropdown-item" href="/user/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
-                  </ul>
-              </li>
-              @else
-              <li class="nav-item">
-                  <a class="nav-link" href="/user/login">
-                      <div class="parent-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
-                      <div class="menu-title">Đăng nhập</div>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/user/register">
-                      <div class="parent-icon"><i class="fa-solid fa-user-plus"></i></div>
-                      <div class="menu-title">Đăng kí</div>
-                  </a>
-              </li>
-              @endif
-          </ul>
-      </nav>
-  </div>
+            <div class="market-mobile-group mt-3">
+                <p>Khác</p>
+                <div class="d-flex gap-2 mt-2">
+                    <a href="javascript:;" class="market-mobile-auth alt w-100 text-center">Wishlist</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

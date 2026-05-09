@@ -3,6 +3,7 @@
 
 <head>
     @include('Client.Layout.css')
+    @yield('css')
 </head>
 
 <body>
