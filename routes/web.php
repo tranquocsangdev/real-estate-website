@@ -142,8 +142,13 @@ Route::prefix('/user')->group(function () {
     Route::get('/logout', [KhachHangController::class, 'actionLogout']);
 });
 
-Route::prefix('/user')->group(function () {
+Route::prefix('/user')->middleware('userMiddle')->group(function () {
     Route::get('/profile', [ViewClientController::class, 'viewProfile']);
+});
+
+
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
 });
 
 

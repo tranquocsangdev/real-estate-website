@@ -20,13 +20,19 @@
                 <div class="carousel-inner">
                     @forelse ($ds_banner as $key => $value)
                         <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                            <img src="{{ asset($value->image) }}" class="d-block w-100 img-fluid"
+
+                            <img src="{{ asset($value->image) }}"
+                                class="smart-banner d-block w-100"
                                 alt="Hero Banner {{ $key + 1 }}">
+
                         </div>
                     @empty
                         <div class="carousel-item active">
-                            <img src="/assets_client/images/banner/banner4.png" class="d-block w-100 img-fluid"
+
+                            <img src="/assets_client/images/banner/banner4.png"
+                                class="smart-banner d-block w-100"
                                 alt="Hero Banner">
+
                         </div>
                     @endforelse
                 </div>
@@ -334,4 +340,32 @@
 
         });
     </script>
+    <style>
+        .banner-wrapper {
+            width: 100%;
+            height: 60vh;
+
+            background: #111;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .banner-img {
+            max-width: 100%;
+            max-height: 100%;
+
+            object-fit: contain;
+        }
+
+        @media(max-width:768px) {
+            .banner-wrapper {
+                height: 35vh;
+            }
+        }
+    </style>
 @endsection
