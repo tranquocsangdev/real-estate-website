@@ -17,25 +17,6 @@
                             <label class="form-label">Tiêu đề tin tức ( <span class="text-danger">*</span> )</label>
                             <input type="text" class="form-control" v-model="create.title" placeholder="VD: Pháp lý khi làm sổ đỏ tại Đà Nẵng - 2026">
                         </div>
-                        <div class="col-lg-6 mb-3">
-                            <label class="form-label">Danh mục cha ( <span class="text-danger">*</span> )</label>
-                            <select class="form-select" v-model="create.id_category">
-                                <option value="" disabled>-- Vui lòng chọn danh mục cha --</option>
-                                <template v-for='(value, index) in list_category'>
-                                    <option :value="value.id">@{{ value.name }}</option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <label class="form-label">Danh mục con ( <span class="text-danger">*</span> )</label>
-                            <select class="form-select" v-model="create.id_subcategory" :disabled="!create.id_category">
-                                <option value="" disabled>-- Vui lòng chọn danh mục con --</option>
-                                <template v-for='(value, index) in list_subcategory'>
-                                    <option :value="value.id">@{{ value.name }}</option>
-                                </template>
-                            </select>
-                        </div>
-
                         <div class="col-lg-9 mb-3">
                             <label class="form-label">Ảnh đại diện ( <span class="text-danger">*</span> )</label>
                             <input type="file" class="form-control mb-1" v-on:change="handleThumbnail($event)"
@@ -85,13 +66,9 @@
         new Vue({
             el: '#app',
             data: {
-                list_category: [],
-                list_subcategory: [],
                 create: {
                     title: '',
                     content: '',
-                    id_category: '',
-                    id_subcategory: '',
                 },
                 preview: '',
             },
@@ -115,24 +92,6 @@
                 });
             },
 
-            created() {
-                this.loadDataCategory();
-
-            },
-            watch: {
-                'create.id_category'(newVal) {
-                    this.create.id_subcategory = '';
-                    this.list_subcategory = [];
-                    if (!newVal) return;
-                    axios
-                        .post('/admin/subcategory/data-post', {
-                            id_category: newVal
-                        })
-                        .then((res) => {
-                            this.list_subcategory = res.data.data;
-                        });
-                }
-            },
             methods: {
                 handleThumbnail(e) {
                     toastr.info('Đang tải lên ảnh đại diện...', 'Info');
@@ -146,20 +105,11 @@
                         }
                     }, 1000);
                 },
-                loadDataCategory() {
-                    axios
-                        .get('/admin/category/data-open')
-                        .then((res) => {
-                            this.list_category = res.data.data;
-                        });
-                },
                 createBlog() {
                     this.create.content = tinymce.get('ckeditor-content').getContent();
                     var formData = new FormData();
                     formData.append('title', this.create.title);
                     formData.append('content', this.create.content);
-                    formData.append('id_category', this.create.id_category);
-                    formData.append('id_subcategory', this.create.id_subcategory);
                     formData.append('thumbnail', this.$refs.file.files[0]);
                     axios
                         .post('/admin/blog/create', formData)
@@ -169,8 +119,6 @@
                                 this.create = {
                                     title: '',
                                     content: '',
-                                    id_category: '',
-                                    id_subcategory: '',
                                 };
                                 this.preview = '';
                                 this.$refs.file.value = '';
@@ -180,12 +128,10 @@
                             } else {
                                 toastr.error(res.data.message, 'Error');
                                 this.create = {
-                                        title: '',
-                                        content: '',
-                                        id_category: '',
-                                        id_subcategory: '',
-                                    },
-                                    this.preview = '';
+                                    title: '',
+                                    content: '',
+                                };
+                                this.preview = '';
                                 this.$refs.file.value = '';
                             }
                         });

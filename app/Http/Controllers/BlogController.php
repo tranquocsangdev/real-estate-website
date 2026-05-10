@@ -20,12 +20,10 @@ class BlogController extends Controller
 
     public function getDataBlog()
     {
-        $data = Blog::join('categories', 'blogs.id_category', 'categories.id')
-                    ->join('subcategories', 'blogs.id_subcategory', 'subcategories.id')
-                    ->select('blogs.*', 'categories.name as category_name', 'subcategories.name as subcategory_name')
-                    ->orderByDesc('blogs.created_at')
-                    ->where('blogs.status', 1)
-                    ->get();
+        $data = Blog::query()
+            ->where('status', 1)
+            ->orderByDesc('created_at')
+            ->get();
 
         return response()->json([
             'data' => $data,
@@ -48,12 +46,10 @@ class BlogController extends Controller
         try {
             DB::transaction(function () use ($fileName, $request) {
                 Blog::create([
-                    'title'             => $request->title,
-                    'slug'              => Str::slug($request->title),
-                    'content'           => $request->content,
-                    'thumbnail'         => '/uploads/Blog/' . $fileName,
-                    'id_category'       => $request->id_category,
-                    'id_subcategory'    => $request->id_subcategory,
+                    'title'     => $request->title,
+                    'slug'      => Str::slug($request->title),
+                    'content'   => $request->content,
+                    'thumbnail' => '/uploads/Blog/' . $fileName,
                 ]);
             });
 

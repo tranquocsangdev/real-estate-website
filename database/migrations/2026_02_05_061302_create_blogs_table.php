@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content');
             $table->string('thumbnail')->nullable();
-            $table->integer('id_category');
-            $table->integer('id_subcategory');
             $table->integer('views')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();

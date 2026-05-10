@@ -17,7 +17,7 @@
                                 <tr class="text-center text-uppercase">
                                     <th>#</th>
                                     <th>Tiêu đề</th>
-                                    <th>Danh mục cha - Danh mục con</th>
+                                    <th>Slug</th>
                                     <th>Ảnh đại diện</th>
                                     <th>Nội dung</th>
                                     <th>Ngày tạo</th>
@@ -31,7 +31,7 @@
                                     <tr class="align-middle">
                                         <th class="text-center">@{{ index + 1 }}</th>
                                         <td>@{{ value.title }}</td>
-                                        <td>@{{ value.category_name }} - @{{ value.subcategory_name }}</td>
+                                        <td class="small text-break">@{{ value.slug }}</td>
                                         <td>
                                             <img :src="value.thumbnail" alt="Ảnh đại diện" class="img-fluid"
                                                 style="width: 100%; height: 100%; object-fit: cover;">

@@ -1,6 +1,6 @@
 @extends('Client.Layout.master')
 
-@section('title', 'Danh mục ' . $category->name)
+@section('title', 'Tin tức bất động sản ')
 
 @section('content')
     <div class="market-home">
@@ -12,30 +12,19 @@
                         <li class="breadcrumb-item">
                             <a href="/" class="text-decoration-none">Trang chủ</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Tin tức
+                        </li>
                     </ol>
                 </nav>
-                <div class="market-section-head align-items-start flex-column flex-md-row">
-                    <div>
-                        <h2 class="mb-2">{{ $category->name }}</h2>
-                        <p class="mb-0">
-                            @if ($list_posts->count() > 0)
-                                {{ $list_posts->count() }} tin đăng bất động sản trong danh mục.
-                            @else
-                                Không có tin đăng trong danh mục này.
-                            @endif
-                        </p>
-                    </div>
-                    <a href="/home/all-post" class="mt-3 mt-md-0 align-self-start">Xem tất cả tin</a>
-                </div>
             </section>
 
-            @if ($list_posts->count() > 0)
+            @if ($ds_blog->count() > 0)
                 <section class="market-section market-featured fade-up">
                     <div class="row g-3">
-                        @foreach ($list_posts as $value)
+                        @foreach ($ds_blog as $value)
                             <div class="col-lg-3 col-md-6">
-                                <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
+                                <a href="/home/blog/{{ $value->slug }}/{{ $value->id }}"
                                     class="d-block h-100 text-decoration-none text-reset">
                                     <div class="market-property-card h-100">
                                         <div class="market-property-thumb">
@@ -44,8 +33,6 @@
                                         </div>
                                         <div class="market-property-body">
                                             <h3 title="{{ $value->title }}">{{ $value->title }}</h3>
-                                            <p class="address mb-0"><i class="fa-solid fa-location-dot me-1"></i>{{ $value->address }}</p>
-                                            <p class="price mb-0">{{ number_format($value->price, 0, ',', '.') }} VNĐ</p>
                                         </div>
                                     </div>
                                 </a>
@@ -57,7 +44,7 @@
                 <section class="market-section fade-up">
                     <div class="market-section-card text-center py-5 px-3">
                         <i class="fa-solid fa-folder-open fs-1 text-muted mb-3 d-block opacity-50"></i>
-                        <p class="text-muted mb-3 mb-md-4">Chưa có tin đăng trong danh mục này.</p>
+                        <p class="text-muted mb-3 mb-md-4">Hiện tại chưa có tin tức nào .</p>
                         <a href="/" class="market-category-back-home d-inline-block">Về trang chủ</a>
                     </div>
                 </section>

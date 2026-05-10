@@ -1,6 +1,7 @@
 <div class="market-navbar-wrap">
     @php
         $isHomeActive = request()->path() === '/' || request()->path() === '';
+        $isBlogActive = request()->path() === '/home/blog' || request()->path() === '/home/blog/*';
     @endphp
 
     <div class="container market-container">
@@ -40,6 +41,11 @@
                     </div>
                 @endif
             @endforeach
+            <div class="market-nav-group">
+                <a href="/home/blog" class="market-nav-link {{ $isBlogActive ? 'active' : '' }}">
+                    <span>Tin tức</span>
+                </a>
+            </div>
         </nav>
     </div>
 
@@ -89,6 +95,12 @@
                         </div>
                     @endif
                 @endforeach
+                <div class="accordion-item">
+                    <a href="/home/blog"
+                        class="accordion-button market-mobile-accordion-link {{ $isBlogActive ? 'active' : 'collapsed' }}">
+                        Tin tức
+                    </a>
+                </div>
             </div>
             <div class="market-mobile-group mt-2">
                 <p>Tài khoản</p>

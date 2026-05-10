@@ -123,8 +123,10 @@ Route::get('/', [HomeController::class, 'viewHome']);
 Route::prefix('/home')->group(function () {
     Route::get('/all-post', [HomeController::class, 'viewAllPost']);
 
-    Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
+    Route::get('/blog', [HomeController::class, 'viewBlog']);
     Route::get('/blog/{slug}/{id}', [HomeController::class, 'viewBlogDetail']);
+
+    Route::get('/post/{slug}/{id}', [HomeController::class, 'viewPostDetail']);
 
     Route::prefix('/category')->group(function () {
         Route::get('/{slug}', [HomeController::class, 'categoryDetail']);

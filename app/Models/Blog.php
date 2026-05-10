@@ -13,9 +13,10 @@ class Blog extends Model
         'slug',
         'content',
         'thumbnail',
-        'id_category',
-        'id_subcategory',
         'views',
         'status',
     ];
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
 }

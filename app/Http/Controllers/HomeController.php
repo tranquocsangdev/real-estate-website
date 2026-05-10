@@ -42,11 +42,14 @@ class HomeController extends Controller
                                 ->firstOrFail();
         $list_posts = Post::where('id_subcategory', $category->id)
                             ->get();
-        $list_blogs = Blog::where('id_subcategory', $category->id)
-                            ->where('status', 1)
-                            ->get();
 
-        return view('Client.CategoryDetail.index', compact('category', 'list_posts', 'list_blogs'));
+        return view('Client.CategoryDetail.index', compact('category', 'list_posts'));
+    }
+
+    public function viewBlog()
+    {
+        $ds_blog = Blog::orderByDESC('id')->get();
+        return view('Client.Blog.index', compact('ds_blog'));
     }
 
     public function viewBlogDetail($slug, $id)
