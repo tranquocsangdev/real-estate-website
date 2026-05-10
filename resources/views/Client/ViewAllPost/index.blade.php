@@ -1,76 +1,100 @@
 @extends('Client.Layout.master')
+
 @section('title', 'Tất cả tin đăng')
+
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <h5 class="mb-2">Tất cả tin đăng</h5>
-            <div class="card">
-                <div class="card-body">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                @foreach ($ds_post as $key => $value)
-                                    <div class="col-lg-3 mb-2">
-                                        <div class="card border-end property-card-bs h-100 d-flex flex-column">
-                                            <div class="position-relative text-center">
-                                                <img src="{{ $value->thumbnail }}" class="card-img-top object-fit-cover p-1"
-                                                    style="width: 100%; height: 200px;" alt="Bất động sản">
+    <div class="market-home">
+        <div class="container market-container pt-4 pb-5">
 
-                                                <div
-                                                    style="
-                                                        position:absolute;
-                                                        top:0;
-                                                        left:0;
-                                                        padding:6px 14px;
-                                                        font-size:12px;
-                                                        font-weight:700;
-                                                        color:#fff;
-                                                        background:#dc3545;
-                                                        border-bottom-right-radius:12px;
-                                                    ">
-                                                    BÁN
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title mb-1" title="{{ $value->title }}"
-                                                    style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">
-                                                    {{ $value->title }}
-                                                </h5>
-
-
-                                                <p class="text-muted small mb-2">
-                                                    <b> <i class="fas fa-map-marker-alt me-1"></i> Địa điểm:</b>
-                                                    {{ $value->address }}
-                                                </p>
-
-                                                <div class="d-flex gap-3 small text-muted mb-3">
-                                                    <span><b><i class="fas fa-money-bill me-1"></i> Giá bán:</b>
-                                                        <span
-                                                            class="text-danger fw-bold">{{ number_format($value->price, 0, ',', '.') }}
-                                                            VNĐ</span></span>
-                                                </div>
-                                                <div class="cta-actions">
-                                                    <a href="/post/{{ $value->slug }}/{{ $value->id }}"
-                                                        class="btn btn-cta-pro btn-cta-pro--sky w-60"> Xem chi tiết
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                @if ($ds_post->isEmpty())
-                                    <div class="col-lg-12 text-center py-5 ">
-                                        <h5 class="text-center text-muted">Không có bất động sản nào</h5>
-                                        <div class="mt-3">
-                                            <i class="bx bx-search-alt-2 fs-1"></i>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+            <section class="fade-up market-section mb-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 small">
+                        <li class="breadcrumb-item">
+                            <a href="/" class="text-decoration-none">Trang chủ</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Tất cả tin đăng</li>
+                    </ol>
+                </nav>
+                <div class="market-section-head align-items-start flex-column flex-md-row">
+                    <div>
+                        <h2 class="mb-2">Tất cả tin đăng</h2>
+                        <p class="mb-0">
+                            @if ($ds_post->count() > 0)
+                                {{ $ds_post->count() }} tin bất động sản đang được hiển thị.
+                            @else
+                                Hiện chưa có tin đăng nào.
+                            @endif
+                        </p>
                     </div>
+                    <a href="/" class="mt-3 mt-md-0 align-self-start">Về trang chủ</a>
                 </div>
-            </div>
+            </section>
+
+            @if ($ds_post->count() > 0)
+                <section class="market-section market-featured fade-up">
+                    <div class="row g-3">
+                        @foreach ($ds_post as $value)
+                            <div class="col-lg-3 col-md-6">
+                                <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
+                                    class="d-block h-100 text-decoration-none text-reset">
+                                    <div class="market-property-card h-100">
+                                        <div class="market-property-thumb">
+                                            <span class="badge">Bán</span>
+                                            <img src="{{ $value->thumbnail }}" alt="{{ $value->title }}">
+                                        </div>
+                                        <div class="market-property-body">
+                                            <h3 title="{{ $value->title }}">{{ $value->title }}</h3>
+                                            <p class="address mb-0"><i class="fa-solid fa-location-dot me-1"></i>{{ $value->address }}</p>
+                                            <p class="price mb-0">{{ number_format($value->price, 0, ',', '.') }} VNĐ</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            @else
+                <section class="market-section fade-up">
+                    <div class="market-section-card text-center py-5 px-3">
+                        <i class="fa-solid fa-folder-open fs-1 text-muted mb-3 d-block opacity-50"></i>
+                        <p class="text-muted mb-3 mb-md-4">Chưa có tin đăng bất động sản.</p>
+                        <a href="/" class="market-viewall-back-home d-inline-block">Về trang chủ</a>
+                    </div>
+                </section>
+            @endif
+
         </div>
     </div>
+@endsection
+
+@section('css')
+    <style>
+        .market-viewall-back-home {
+            color: var(--mk-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .market-viewall-back-home:hover {
+            opacity: 0.88;
+        }
+    </style>
+@endsection
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, {
+                threshold: 0.12
+            });
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
 @endsection

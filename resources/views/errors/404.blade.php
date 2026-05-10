@@ -183,7 +183,7 @@
         <h2 class="error-title">Trang không tồn tại</h2>
         <p class="error-desc">
             Liên kết bạn truy cập có thể đã bị đổi hoặc xóa. Bạn sẽ được tự động chuyển về trang chủ sau
-            <strong id="countNum">8</strong> giây.
+            <strong id="countNum">5</strong> giây.
         </p>
 
         <div class="error-actions">
@@ -191,12 +191,12 @@
             <a href="javascript:history.back()" class="back-btn">Quay lại trang trước</a>
         </div>
 
-        <p class="countdown">Tự động chuyển hướng sau <strong id="countNumFooter">8</strong> giây...</p>
+        <p class="countdown">Tự động chuyển hướng sau <strong id="countNumFooter">5</strong> giây...</p>
     </main>
 
     <script>
         (function() {
-            let seconds = 8;
+            let seconds = 5;
             const counterTop = document.getElementById('countNum');
             const counterBottom = document.getElementById('countNumFooter');
 

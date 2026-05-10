@@ -111,16 +111,18 @@
                 <div id="marketPropertyGrid" class="row g-3 d-none">
                     @forelse ($ds_post->take(4) as $value)
                         <div class="col-lg-3 col-md-6">
-                            <article class="card h-100 border-0 shadow-sm">
-                                <img src="{{ $value->thumbnail }}" class="card-img-top" alt="{{ $value->title }}">
-                                <div class="card-body">
-                                    <h5 class="card-title" title="{{ $value->title }}">{{ $value->title }}</h5>
-                                    <p class="card-text mb-2 text-muted">{{ $value->address }}</p>
-                                    <p class="card-text fw-semibold text-danger mb-0">
-                                        {{ number_format($value->price, 0, ',', '.') }} VNĐ
-                                    </p>
-                                </div>
-                            </article>
+                            <a href="/home/post/{{ $value->slug }}/{{ $value->id }}">
+                                <article class="card h-100 border-0 shadow-sm">
+                                    <img src="{{ $value->thumbnail }}" class="card-img-top" alt="{{ $value->title }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title" title="{{ $value->title }}">{{ $value->title }}</h5>
+                                        <p class="card-text mb-2 text-muted">{{ $value->address }}</p>
+                                        <p class="card-text fw-semibold text-danger mb-0">
+                                            {{ number_format($value->price, 0, ',', '.') }} VNĐ
+                                        </p>
+                                    </div>
+                                </article>
+                            </a>
                         </div>
                     @empty
                         <div class="col-12">
