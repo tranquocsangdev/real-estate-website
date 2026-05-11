@@ -31,15 +31,5 @@ class Post extends Model
         'map_link',
         'images',
     ];
-
-    public function tinhThanh(): BelongsTo
-    {
-        return $this->belongsTo(TinhThanh::class, 'id_tinh_thanh');
-    }
-
-    public function xaPhuong(): BelongsTo
-    {
-        return $this->belongsTo(XaPhuong::class, 'id_xa_phuong');
-    }
 }
 

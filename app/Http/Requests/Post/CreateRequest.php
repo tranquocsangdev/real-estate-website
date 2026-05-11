@@ -41,7 +41,7 @@ class CreateRequest extends FormRequest
                     $code = TinhThanh::query()
                         ->whereKey((int) $this->input('id_tinh_thanh'))
                         ->value('code');
-                    $query->where('id_thuoc_tinh_thanh', $code);
+                    $query->where('id_code_tinh_thanh', $code);
                 }),
             ],
             'map_link'       => 'required|url',
@@ -49,13 +49,8 @@ class CreateRequest extends FormRequest
             'zalo_link'      => 'required|url',
             'thumbnail'      => 'required|string',
             'content'        => 'required|min:10',
-            'id_client'      => 'required',
         ];
     }
-
-    /**
-     * Thông báo lỗi tuỳ chỉnh.
-     */
     public function messages()
     {
         return [
@@ -92,7 +87,6 @@ class CreateRequest extends FormRequest
             'thumbnail'      => 'Ảnh đại diện',
             'images'         => 'Ảnh mô tả chi tiết',
             'content'        => 'Nội dung chi tiết',
-            'id_client'      => 'Người đăng',
         ];
     }
 }

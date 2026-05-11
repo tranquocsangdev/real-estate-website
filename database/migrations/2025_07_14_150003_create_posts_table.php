@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->integer('id_client');
+            $table->integer('id_client')->nullable();
             $table->integer('id_category')->nullable()->comment('Danh mục cha');
             $table->integer('id_subcategory')->nullable()->comment('Danh mục con');
             $table->integer('id_tinh_thanh')->nullable()->comment('Tỉnh/Thành phố');

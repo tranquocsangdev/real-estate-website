@@ -3,7 +3,6 @@
 @section('title', 'Cập nhật bài đăng')
 
 @section('content')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -107,17 +106,13 @@
                                 v-model="update.zalo_link">
                         </div>
 
-                        <div class="col-lg-12 mb-3" v-if="contactSuggestions.length">
+                        <div class="col-lg-12 mb-3">
                             <label class="form-label mb-1">Gợi ý từ bài đã đăng</label>
                             <div class="text-muted small mb-2">
                                 Chọn số đã dùng trước đây để điền nhanh SĐT và Zalo, hoặc nhập số mới ở trên.
                             </div>
                             <div class="d-flex flex-wrap gap-2">
-                                <button type="button" class="btn btn-outline-primary btn-sm"
-                                    v-for="(s, idx) in contactSuggestions" :key="idx"
-                                    v-on:click="applyContactSuggestion(s)">
-                                    @{{ s.phone }}
-                                    <span class="badge bg-secondary ms-1" v-if="s.posts_count > 1">@{{ s.posts_count }} bài</span>
+                                <button type="button" class="btn btn-outline-primary btn-sm"> Chưa có nha cu
                                 </button>
                             </div>
                         </div>
@@ -202,19 +197,20 @@
                 list_category: [],
                 list_subcategory: [],
                 list_tinh_thanh: [],
-                contactSuggestions: [],
                 preview: '',
                 priceFormatted: '',
                 is_loading_update: false,
-                _tsTinh: null,
-                _tsXa: null,
+            },
+            mounted() {
+                this.loadTinhThanhForLocation().then(() => {
+                    this.$nextTick(() => this.initTomLocationSelects());
+                });
             },
             beforeDestroy() {
                 this.destroyTomLocationSelects();
             },
             created() {
-                this.loadDataCategory();
-                this.loadContactSuggestions();
+                this.loadCategories();
                 this.loadPost();
             },
             methods: {
@@ -240,97 +236,91 @@
                     this.priceFormatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                     this.update.price = raw ? Number(raw) : 0;
                 },
-                loadPost() {
-                    axios
-                        .post('/admin/post/detail', {
+                async loadPost() {
+                    try {
+                        const res = await axios.post('/admin/post/detail', {
                             id: this.postId
-                        })
-                        .then((res) => {
-                            if (!res.data.status) {
-                                toastr.error(res.data.message || 'Không tìm thấy bài viết.', 'Error');
-                                setTimeout(() => {
-                                    window.location.href = '/admin/post';
-                                }, 1500);
-                                return;
-                            }
+                        });
+                        const post = res.data.data;
+                        this.update = {
+                            ...post,
+                            images: post.images || []
+                        };
+                        this.preview = post.thumbnail || '';
+                        this.priceFormatted = this.formatNumberWithDots(post.price);
+                        this.loaded = true;
+                        if (post.id_category) {
+                            this.loadSubCategories(post.id_category);
+                        }
+                        await this.syncSelectedLocationFromUpdate();
+                        this.$nextTick(() => {
+                            this.initTinyMCE();
+                        });
 
-                            const post = res.data.data;
-                            this.update = Object.assign({}, post);
-                            if (!Array.isArray(this.update.images)) {
-                                this.update.images = typeof this.update.images === 'string' ?
-                                    (JSON.parse(this.update.images || '[]') || []) : [];
-                            }
-                            this.preview = this.update.thumbnail || '';
-                            this.priceFormatted = this.formatNumberWithDots(this.update.price);
-                            this.update.id_tinh_thanh = this.update.id_tinh_thanh ?
-                                parseInt(this.update.id_tinh_thanh, 10) : '';
-                            this.update.id_xa_phuong = this.update.id_xa_phuong ?
-                                parseInt(this.update.id_xa_phuong, 10) : '';
-                            this.loaded = true;
+                    } catch (e) {
+                        toastr.error('Không tải được bài viết');
+                    }
+                },
+                initTinyMCE() {
 
-                            if (this.update.id_category) {
-                                axios
-                                    .post('/admin/subcategory/data-post', {
-                                        id_category: this.update.id_category
-                                    })
-                                    .then((r) => {
-                                        this.list_subcategory = r.data.data || [];
-                                    });
-                            }
+                    if (typeof tinymce === 'undefined') return;
 
-                            this.$nextTick(async () => {
-                                if (typeof tinymce !== 'undefined') {
-                                    if (!tinymce.get('ckeditor-content')) {
-                                        tinymce.init({
-                                            selector: '#ckeditor-content',
-                                            height: 450,
-                                            menubar: true,
-                                            plugins: [
-                                                "advlist autolink lists link image charmap preview anchor",
-                                                "searchreplace visualblocks code fullscreen",
-                                                "insertdatetime media table paste help wordcount"
-                                            ],
-                                            toolbar: "undo redo | bold italic underline | \
-                                                    fontsizeselect formatselect | \
-                                                    alignleft aligncenter alignright alignjustify | \
-                                                    bullist numlist outdent indent | \
-                                                    forecolor backcolor | link image media | \
-                                                    removeformat | help",
-                                            content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
-                                        });
-                                        tinymce.get('ckeditor-content').setContent(this.update
-                                            .content || '');
-                                    } else {
-                                        tinymce.get('ckeditor-content').setContent(this.update
-                                            .content || '');
-                                    }
-                                }
-                                await this.initTomLocationAfterLoad();
+                    if (tinymce.get('ckeditor-content')) {
+
+                        tinymce.get('ckeditor-content')
+                            .setContent(this.update.content || '');
+
+                        return;
+                    }
+
+                    tinymce.init({
+                        selector: '#ckeditor-content',
+
+                        height: 450,
+
+                        menubar: true,
+
+                        plugins: [
+                            "advlist autolink lists link image charmap preview anchor",
+                            "searchreplace visualblocks code fullscreen",
+                            "insertdatetime media table paste help wordcount"
+                        ],
+
+                        toolbar: `
+                        undo redo |
+                        bold italic underline |
+                        fontsizeselect formatselect |
+                        alignleft aligncenter alignright alignjustify |
+                        bullist numlist outdent indent |
+                        forecolor backcolor |
+                        link image media |
+                        removeformat |
+                        help
+                        `,
+
+                        content_style: `
+                            body {
+                                font-family: Arial;
+                                font-size: 14px;
+                            }
+                        `,
+
+                        setup: (editor) => {
+                            editor.on('change', () => {
+                                this.update.content = editor.getContent();
                             });
-                        })
-                        .catch(() => {
-                            toastr.error('Không tải được dữ liệu bài viết.', 'Error');
-                            setTimeout(() => {
-                                window.location.href = '/admin/post';
-                            }, 1500);
-                        });
+                        }
+                    });
                 },
-                loadDataCategory() {
-                    axios
-                        .get('/admin/category/data-open')
-                        .then((res) => {
-                            this.list_category = res.data.data || [];
-                        });
+                async loadCategories() {
+                    const res = await axios.get('/admin/category/data-open');
+                    this.list_category = res.data.data;
                 },
-                loadContactSuggestions() {
-                    axios
-                        .get('/admin/post/contact-suggestions')
-                        .then((res) => {
-                            if (res.data.status) {
-                                this.contactSuggestions = res.data.data || [];
-                            }
-                        })
-                        .catch(() => {});
+                async loadSubCategories(id_category) {
+                    const res = await axios.post('/admin/subcategory/data-post', {
+                        id_category
+                    });
+                    this.list_subcategory = res.data.data;
                 },
                 loadTinhThanhForLocation() {
                     return axios
@@ -349,29 +339,10 @@
                         this._tsXa = null;
                     }
                 },
-                async refreshTomXaOptionsUpdate() {
-                    if (!this._tsXa) return;
-                    this._tsXa.clear(true);
-                    this._tsXa.clearOptions();
-                    if (!this.update.id_tinh_thanh) return;
-                    const res = await axios.get('/admin/dia-phan/xa-phuong', {
-                        params: {
-                            id_tinh_thanh: this.update.id_tinh_thanh
-                        },
-                    });
-                    (res.data.data || []).forEach((r) => this._tsXa.addOption({
-                        id: String(r.id),
-                        name: r.name,
-                    }));
-                    this._tsXa.refreshOptions(false);
-                },
-                async initTomLocationAfterLoad() {
+                initTomLocationSelects() {
                     if (typeof TomSelect === 'undefined') return;
-                    await this.loadTinhThanhForLocation();
-                    await this.$nextTick();
-                    this.destroyTomLocationSelects();
-                    await this.$nextTick();
                     const self = this;
+                    this.destroyTomLocationSelects();
                     const tinhOpts = (this.list_tinh_thanh || []).map((t) => ({
                         id: String(t.id),
                         name: t.name,
@@ -387,7 +358,7 @@
                         onChange(val) {
                             self.update.id_tinh_thanh = val ? parseInt(val, 10) : '';
                             self.update.id_xa_phuong = '';
-                            self.refreshTomXaOptionsUpdate();
+                            self.refreshTomXaOptions();
                         },
                     });
                     this._tsXa = new TomSelect(this.$refs.selectXa, {
@@ -402,25 +373,32 @@
                             self.update.id_xa_phuong = val ? parseInt(val, 10) : '';
                         },
                     });
-                    if (this.update.id_tinh_thanh) {
-                        this._tsTinh.setValue(String(this.update.id_tinh_thanh), true);
-                        await this.refreshTomXaOptionsUpdate();
-                        if (this.update.id_xa_phuong) {
-                            this._tsXa.setValue(String(this.update.id_xa_phuong), true);
-                        }
+                    this.syncSelectedLocationFromUpdate();
+                },
+                async refreshTomXaOptions(selectedXaId = '') {
+                    if (!this._tsXa) return;
+                    this._tsXa.clear(true);
+                    this._tsXa.clearOptions();
+                    if (!this.update.id_tinh_thanh) return;
+                    const res = await axios.get('/admin/dia-phan/xa-phuong', {
+                        params: {
+                            id_tinh_thanh: this.update.id_tinh_thanh
+                        },
+                    });
+                    const rows = res.data.data || [];
+                    rows.forEach((r) => this._tsXa.addOption({
+                        id: String(r.id),
+                        name: r.name,
+                    }));
+                    this._tsXa.refreshOptions(false);
+                    if (selectedXaId) {
+                        this._tsXa.setValue(String(selectedXaId), true);
                     }
                 },
-                zaloLinkFromPhone(phone) {
-                    const digits = String(phone || '').replace(/\D/g, '');
-                    if (digits.length < 9) return '';
-                    return 'https://zalo.me/' + digits;
-                },
-                applyContactSuggestion(s) {
-                    this.update.phone = s.phone || '';
-                    this.update.zalo_link = (s.zalo_link && String(s.zalo_link).trim())
-                        ? String(s.zalo_link).trim()
-                        : this.zaloLinkFromPhone(s.phone);
-                    toastr.info('Đã áp dụng số điện thoại & Zalo từ gợi ý.', 'Gợi ý');
+                async syncSelectedLocationFromUpdate() {
+                    if (!this.update || !this.update.id_tinh_thanh || !this._tsTinh) return;
+                    this._tsTinh.setValue(String(this.update.id_tinh_thanh), true);
+                    await this.refreshTomXaOptions(this.update.id_xa_phuong || '');
                 },
                 loadDataSubCategoryPost(e) {
                     const id_category = e.target.value;
@@ -429,7 +407,7 @@
                             id_category: id_category
                         })
                         .then((res) => {
-                            this.list_subcategory = res.data.data || [];
+                            this.list_subcategory = res.data.data;
                         });
                 },
                 handleThumbnail(e) {
@@ -444,10 +422,9 @@
                             toastr.success(res.data.message, 'Success');
                         })
                         .catch((err) => {
-                            if (err.response && err.response.data && err.response.data.errors) {
-                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr
-                                    .error(m, 'Error')));
-                            }
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         });
                 },
                 handleImages(e) {
@@ -462,10 +439,9 @@
                                 toastr.success(res.data.message, 'Success');
                             })
                             .catch((err) => {
-                                if (err.response && err.response.data && err.response.data.errors) {
-                                    Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m =>
-                                        toastr.error(m, 'Error')));
-                                }
+                                $.each(err.response.data.errors, function(k, v) {
+                                    toastr.error(v[0], 'Error');
+                                });
                             });
                     }
                 },
@@ -486,20 +462,18 @@
                                     window.location.href = '/admin/post';
                                 }, 1000);
                             } else {
-                                toastr.error(res.data.message || 'Có lỗi xảy ra.', 'Error');
+                                toastr.error(res.data.message, 'Error');
                             }
                         })
                         .catch((err) => {
-                            if (err.response && err.response.data && err.response.data.errors) {
-                                Object.values(err.response.data.errors).forEach(msgs => msgs.forEach(m => toastr
-                                    .error(m, 'Error')));
-                            } else {
-                                toastr.error('Có lỗi xảy ra.', 'Error');
-                            }
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
                         })
                         .finally(() => {
-                            this.is_loading_update = false;
-
+                            setTimeout(() => {
+                                this.is_loading_update = false;
+                            }, 1000);
                         });
                 },
             }

@@ -12,12 +12,7 @@ class XaPhuong extends Model
     protected $fillable = [
         'code',
         'name',
-        'id_thuoc_tinh_thanh',
+        'id_code_tinh_thanh',
         'administrative_level',
     ];
-
-    public function tinhThanh(): BelongsTo
-    {
-        return $this->belongsTo(TinhThanh::class, 'id_thuoc_tinh_thanh', 'code');
-    }
 }

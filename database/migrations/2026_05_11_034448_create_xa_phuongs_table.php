@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('name');
-            $table->integer('id_thuoc_tinh_thanh');
+            $table->integer('id_code_tinh_thanh');
             $table->string('administrative_level');
             $table->timestamps();
         });

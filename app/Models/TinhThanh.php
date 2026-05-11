@@ -16,10 +16,5 @@ class TinhThanh extends Model
         'administrative_level',
         'decree',
     ];
-
-    public function xaPhuongs(): HasMany
-    {
-        return $this->hasMany(XaPhuong::class, 'id_thuoc_tinh_thanh', 'code');
-    }
 }
 

@@ -15,37 +15,6 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <div class="row g-2 align-items-end mb-3">
-                        <div class="col-lg-4">
-                            <label class="form-label mb-1">Tìm kiếm</label>
-                            <input type="text" class="form-control" v-model="filters.q"
-                                placeholder="Nhập tiêu đề, giá, diện tích, địa chỉ..."
-                                v-on:input="formatSearchKeyword()"
-                                v-on:keydown.enter.prevent="searchByKeywordEnter()">
-                        </div>
-                        <div class="col-lg-3">
-                            <label class="form-label mb-1">Danh mục cha</label>
-                            <select class="form-select" v-model="filters.id_category">
-                                <option value="">-- Tất cả --</option>
-                                <template v-for="(c, i) in list_category" :key="i">
-                                    <option :value="c.id">@{{ c.name }}</option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="col-lg-3">
-                            <label class="form-label mb-1">Danh mục con</label>
-                            <select class="form-select" v-model="filters.id_subcategory" :disabled="!filters.id_category">
-                                <option value="">-- Tất cả --</option>
-                                <template v-for="(s, i) in list_subcategory" :key="i">
-                                    <option :value="s.id">@{{ s.name }}</option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="col-lg-2 d-flex gap-2">
-                            <button class="btn btn-primary w-100" v-on:click="applyFilters()">Lọc</button>
-                            <button class="btn btn-outline-secondary w-100" v-on:click="resetFilters()">Reset</button>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead class="">
@@ -72,23 +41,25 @@
                                 </tr>
                                 <template v-else v-for="(value, index) in list">
                                     <tr class="align-middle">
-                                        <th class="text-center align-middle">@{{ ((meta.current_page - 1) * meta.per_page) + index + 1 }}</th>
+                                        <th class="text-center align-middle">@{{ ((pagination.current_page - 1) * pagination.per_page) + index + 1 }}</th>
                                         <td class="text-nowrap">
                                             @{{ value.title }}
                                         </td>
                                         <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
                                         <td class="text-center"><b>@{{ value.area }}</b> m <sup>2</sup></td>
-                                        <td class="text-nowrap">@{{ value.address }} - </td>
+                                        <td class="text-nowrap">@{{ value.address }} - @{{ value.ten_xa_phuong }} - @{{ value.ten_tinh_thanh  }}</td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
-                                                class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#postModal">
+                                                class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#postModal">
                                                 <i class="fa-solid fa-eye me-0"></i>
                                             </button>
                                             <a :href="'/admin/post/update/' + value.id" class="btn btn-info btn-sm">
                                                 <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </a>
-                                            <button v-on:click="del = Object.assign({}, value)" class="btn btn-danger btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <button v-on:click="del = Object.assign({}, value)"
+                                                class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal">
                                                 <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
@@ -97,25 +68,29 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3" v-if="meta.total">
+                    <div class="d-flex justify-content-between align-items-center mt-3">
                         <div class="text-muted">
-                            Tổng: <b>@{{ meta.total }}</b> bài đăng
+                            Tổng: <b>@{{ pagination.total }}</b> bài đăng
                         </div>
                         <nav aria-label="Pagination">
                             <ul class="pagination mb-0">
-                                <li class="page-item" :class="{ disabled: meta.current_page <= 1 }">
-                                    <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(meta.current_page - 1)">«</a>
+                                <li class="page-item" :class="{ disabled: pagination.current_page <= 1 }">
+                                    <a class="page-link" href="javascript:void(0)"
+                                        v-on:click="goToPage(pagination.current_page - 1)">«</a>
                                 </li>
                                 <template v-for="p in pagesToShow()" :key="p.key">
-                                    <li class="page-item" v-if="p.type === 'page'" :class="{ active: p.page === meta.current_page }">
-                                        <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(p.page)">@{{ p.page }}</a>
+                                    <li class="page-item" v-if="p.type === 'page'"
+                                        :class="{ active: p.page === pagination.current_page }">
+                                        <a class="page-link" href="javascript:void(0)"
+                                            v-on:click="goToPage(p.page)">@{{ p.page }}</a>
                                     </li>
                                     <li class="page-item disabled" v-else>
                                         <span class="page-link">...</span>
                                     </li>
                                 </template>
-                                <li class="page-item" :class="{ disabled: meta.current_page >= meta.last_page }">
-                                    <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(meta.current_page + 1)">»</a>
+                                <li class="page-item" :class="{ disabled: pagination.current_page >= pagination.last_page }">
+                                    <a class="page-link" href="javascript:void(0)"
+                                        v-on:click="goToPage(pagination.current_page + 1)">»</a>
                                 </li>
                             </ul>
                         </nav>
@@ -141,22 +116,33 @@
                         <div class="col-lg-6">
                             <div class="card-body">
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-heading ms-1"></i> Tiêu đề:</strong> @{{ post_detail.title }}</li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-money-bill ms-1"></i> Giá bán:</strong> <b class="text-danger">@{{ formatVND(post_detail.price) }}</b></li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-square ms-1"></i> Diện tích:</strong> <b>@{{ post_detail.area }}</b> m <sup>2</sup></li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bed ms-1"></i> Phòng ngủ:</strong> @{{ post_detail.bedrooms || 'Không có' }}</li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bath ms-1"></i> Phòng vệ sinh:</strong> @{{ post_detail.bathrooms || 'Không có' }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-heading ms-1"></i> Tiêu
+                                            đề:</strong> @{{ post_detail.title }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-money-bill ms-1"></i> Giá
+                                            bán:</strong> <b class="text-danger">@{{ formatVND(post_detail.price) }}</b></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-square ms-1"></i> Diện
+                                            tích:</strong> <b>@{{ post_detail.area }}</b> m <sup>2</sup></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bed ms-1"></i> Phòng
+                                            ngủ:</strong> @{{ post_detail.bedrooms || 'Không có' }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-bath ms-1"></i> Phòng vệ
+                                            sinh:</strong> @{{ post_detail.bathrooms || 'Không có' }}</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="card-body">
                                 <ul class="list-group">
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Địa chỉ:</strong> @{{ post_detail.address }}</li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Khu vực:</strong> @{{ post_detail.location }}</li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Dự án:</strong> @{{ post_detail.project_name || 'Không có' }}</li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-phone ms-1"></i> Số điện thoại:</strong> @{{ post_detail.phone }} - <b> Zalo</b>: <a :href="post_detail.zalo_link" target="_blank">Tại đây</a></li>
-                                    <li class="list-group-item"><strong> <i class="fa-solid fa-map-location-dot ms-1"></i> Link bản đồ:</strong>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Địa
+                                            chỉ:</strong> @{{ post_detail.address }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Khu
+                                            vực:</strong> @{{ post_detail.ten_xa_phuong }} - @{{ post_detail.ten_tinh_thanh }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-location-dot ms-1"></i> Dự
+                                            án:</strong> @{{ post_detail.project_name || 'Không có' }}</li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-phone ms-1"></i> Số điện
+                                            thoại:</strong> @{{ post_detail.phone }} - <b> Zalo</b>: <a
+                                            :href="post_detail.zalo_link" target="_blank">Tại đây</a></li>
+                                    <li class="list-group-item"><strong> <i class="fa-solid fa-map-location-dot ms-1"></i>
+                                            Link bản đồ:</strong>
                                         <a :href="post_detail.map_link" target="_blank">Xem bản đồ</a>
                                     </li>
                                 </ul>
@@ -174,9 +160,9 @@
                         <div class="col-12" v-if="post_detail.images && post_detail.images.length">
                             <h6 class="text-secondary fw-bold">Ảnh chi tiết</h6>
                             <div class="row">
-                                <div class="col-md-3 mb-3" v-for="(img, i) in post_detail.images" :key="i">
-                                    <a :href="img" data-lightbox="post-images" :data-title="'Ảnh ' + (i + 1)">
-                                        <img :src="img" class="img-thumbnail"
+                                <div class="col-md-3 mb-3" v-for="(v, i) in post_detail.images">
+                                    <a :href="v" data-lightbox="post-images" :data-title="'Ảnh ' + (i + 1)">
+                                        <img :src="v" class="img-thumbnail"
                                             style="height: 350px; object-fit: cover; width: 100%;">
                                     </a>
                                 </div>
@@ -236,130 +222,57 @@
             data: {
                 list: [],
                 isTableLoading: false,
-                list_category: [],
-                list_subcategory: [],
-                filters: {
-                    q: '',
-                    id_category: '',
-                    id_subcategory: '',
-                },
-                meta: {
+                pagination: {
                     current_page: 1,
                     last_page: 1,
-                    per_page: 10,
+                    per_page: 5,
                     total: 0,
                 },
                 post_detail: {
                     images: []
                 },
                 del: {},
-                is_loading_delete : false,
+                is_loading_delete: false,
             },
             created() {
-                this.loadDataCategory();
                 this.loadData(1);
             },
-            watch: {
-                'filters.id_category'(newVal) {
-                    this.filters.id_subcategory = '';
-                    this.list_subcategory = [];
-                    if (!newVal) return;
-                    axios
-                        .post('/admin/subcategory/data-post', {
-                            id_category: newVal
-                        })
-                        .then((res) => {
-                            this.list_subcategory = res.data.data || [];
-                        });
-                },
-                'filters.q'(newVal, oldVal) {
-                    const nextValue = (newVal || '').trim();
-                    const oldValue = (oldVal || '').trim();
-                    if (oldValue !== '' && nextValue === '') {
-                        this.loadData(1);
-                    }
-                }
-            },
             methods: {
-                loadDataCategory() {
-                    axios
-                        .get('/admin/category/data-open')
-                        .then((res) => {
-                            this.list_category = res.data.data || [];
-                        });
+                goToPage(page) {
+                    if (page < 1 || page > this.pagination.last_page) {
+                        return;
+                    }
+                    this.loadData(page);
                 },
-                loadData(page) {
-                    const keyword = (this.filters.q || '').trim();
+                pagesToShow() {
+
+                    let pages = [];
+
+                    for (let i = 1; i <= this.pagination.last_page; i++) {
+
+                        pages.push({
+                            type: 'page',
+                            page: i,
+                            key: i
+                        });
+                    }
+
+                    return pages;
+                },
+                loadData(page = 1) {
                     this.isTableLoading = true;
                     axios
-                        .post('/admin/post/data', {
-                            page: page,
-                            q: keyword,
-                            id_category: this.filters.id_category,
-                            id_subcategory: this.filters.id_subcategory,
-                        })
+                        .post('/admin/post/data?page=' + page)
                         .then((res) => {
-                            this.list = res.data.data || [];
-                            this.meta = Object.assign(this.meta, res.data.meta || {});
-                        })
-                        .catch(() => {
-                            this.list = [];
-                            toastr.error('Không tải được dữ liệu bài đăng.', 'Error');
+                            this.list                       = res.data.data.data;
+                            this.pagination.current_page    = res.data.data.current_page;
+                            this.pagination.last_page       = res.data.data.last_page;
+                            this.pagination.per_page        = res.data.data.per_page;
+                            this.pagination.total           = res.data.data.total;
                         })
                         .finally(() => {
                             this.isTableLoading = false;
                         });
-                },
-                applyFilters() {
-                    this.loadData(1);
-                },
-                searchByKeywordEnter() {
-                    this.loadData(1);
-                },
-                formatSearchKeyword() {
-                    const value = this.filters.q || '';
-                    if (!value) return;
-
-                    // Chỉ format khi người dùng đang nhập dạng số (giá/diện tích)
-                    if (!/^\d[\d\.\,\s]*$/.test(value)) return;
-
-                    const rawNumber = value.replace(/\D/g, '');
-                    if (!rawNumber) return;
-
-                    this.filters.q = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                },
-                resetFilters() {
-                    this.filters = {
-                        q: '',
-                        id_category: '',
-                        id_subcategory: '',
-                    };
-                    this.list_subcategory = [];
-                    this.loadData(1);
-                },
-                goToPage(page) {
-                    if (!page || page < 1 || page > this.meta.last_page) return;
-                    this.loadData(page);
-                },
-                pagesToShow() {
-                    const current = this.meta.current_page || 1;
-                    const last = this.meta.last_page || 1;
-                    const windowSize = 2;
-                    const pages = new Set([1, last]);
-                    for (let p = current - windowSize; p <= current + windowSize; p++) {
-                        if (p >= 1 && p <= last) pages.add(p);
-                    }
-                    const sorted = Array.from(pages).sort((a, b) => a - b);
-                    const out = [];
-                    let prev = null;
-                    sorted.forEach((p) => {
-                        if (prev !== null && p - prev > 1) {
-                            out.push({ type: 'gap', key: `gap-${prev}-${p}` });
-                        }
-                        out.push({ type: 'page', page: p, key: `page-${p}` });
-                        prev = p;
-                    });
-                    return out;
                 },
                 formatVND(number) {
                     return new Intl.NumberFormat("vi-VI", {
@@ -376,7 +289,7 @@
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
-                                this.loadData(this.meta.current_page);
+                                this.loadData(this.pagination.current_page);
                                 this.del = {};
                                 $('#deleteModal').modal('hide');
                             } else {

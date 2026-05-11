@@ -10,9 +10,7 @@ class DiaPhanController extends Controller
 {
     public function listTinhThanh()
     {
-        $data = TinhThanh::query()
-            ->orderBy('name')
-            ->get(['id', 'code', 'name', 'administrative_level']);
+        $data = TinhThanh::get();
 
         return response()->json([
             'status' => true,
@@ -22,16 +20,9 @@ class DiaPhanController extends Controller
 
     public function listXaPhuong(Request $request)
     {
-        $request->validate([
-            'id_tinh_thanh' => ['required', 'integer', 'exists:tinh_thanhs,id'],
-        ]);
+        $tinhThanh = TinhThanh::where('id', $request->id_tinh_thanh)->first();
 
-        $tinh = TinhThanh::query()->findOrFail($request->id_tinh_thanh);
-
-        $data = XaPhuong::query()
-            ->where('id_thuoc_tinh_thanh', $tinh->code)
-            ->orderBy('name')
-            ->get(['id', 'code', 'name', 'administrative_level', 'id_thuoc_tinh_thanh']);
+        $data = XaPhuong::where('id_code_tinh_thanh', $tinhThanh->code)->get();
 
         return response()->json([
             'status' => true,

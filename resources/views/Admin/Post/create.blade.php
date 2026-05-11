@@ -220,7 +220,6 @@
                     title: '',
                     slug: '',
                     content: '',
-                    id_client: 1,
                     id_category: '',
                     id_subcategory: '',
                     id_tinh_thanh: '',
@@ -239,8 +238,6 @@
                 },
                 preview: '',
                 is_loading_create: false,
-                _tsTinh: null,
-                _tsXa: null,
             },
             mounted() {
                 tinymce.init({
@@ -253,11 +250,11 @@
                         "insertdatetime media table paste help wordcount"
                     ],
                     toolbar: "undo redo | bold italic underline | \
-                                      fontsizeselect formatselect | \
-                                      alignleft aligncenter alignright alignjustify | \
-                                      bullist numlist outdent indent | \
-                                      forecolor backcolor | link image media | \
-                                      removeformat | help",
+                                          fontsizeselect formatselect | \
+                                          alignleft aligncenter alignright alignjustify | \
+                                          bullist numlist outdent indent | \
+                                          forecolor backcolor | link image media | \
+                                          removeformat | help",
                     content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
                 });
                 this.loadTinhThanhForLocation().then(() => {
@@ -455,7 +452,6 @@
                                     title: '',
                                     slug: '',
                                     content: '',
-                                    id_client: 1,
                                     id_category: '',
                                     id_subcategory: '',
                                     id_tinh_thanh: '',
@@ -472,8 +468,6 @@
                                     map_link: '',
                                     images: []
                                 };
-                                if (this._tsTinh) this._tsTinh.clear(true);
-                                if (this._tsXa) this._tsXa.clear(true);
                                 setTimeout(() => {
                                     window.location.href = '/admin/post';
                                 }, 1000);

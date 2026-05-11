@@ -59,7 +59,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::get('/update/{id}', [ViewAdminController::class, 'viewUpdatePost']);
         Route::post('/data', [PostController::class, 'getDataPost']);
         Route::post('/detail', [PostController::class, 'getPostDetail']);
-        Route::get('/contact-suggestions', [PostController::class, 'getContactSuggestions']);
         Route::post('/upload', [PostController::class, 'uploadPostImage']);
         Route::post('/create', [PostController::class, 'createPost']);
         Route::post('/update', [PostController::class, 'updatePost']);
