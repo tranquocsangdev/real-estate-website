@@ -23,4 +23,8 @@ class Notification extends Model
     const ADMIN_LOGIN = 5;
     const ADMIN_LOGOUT = 6;
 
+
+    const DA_DOC = 1;
+    const CHUA_DOC = 0;
+
 }

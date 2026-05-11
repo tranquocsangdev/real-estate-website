@@ -26,6 +26,9 @@ class NotificationController extends Controller
     {
         $data = Notification::orderByDESC('created_at')
                             ->get();
+        // foreach ($data as $item) {
+        //     $item->is_read = Notification::DA_DOC;
+        // }
 
         return response()->json([
             'data'           => $data,

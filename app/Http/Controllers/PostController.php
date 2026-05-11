@@ -94,6 +94,46 @@ class PostController extends Controller
         ]);
     }
 
+    public function getContactSuggestions()
+    {
+        $posts = Post::query()
+            ->whereNotNull('phone')
+            ->whereRaw("TRIM(phone) <> ''")
+            ->orderByDesc('id')
+            ->limit(500)
+            ->get(['id', 'phone', 'zalo_link']);
+
+        $byDigits = [];
+        foreach ($posts as $post) {
+            $digits = preg_replace('/\D/u', '', (string) $post->phone);
+            if (strlen($digits) < 9) {
+                continue;
+            }
+            if (!isset($byDigits[$digits])) {
+                $zalo = $post->zalo_link !== null && trim((string) $post->zalo_link) !== ''
+                    ? trim((string) $post->zalo_link)
+                    : null;
+                $byDigits[$digits] = [
+                    'phone'       => trim((string) $post->phone),
+                    'zalo_link'   => $zalo,
+                    'posts_count' => 0,
+                ];
+            }
+            $byDigits[$digits]['posts_count']++;
+        }
+
+        $data = collect($byDigits)
+            ->sortByDesc(fn ($row) => $row['posts_count'])
+            ->values()
+            ->take(20)
+            ->values();
+
+        return response()->json([
+            'status' => true,
+            'data'   => $data,
+        ]);
+    }
+
     public function getPostDetail(Request $request)
     {
         $request->validate([

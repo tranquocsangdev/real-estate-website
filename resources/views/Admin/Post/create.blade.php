@@ -108,6 +108,22 @@
                                 v-model="create.zalo_link">
                         </div>
 
+                        <div class="col-lg-12 mb-3" v-if="contactSuggestions.length">
+                            <label class="form-label mb-1">Gợi ý từ bài đã đăng</label>
+                            <div class="text-muted small mb-2">
+                                Chọn số đã dùng trước đây để điền nhanh SĐT và Zalo, hoặc nhập số mới ở trên.
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    v-for="(s, idx) in contactSuggestions" :key="idx"
+                                    v-on:click="applyContactSuggestion(s)">
+                                    @{{ s.phone }}
+                                    <span class="badge bg-secondary ms-1" v-if="s.posts_count > 1">@{{ s.posts_count }}
+                                        bài</span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="col-lg-9 mb-3">
                             <label class="form-label">Ảnh đại diện ( <span class="text-danger">*</span> )</label>
                             <input type="file" class="form-control mb-1" v-on:change="handleThumbnail($event)">
@@ -160,12 +176,23 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" v-on:click="createPost()">Thêm mới
+                    <button class="btn btn-primary" :disabled="is_loading_create" v-on:click="createPost()">
+
+                        <span v-if="is_loading_create">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+
+                        <span v-else>
+                            Thêm mới
+                        </span>
+
                     </button>
-                    <button class="btn btn-secondary">
-                        <a href="/admin/post" class="text-white">Hủy
-                        </a>
-                    </button>
+                    <a href="/admin/post">
+                        <button class="btn btn-secondary">
+                            Hủy
+                        </button>
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -179,6 +206,7 @@
             data: {
                 list_category: [],
                 list_subcategory: [],
+                contactSuggestions: [],
                 priceFormatted: '',
                 create: {
                     title: '',
@@ -196,11 +224,12 @@
                     address: '',
                     project_name: '',
                     phone: '',
-                    zalo_link: 'https://zalo.me/0',
+                    zalo_link: '',
                     map_link: '',
                     images: []
                 },
                 preview: '',
+                is_loading_create: false
             },
             mounted() {
                 tinymce.init({
@@ -213,16 +242,17 @@
                         "insertdatetime media table paste help wordcount"
                     ],
                     toolbar: "undo redo | bold italic underline | \
-                          fontsizeselect formatselect | \
-                          alignleft aligncenter alignright alignjustify | \
-                          bullist numlist outdent indent | \
-                          forecolor backcolor | link image media | \
-                          removeformat | help",
+                                      fontsizeselect formatselect | \
+                                      alignleft aligncenter alignright alignjustify | \
+                                      bullist numlist outdent indent | \
+                                      forecolor backcolor | link image media | \
+                                      removeformat | help",
                     content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
                 });
             },
             created() {
                 this.loadDataCategory();
+                this.loadContactSuggestions();
             },
             watch: {
                 'create.id_category'(newVal) {
@@ -302,10 +332,33 @@
                             this.list_category = res.data.data;
                         });
                 },
+                loadContactSuggestions() {
+                    axios
+                        .get('/admin/post/contact-suggestions')
+                        .then((res) => {
+                            if (res.data.status) {
+                                this.contactSuggestions = res.data.data || [];
+                            }
+                        })
+                        .catch(() => {});
+                },
+                zaloLinkFromPhone(phone) {
+                    const digits = String(phone || '').replace(/\D/g, '');
+                    if (digits.length < 9) return '';
+                    return 'https://zalo.me/' + digits;
+                },
+                applyContactSuggestion(s) {
+                    this.create.phone = s.phone || '';
+                    this.create.zalo_link = (s.zalo_link && String(s.zalo_link).trim()) ?
+                        String(s.zalo_link).trim() :
+                        this.zaloLinkFromPhone(s.phone);
+                    toastr.info('Đã áp dụng số điện thoại & Zalo từ gợi ý.', 'Gợi ý');
+                },
                 removeImage(index) {
                     this.create.images.splice(index, 1);
                 },
                 createPost() {
+                    this.is_loading_create = true;
                     this.create.content = tinymce.get('ckeditor-content').getContent();
                     axios
                         .post('/admin/post/create', this.create)
@@ -341,6 +394,9 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_create = false;
                         });
                 }
             }
