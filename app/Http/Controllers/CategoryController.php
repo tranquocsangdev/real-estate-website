@@ -83,7 +83,6 @@ class CategoryController extends Controller
             ]);
         }
 
-
         return response()->json([
             'status'    => false,
             'message' => 'Danh mục không tồn tại',

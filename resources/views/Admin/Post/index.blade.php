@@ -19,7 +19,9 @@
                         <div class="col-lg-4">
                             <label class="form-label mb-1">Tìm kiếm</label>
                             <input type="text" class="form-control" v-model="filters.q"
-                                placeholder="Nhập tiêu đề, địa chỉ, khu vực, số điện thoại..." v-on:keyup.enter="applyFilters()">
+                                placeholder="Nhập tiêu đề, giá, diện tích, địa chỉ..."
+                                v-on:input="formatSearchKeyword()"
+                                v-on:keydown.enter.prevent="searchByKeywordEnter()">
                         </div>
                         <div class="col-lg-3">
                             <label class="form-label mb-1">Danh mục cha</label>
@@ -58,7 +60,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-for="(value, index) in list">
+                                <tr v-if="isTableLoading">
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="spinner-border text-primary me-2" role="status"></div>
+                                        <span>Đang tải dữ liệu bảng...</span>
+                                    </td>
+                                </tr>
+                                <tr v-else-if="!list.length">
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        Không có dữ liệu bài đăng.
+                                    </td>
+                                </tr>
+                                <template v-else v-for="(value, index) in list">
                                     <tr class="align-middle">
                                         <th class="text-center align-middle">@{{ ((meta.current_page - 1) * meta.per_page) + index + 1 }}</th>
                                         <td class="text-nowrap">
@@ -225,6 +238,7 @@
             el: '#app',
             data: {
                 list: [],
+                isTableLoading: false,
                 list_category: [],
                 list_subcategory: [],
                 filters: {
@@ -242,6 +256,7 @@
                     images: []
                 },
                 del: {},
+                is_loading_delete : false,
             },
             created() {
                 this.loadDataCategory();
@@ -259,6 +274,13 @@
                         .then((res) => {
                             this.list_subcategory = res.data.data || [];
                         });
+                },
+                'filters.q'(newVal, oldVal) {
+                    const nextValue = (newVal || '').trim();
+                    const oldValue = (oldVal || '').trim();
+                    if (oldValue !== '' && nextValue === '') {
+                        this.loadData(1);
+                    }
                 }
             },
             methods: {
@@ -270,10 +292,12 @@
                         });
                 },
                 loadData(page) {
+                    const keyword = (this.filters.q || '').trim();
+                    this.isTableLoading = true;
                     axios
                         .post('/admin/post/data', {
                             page: page,
-                            q: this.filters.q,
+                            q: keyword,
                             id_category: this.filters.id_category,
                             id_subcategory: this.filters.id_subcategory,
                         })
@@ -281,9 +305,31 @@
                             this.list = res.data.data || [];
                             this.meta = Object.assign(this.meta, res.data.meta || {});
                         })
+                        .catch(() => {
+                            this.list = [];
+                            toastr.error('Không tải được dữ liệu bài đăng.', 'Error');
+                        })
+                        .finally(() => {
+                            this.isTableLoading = false;
+                        });
                 },
                 applyFilters() {
                     this.loadData(1);
+                },
+                searchByKeywordEnter() {
+                    this.loadData(1);
+                },
+                formatSearchKeyword() {
+                    const value = this.filters.q || '';
+                    if (!value) return;
+
+                    // Chỉ format khi người dùng đang nhập dạng số (giá/diện tích)
+                    if (!/^\d[\d\.\,\s]*$/.test(value)) return;
+
+                    const rawNumber = value.replace(/\D/g, '');
+                    if (!rawNumber) return;
+
+                    this.filters.q = rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                 },
                 resetFilters() {
                     this.filters = {
@@ -327,6 +373,7 @@
                     )
                 },
                 deletePost() {
+                    this.is_loading_delete = true;
                     axios
                         .post('/admin/post/delete', this.del)
                         .then((res) => {
@@ -343,6 +390,9 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_delete = false;
                         });
                 },
             }

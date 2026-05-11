@@ -46,17 +46,25 @@ class PostController extends Controller
         });
 
         $q = trim((string) request()->input('q', ''));
+        $numericQuery = preg_replace('/\D+/', '', $q);
         $idCategory = request()->input('id_category');
         $idSubcategory = request()->input('id_subcategory');
 
         $query = Post::query()->orderByDesc('id');
 
         if ($q !== '') {
-            $query->where(function ($sub) use ($q) {
+            $query->where(function ($sub) use ($q, $numericQuery) {
                 $sub->where('title', 'like', "%{$q}%")
                     ->orWhere('address', 'like', "%{$q}%")
                     ->orWhere('location', 'like', "%{$q}%")
-                    ->orWhere('phone', 'like', "%{$q}%");
+                    ->orWhere('phone', 'like', "%{$q}%")
+                    ->orWhereRaw('CAST(price AS CHAR) LIKE ?', ["%{$q}%"])
+                    ->orWhereRaw('CAST(area AS CHAR) LIKE ?', ["%{$q}%"]);
+
+                if ($numericQuery !== '') {
+                    $sub->orWhereRaw('CAST(price AS CHAR) LIKE ?', ["%{$numericQuery}%"])
+                        ->orWhereRaw('CAST(area AS CHAR) LIKE ?', ["%{$numericQuery}%"]);
+                }
             });
         }
 
