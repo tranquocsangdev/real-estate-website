@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/create', [PostController::class, 'createPost']);
         Route::post('/update', [PostController::class, 'updatePost']);
         Route::post('/delete', [PostController::class, 'deletePost']);
+        Route::post('/change', [PostController::class, 'changePost']);
     });
 
     Route::prefix('/admin')->group(function () {

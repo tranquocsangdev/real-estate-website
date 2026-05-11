@@ -79,7 +79,7 @@
                                                 :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
 
                                                 <span v-if="is_loading_change == v.id">
-                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                    <i class="fa fa-spinner fa-spin me-0"></i>
                                                 </span>
 
                                                 <span v-else>
@@ -92,7 +92,7 @@
                                                 :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
 
                                                 <span v-if="is_loading_change == v.id">
-                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                    <i class="fa fa-spinner fa-spin me-0"></i>
                                                 </span>
 
                                                 <span v-else>

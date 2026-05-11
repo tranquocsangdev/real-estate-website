@@ -15,6 +15,19 @@
                     </a>
                 </div>
                 <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nhập thông tin để tìm kiếm"
+                                    v-model="keyword" v-on:keyup.enter="searchPost()">
+                                <button class="btn btn-primary" type="button">
+                                    Tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead class="">
@@ -24,18 +37,19 @@
                                     <th>Giá</th>
                                     <th>Diện tích</th>
                                     <th>Địa chỉ</th>
+                                    <th>Trạng thái</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-if="isTableLoading">
-                                    <td colspan="7" class="text-center py-4">
+                                    <td colspan="100%" class="text-center py-4">
                                         <div class="spinner-border text-primary me-2" role="status"></div>
                                         <span>Đang tải dữ liệu bảng...</span>
                                     </td>
                                 </tr>
                                 <tr v-else-if="!list.length">
-                                    <td colspan="7" class="text-center text-muted py-4">
+                                    <td colspan="100%" class="text-center text-muted py-4">
                                         Không có dữ liệu bài đăng.
                                     </td>
                                 </tr>
@@ -47,7 +61,28 @@
                                         </td>
                                         <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
                                         <td class="text-center"><b>@{{ value.area }}</b> m <sup>2</sup></td>
-                                        <td class="text-nowrap">@{{ value.address }} - @{{ value.ten_xa_phuong }} - @{{ value.ten_tinh_thanh  }}</td>
+                                        <td class="text-nowrap">@{{ value.address }} - @{{ value.ten_xa_phuong }} -
+                                            @{{ value.ten_tinh_thanh }}</td>
+                                        <td class="text-center align-middle">
+                                            <button v-if="value.status == 1" class="btn btn-success btn-sm"
+                                                :disabled="is_loading_change == value.id" v-on:click="changeStatus(value)">
+                                                <span v-if="is_loading_change == value.id">
+                                                    <i class="fa fa-spinner fa-spin me-0"></i>
+                                                </span>
+                                                <span v-else>
+                                                    <i class="fa-regular fa-circle-check me-0 text-white"></i>
+                                                </span>
+                                            </button>
+                                            <button v-else class="btn btn-danger btn-sm"
+                                                :disabled="is_loading_change == value.id" v-on:click="changeStatus(value)">
+                                                <span v-if="is_loading_change == value.id">
+                                                    <i class="fa fa-spinner fa-spin me-0"></i>
+                                                </span>
+                                                <span v-else>
+                                                    <i class="fa-solid fa-power-off me-0 text-white"></i>
+                                                </span>
+                                            </button>
+                                        </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
                                                 class="btn btn-success btn-sm" data-bs-toggle="modal"
@@ -88,7 +123,8 @@
                                         <span class="page-link">...</span>
                                     </li>
                                 </template>
-                                <li class="page-item" :class="{ disabled: pagination.current_page >= pagination.last_page }">
+                                <li class="page-item"
+                                    :class="{ disabled: pagination.current_page >= pagination.last_page }">
                                     <a class="page-link" href="javascript:void(0)"
                                         v-on:click="goToPage(pagination.current_page + 1)">»</a>
                                 </li>
@@ -207,7 +243,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="deletePost()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" :disabled="is_loading_delete"
+                        v-on:click="deletePost()">
+                        <span v-if="is_loading_delete">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xóa...
+                        </span>
+                        <span v-else>
+                            Xác nhận
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -231,8 +275,18 @@
                 post_detail: {
                     images: []
                 },
+                list_search: [],
+                keyword: "",
                 del: {},
                 is_loading_delete: false,
+                is_loading_change: null
+            },
+            watch: {
+                keyword(newValue) {
+                    if (!newValue.trim()) {
+                        this.loadData();
+                    }
+                }
             },
             created() {
                 this.loadData(1);
@@ -245,11 +299,8 @@
                     this.loadData(page);
                 },
                 pagesToShow() {
-
                     let pages = [];
-
                     for (let i = 1; i <= this.pagination.last_page; i++) {
-
                         pages.push({
                             type: 'page',
                             page: i,
@@ -264,11 +315,13 @@
                     axios
                         .post('/admin/post/data?page=' + page)
                         .then((res) => {
-                            this.list                       = res.data.data.data;
-                            this.pagination.current_page    = res.data.data.current_page;
-                            this.pagination.last_page       = res.data.data.last_page;
-                            this.pagination.per_page        = res.data.data.per_page;
-                            this.pagination.total           = res.data.data.total;
+                            this.list = res.data.data.data;
+                            // backup data tìm kiếm
+                            this.list_search = res.data.data.data;
+                            this.pagination.current_page = res.data.data.current_page;
+                            this.pagination.last_page = res.data.data.last_page;
+                            this.pagination.per_page = res.data.data.per_page;
+                            this.pagination.total = res.data.data.total;
                         })
                         .finally(() => {
                             this.isTableLoading = false;
@@ -304,6 +357,40 @@
                         .finally(() => {
                             this.is_loading_delete = false;
                         });
+                },
+                changeStatus(v) {
+                    this.is_loading_change = v.id;
+                    axios
+                        .post('/admin/post/change', v)
+                        .then((res) => {
+                            if (res.data.status) {
+                                v.status = v.status == 1 ? 0 : 1;
+                                toastr.success(res.data.message, 'Success');
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
+                        })
+                        .catch((err) => {
+                            $.each(err.response.data.errors, function(k, v) {
+                                toastr.error(v[0], 'Error');
+                            });
+                        })
+                        .finally(() => {
+                            this.is_loading_change = null;
+                        });
+                },
+                searchPost() {
+                    const key = this.keyword.toLowerCase();
+                    this.list = this.list_search.filter(v => {
+                        return (
+                            v.title.toLowerCase().includes(key) ||
+                            v.address.toLowerCase().includes(key) ||
+                            String(v.price).includes(key) ||
+                            String(v.area).includes(key)
+                        );
+
+                    });
+
                 },
             }
         });

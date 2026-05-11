@@ -12,11 +12,6 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-lg-12">
-                            <span class="text-danger">*</span> Là trường bắt buộc nhập
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label class="form-label">Tiêu đề bài viết ( <span class="text-danger">*</span> )</label>

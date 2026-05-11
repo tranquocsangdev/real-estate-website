@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('zalo_link')->nullable()->comment('Link Zalo tư vấn');
             $table->longText('map_link')->nullable()->comment('Link bản đồ / vị trí');
             $table->json('images')->nullable()->comment('Danh sách ảnh mô tả');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

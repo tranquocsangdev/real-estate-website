@@ -50,6 +50,7 @@ class PostController extends Controller
                         'tinh_thanhs.name as ten_tinh_thanh',
                         'xa_phuongs.name as ten_xa_phuong',
                     )
+                    ->orderByDESC('posts.created_at')
                     ->paginate(5);
 
         foreach ($data as $v) {
@@ -154,10 +155,6 @@ class PostController extends Controller
 
     public function deletePost(Request $request)
     {
-        $request->validate([
-            'id' => ['required', 'integer'],
-        ]);
-
         $post = Post::find($request->id);
 
         if (!$post) {
@@ -258,6 +255,22 @@ class PostController extends Controller
         return response()->json([
             'status'    => true,
             'message'  => 'Đã cập nhật bài viết thành công!'
+        ]);
+    }
+
+    public function changePost(Request $request)
+    {
+        $post = Post::where('id', $request->id)->first();
+        $post->status = !$post->status;
+        $post->save();
+
+        $message = $post->status
+            ? 'Tình trạng đã đổi thành: <b>Hoạt động</b>'
+            : 'Tình trạng đã đổi thành: <b>Tạm tắt</b>';
+
+        return response()->json([
+            'status'         => true,
+            'message'        => $message,
         ]);
     }
 }

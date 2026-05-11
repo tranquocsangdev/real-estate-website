@@ -30,6 +30,10 @@ class Post extends Model
         'zalo_link',
         'map_link',
         'images',
+        'status',
     ];
+
+    const HOAT_DONG = 1;
+    const TAM_TAT = 0;
 }
 

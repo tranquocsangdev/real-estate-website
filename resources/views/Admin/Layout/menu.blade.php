@@ -45,7 +45,7 @@
                               sách</a>
                       </li>
                       <li> <a class="dropdown-item" href="/admin/post/create"><i class="bx bx-right-arrow-alt"></i>Thêm
-                              mới bài viết</a>
+                              mới</a>
                       </li>
                   </ul>
               </li>
@@ -90,10 +90,10 @@
                   </a>
                   <ul class="dropdown-menu">
                       <li> <a class="dropdown-item" href="/admin/blog"><i class="bx bx-right-arrow-alt"></i>Danh
-                              sách tin tức</a>
+                              sách</a>
                       </li>
                       <li> <a class="dropdown-item" href="/admin/blog/create"><i class="bx bx-right-arrow-alt"></i>Thêm
-                              mới tin tức</a>
+                              mới</a>
                       </li>
                   </ul>
               </li>
