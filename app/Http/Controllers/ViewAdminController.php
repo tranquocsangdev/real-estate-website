@@ -92,4 +92,9 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Blog.update', compact('id'));
     }
+
+    public function viewNotifications()
+    {
+        return view('Admin.Notifications.index');
+    }
 }

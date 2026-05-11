@@ -26,7 +26,8 @@ class KhachHangController extends Controller
             $notification = Notification::create([
                 'type'          => Notification::KHACH_HANG_REGISTER,
                 'tieu_de'       => $khach_hang->name,
-                'noi_dung'      => 'Vừa đăng ký tài khoản mới',
+                'id_doi_tuong'  => $khach_hang->id,
+                'noi_dung'      => 'Vừa đăng ký tài khoản mới thành công!',
             ]);
 
             event(new AdminNotificationEvent($notification));

@@ -17,13 +17,14 @@ class AdminAuthController extends Controller
         $check = Auth::guard('admin')->attempt($data);
         if ($check) {
             $admin = Admin::where('email', $request->email)
-                              ->where('is_open', 1)
-                              ->first();
+                        ->where('is_open', 1)
+                        ->first();
             if ($admin) {
                 Notification::create([
-                    'type'     => Notification::ADMIN_LOGIN,
-                    'tieu_de'  => 'Đăng nhập hệ thống',
-                    'noi_dung' => 'Bạn đã đăng nhập thành công!',
+                    'type'         => Notification::ADMIN_LOGIN,
+                    'tieu_de'      => $admin->name,
+                    'id_doi_tuong' => $admin->id,
+                    'noi_dung'     => 'Đăng nhập hệ thống thành công!',
                 ]);
                 Toastr::success("Bạn đã đăng nhập thành công!", 'Success!');
                 return redirect('/admin/category');

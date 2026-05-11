@@ -22,6 +22,16 @@ class NotificationController extends Controller
         ]);
     }
 
+    public function getDataNotificationAll()
+    {
+        $data = Notification::orderByDESC('created_at')
+                            ->get();
+
+        return response()->json([
+            'data'           => $data,
+        ]);
+    }
+
     public function markAsRead($id)
     {
         $notification = Notification::where('id', $id)->first();

@@ -106,7 +106,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     });
 
     Route::prefix('/notifications')->group(function () {
+        Route::get('/', [ViewAdminController::class, 'viewNotifications']);
         Route::get('/data', [NotificationController::class, 'getDataNotification']);
+        Route::get('/data-all', [NotificationController::class, 'getDataNotificationAll']);
         Route::post('/read/{id}', [NotificationController::class, 'markAsRead']);
         Route::post('/read-all', [NotificationController::class, 'markAsReadAll']);
     });

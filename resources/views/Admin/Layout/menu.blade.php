@@ -98,6 +98,12 @@
                   </ul>
               </li>
               <li class="nav-item">
+                  <a class="nav-link" href="/admin/notifications">
+                      <div class="parent-icon"><i class="fas fa-history"></i></div>
+                      <div class="menu-title">Lịch sử hoạt động </div>
+                  </a>
+              </li>
+              <li class="nav-item">
                   <a class="nav-link" href="/admin/message">
                       <div class="parent-icon"><i class="fas fa-comments"></i></div>
                       <div class="menu-title">Message </div>
