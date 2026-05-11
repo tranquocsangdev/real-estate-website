@@ -7,7 +7,7 @@
                 <div class="card-header bg-primary d-flex justify-content-between align-items-center">
                     <h5 class="mt-2 text-white text-uppercase">Danh sách tin tức</h5>
                     <a href="/admin/blog/create">
-                        <button class="btn btn-light">Thêm mới</button>
+                        <button class="btn btn-light" ref="createButton">Thêm mới</button>
                     </a>
                 </div>
                 <div class="card-body">
@@ -36,14 +36,15 @@
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-success btn-sm" v-on:click="blog_detail = value"
-                                            data-bs-toggle="modal" data-bs-target="#postModal">
+                                                data-bs-toggle="modal" data-bs-target="#postModal">
                                                 <i class="fa-solid fa-eye me-0"></i>
                                             </button>
                                         </td>
                                         <td class="text-center" v-html="date_format_full(value.created_at)"></td>
                                         <td class="text-center align-middle">@{{ value.views }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-success btn-sm text-white" v-if="value.status == 1">Đang hoạt
+                                            <button class="btn btn-success btn-sm text-white" v-if="value.status == 1">Đang
+                                                hoạt
                                                 động</button>
                                             <button class="btn btn-danger btn-sm text-white" v-else>Đã
                                                 ẩn hiện</button>
@@ -53,8 +54,8 @@
                                                 <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </a>
                                             <button type="button" class="btn btn-danger btn-sm"
-                                                v-on:click="del = Object.assign({}, value)"
-                                                data-bs-toggle="modal" data-bs-target="#deleteBlogModal">
+                                                v-on:click="del = Object.assign({}, value)" data-bs-toggle="modal"
+                                                data-bs-target="#deleteBlogModal">
                                                 <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>

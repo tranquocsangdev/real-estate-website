@@ -30,11 +30,14 @@
                                         <td class="align-middle">@{{ v.email ?? 'Không có' }}</td>
                                         <td class="align-middle text-center">@{{ v.phone }}</td>
                                         <td class="text-center align-middle">
-                                            <button v-on:click="changeStatus(v)" class="btn btn-success btn-sm text-white"
-                                                v-if="v.is_active == 1">Đang
+                                            <button :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)"
+                                                class="btn btn-success btn-sm text-white" v-if="v.is_active == 1">Đang
                                                 hoạt động</button>
-                                            <button v-on:click="changeStatus(v)" class="btn btn-danger btn-sm" v-else>Đã
-                                                khóa</button>
+                                            <button :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)"
+                                                class="btn btn-danger btn-sm" v-else>Đã
+                                                khóa
+                                                </span>
+                                            </button>
                                         </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
@@ -75,7 +78,14 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary" v-on:click="deleteUser()">Xác nhận</button>
+                        <button class="btn btn-primary" :disabled="is_loading_delete" v-on:click="deleteUser()">
+                            <span v-if="is_loading_delete">
+                                <i class="fa fa-spinner fa-spin"></i> Đang xóa...
+                            </span>
+                            <span v-else>
+                                Xác nhận
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -92,6 +102,8 @@
             data: {
                 list: [],
                 del: {},
+                is_loading_delete: false,
+                is_loading_change: null
             },
             created() {
                 this.loadData();
@@ -110,6 +122,7 @@
                         });
                 },
                 changeStatus(v) {
+                    this.is_loading_change = v.id;
                     var payload = {
                         id: v.id
                     }
@@ -127,9 +140,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
-                        });
+                        })
+                        .finally(() => {
+                            this.is_loading_change = null;
+                        })
                 },
                 deleteUser() {
+                    this.is_loading_delete = true;
                     axios
                         .post('/admin/user/delete', this.del)
                         .then((res) => {
@@ -146,7 +163,10 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
-                        });
+                        })
+                        .finally(() => {
+                            this.is_loading_delete = false;
+                        })
                 },
             }
         });

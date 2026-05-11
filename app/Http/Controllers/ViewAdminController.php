@@ -37,7 +37,8 @@ class ViewAdminController extends Controller
     public function viewLogin()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect('/admin/profile');
+            Toastr::error("Bạn đã đăng nhập rồi!", 'Error!');
+            return redirect('/admin/dashboard');
         }
         return view('Admin.Login.index');
     }

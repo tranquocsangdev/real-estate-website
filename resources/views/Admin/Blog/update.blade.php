@@ -52,12 +52,21 @@
                     <p class="text-muted mb-0">Đang tải dữ liệu...</p>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" v-on:click="submitUpdate()" :disabled="!loaded">Cập nhật
+                    <button class="btn btn-primary" :disabled="is_loading_update" v-on:click="submitUpdate()">
+
+                        <span v-if="is_loading_update">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+
+                        <span v-else>
+                            Cập nhật
+                        </span>
                     </button>
-                    <button class="btn btn-secondary">
-                        <a href="/admin/blog" class="text-white">Hủy
-                        </a>
-                    </button>
+                    <a href="/admin/blog">
+                        <button class="btn btn-secondary">
+                            Hủy
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -79,6 +88,7 @@
                 },
                 preview: '',
                 loaded: false,
+                is_loading_update: false,
             },
             mounted() {
                 axios
@@ -124,11 +134,11 @@
                             "insertdatetime media table paste help wordcount"
                         ],
                         toolbar: "undo redo | bold italic underline | \
-                          fontsizeselect formatselect | \
-                          alignleft aligncenter alignright alignjustify | \
-                          bullist numlist outdent indent | \
-                          forecolor backcolor | link image media | \
-                          fullscreen | removeformat | help",
+                              fontsizeselect formatselect | \
+                              alignleft aligncenter alignright alignjustify | \
+                              bullist numlist outdent indent | \
+                              forecolor backcolor | link image media | \
+                              fullscreen | removeformat | help",
                         content_style: "body { font-family:Arial,sans-serif; font-size:14px }",
                         init_instance_callback: function(editor) {
                             editor.setContent(self.update.content || '');
@@ -149,6 +159,7 @@
                     }, 300);
                 },
                 submitUpdate() {
+                    this.is_loading_update = true;
                     const editor = tinymce.get('ckeditor-content');
                     if (!editor) {
                         toastr.error('Trình soạn thảo chưa sẵn sàng, vui lòng đợi hoặc tải lại trang.', 'Error');
@@ -182,6 +193,9 @@
                             } else {
                                 toastr.error('Có lỗi xảy ra.', 'Error');
                             }
+                        })
+                        .finally(() => {
+                            this.is_loading_update = false;
                         });
                 }
             }

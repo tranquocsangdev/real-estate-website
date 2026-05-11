@@ -15,7 +15,8 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label class="form-label">Tiêu đề tin tức ( <span class="text-danger">*</span> )</label>
-                            <input type="text" class="form-control" v-model="create.title" placeholder="VD: Pháp lý khi làm sổ đỏ tại Đà Nẵng - 2026">
+                            <input type="text" class="form-control" v-model="create.title"
+                                placeholder="VD: Pháp lý khi làm sổ đỏ tại Đà Nẵng - 2026">
                         </div>
                         <div class="col-lg-9 mb-3">
                             <label class="form-label">Ảnh đại diện ( <span class="text-danger">*</span> )</label>
@@ -49,12 +50,21 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" v-on:click="createBlog()">Thêm mới
+                    <button class="btn btn-primary" :disabled="is_loading_create" v-on:click="createBlog()">
+
+                        <span v-if="is_loading_create">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+
+                        <span v-else>
+                            Thêm mới
+                        </span>
                     </button>
-                    <button class="btn btn-secondary">
-                        <a href="/admin/blog" class="text-white">Hủy
-                        </a>
-                    </button>
+                    <a href="/admin/blog">
+                        <button class="btn btn-secondary">
+                            Hủy
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -71,8 +81,10 @@
                     content: '',
                 },
                 preview: '',
+                is_loading_create: false,
             },
             mounted() {
+
                 tinymce.init({
                     selector: '#ckeditor-content',
                     height: 450,
@@ -83,11 +95,11 @@
                         "insertdatetime media table paste help wordcount"
                     ],
                     toolbar: "undo redo | bold italic underline | \
-                      fontsizeselect formatselect | \
-                      alignleft aligncenter alignright alignjustify | \
-                      bullist numlist outdent indent | \
-                      forecolor backcolor | link image media | \
-                      fullscreen | removeformat | help",
+                          fontsizeselect formatselect | \
+                          alignleft aligncenter alignright alignjustify | \
+                          bullist numlist outdent indent | \
+                          forecolor backcolor | link image media | \
+                          fullscreen | removeformat | help",
                     content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
                 });
             },
@@ -106,6 +118,7 @@
                     }, 1000);
                 },
                 createBlog() {
+                    this.is_loading_create = true;
                     this.create.content = tinymce.get('ckeditor-content').getContent();
                     var formData = new FormData();
                     formData.append('title', this.create.title);
@@ -134,6 +147,9 @@
                                 this.preview = '';
                                 this.$refs.file.value = '';
                             }
+                        })
+                        .finally(() => {
+                            this.is_loading_create = false;
                         });
                 }
             }

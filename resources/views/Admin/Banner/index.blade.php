@@ -28,7 +28,17 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary" v-on:click="createBanner()">Thêm mới</button>
+                    <button class="btn btn-primary" :disabled="is_loading_create" v-on:click="createBanner()">
+
+                        <span v-if="is_loading_create">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+
+                        <span v-else>
+                            Thêm mới
+                        </span>
+
+                    </button>
                 </div>
             </div>
         </div>
@@ -71,10 +81,31 @@
                                         <button class="btn btn-info btn-sm text-white">@{{ value.order }}</button>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <button class="btn btn-success btn-sm text-white" v-if="value.status == 1"
-                                            v-on:click="changeStatus(value)">Đang hoạt động</button>
-                                        <button class="btn btn-danger btn-sm text-white" v-else v-on:click="changeStatus(value)">Đã
-                                            ẩn hiện</button>
+                                        <button class="btn btn-success btn-sm" v-if="value.status == 1"
+                                            :disabled="is_loading_change == value.id" v-on:click="changeStatus(value)">
+
+                                            <span v-if="is_loading_change == value.id">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </span>
+
+                                            <span v-else>
+                                                Đang mở
+                                            </span>
+
+                                        </button>
+
+                                        <button class="btn btn-warning btn-sm text-white" v-else
+                                            :disabled="is_loading_change == value.id" v-on:click="changeStatus(value)">
+
+                                            <span v-if="is_loading_change == value.id">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </span>
+
+                                            <span v-else>
+                                                Đã tắt
+                                            </span>
+
+                                        </button>
                                     </td>
                                     <td class="text-center align-middle">
                                         <button class="btn btn-danger btn-sm" v-on:click="del = Object.assign({}, value)"
@@ -96,7 +127,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Xác nhận xóa banner có thứ tự
+                        <h5 class="modal-title text-white text-uppercase" id="exampleModalLabel">Xác nhận xóa banner có thứ
+                            tự
                             <b>@{{ del.order }}</b>
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -113,7 +145,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary" v-on:click="deleteBanner()">Xác nhận</button>
+                        <button type="button" class="btn btn-danger" :disabled="is_loading_delete"
+                            v-on:click="deleteBanner()">
+
+                            <span v-if="is_loading_delete">
+                                <i class="fa fa-spinner fa-spin"></i> Đang xóa...
+                            </span>
+
+                            <span v-else>
+                                Xác nhận
+                            </span>
+
+                        </button>
                     </div>
                 </div>
             </div>
@@ -133,6 +176,9 @@
                 create: {
                     order: 0,
                 },
+                is_loading_create: false,
+                is_loading_delete: false,
+                is_loading_change: null,
             },
             created() {
                 this.loadData();
@@ -157,6 +203,7 @@
                         toastr.error('Vui lòng nhập thứ tự!', 'Error');
                         return;
                     }
+                    this.is_loading_create = true;
                     var formData = new FormData();
                     formData.append('file', this.$refs.file.files[0]);
                     formData.append('order', this.create.order);
@@ -175,10 +222,14 @@
                                 this.$refs.file.value = '';
                                 this.create.order = 0;
                             }
+                        })
+                        .finally(() => {
+                            this.is_loading_create = false;
                         });
                 },
 
                 changeStatus(value) {
+                    this.is_loading_change = value.id;
                     var payload = {
                         id: value.id
                     }
@@ -187,7 +238,7 @@
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
-                                this.loadData();
+                                value.status = value.status == 1 ? 0 : 1;
                             } else {
                                 toastr.error(res.data.message, 'Error');
                             }
@@ -196,9 +247,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_change = null;
                         });
                 },
                 deleteBanner() {
+                    this.is_loading_delete = true;
                     axios
                         .post('/admin/banner/delete', this.del)
                         .then((res) => {
@@ -215,6 +270,9 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_delete = false;
                         });
                 }
             }

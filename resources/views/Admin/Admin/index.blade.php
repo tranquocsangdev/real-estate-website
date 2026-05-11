@@ -34,14 +34,27 @@
                                         </td>
                                         <td class="text-center align-middle">
                                             <button class="btn btn-success btn-sm text-white" v-if="v.is_open == 1"
-                                                v-on:click="changeStatus(v)">Đang hoạt động</button>
+                                                :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
+                                                <span v-if="is_loading_change == v.id">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                                <span v-else>
+                                                    Đang hoạt động
+                                                </span>
+                                            </button>
                                             <button class="btn btn-danger btn-sm text-white" v-else
-                                                v-on:click="changeStatus(v)">Đã khóa</button>
+                                                :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
+                                                <span v-if="is_loading_change == v.id">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                                <span v-else>
+                                                    Đã khóa
+                                                </span>
+                                            </button>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button v-on:click="update = Object.assign({}, v)"
-                                                class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
+                                            <button v-on:click="update = Object.assign({}, v)" class="btn btn-info btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#updateModal">
                                                 <i class="fa-solid fa-pen-to-square me-0"></i>
                                             </button>
                                             <button v-on:click="del = Object.assign({}, v)" class="btn btn-danger btn-sm"
@@ -109,7 +122,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="createAdmin()">Xác nhận</button>
+                    <button class="btn btn-primary" :disabled="is_loading_create" v-on:click="createAdmin()">
+                        <span v-if="is_loading_create">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+                        <span v-else>
+                            Thêm mới
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -158,7 +178,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="updateAdmin()">Xác nhận</button>
+                    <button class="btn btn-primary" :disabled="is_loading_update" v-on:click="updateAdmin()">
+                        <span v-if="is_loading_update">
+                            <i class="fa fa-spinner fa-spin"></i> Đang cập nhật...
+                        </span>
+                        <span v-else>
+                            Cập nhật
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -187,7 +214,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="deleteAdmin()">Xác nhận</button>
+                    <button class="btn btn-primary" :disabled="is_loading_delete" v-on:click="deleteAdmin()">
+
+                        <span v-if="is_loading_delete">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xóa...
+                        </span>
+
+                        <span v-else>
+                            Xác nhận
+                        </span>
+
+                    </button>
                 </div>
             </div>
         </div>
@@ -203,7 +240,11 @@
                 create: {},
                 update: {},
                 del: {},
-                preview: ''
+                preview: '',
+                is_loading_create: false,
+                is_loading_update: false,
+                is_loading_delete: false,
+                is_loading_change: null,
             },
             created() {
                 this.loadData();
@@ -217,6 +258,7 @@
                         })
                 },
                 createAdmin() {
+                    this.is_loading_create = true;
                     axios
                         .post('/admin/admin/create', this.create)
                         .then((res) => {
@@ -233,9 +275,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_create = false;
                         });
                 },
                 updateAdmin() {
+                    this.is_loading_update = true;
                     axios
                         .post('/admin/admin/update', this.update)
                         .then((res) => {
@@ -252,9 +298,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_update = false;
                         });
                 },
                 deleteAdmin() {
+                    this.is_loading_delete = true;
                     axios
                         .post('/admin/admin/delete', this.del)
                         .then((res) => {
@@ -271,15 +321,20 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_delete = false;
                         });
                 },
                 changeStatus(value) {
+                    this.is_loading_change = value.id;
                     axios
                         .post('/admin/admin/change', value)
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
                                 this.loadData();
+                                value.is_open = value.is_open == 1 ? 0 : 1;
                             } else {
                                 toastr.error(res.data.message, 'Error');
                             }
@@ -288,6 +343,9 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_change = null;
                         });
                 },
                 date_format(now) {
