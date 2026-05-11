@@ -15,6 +15,35 @@
                     </a>
                 </div>
                 <div class="card-body">
+                    <div class="row g-2 align-items-end mb-3">
+                        <div class="col-lg-4">
+                            <label class="form-label mb-1">Tìm kiếm</label>
+                            <input type="text" class="form-control" v-model="filters.q"
+                                placeholder="Nhập tiêu đề, địa chỉ, khu vực, số điện thoại..." v-on:keyup.enter="applyFilters()">
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="form-label mb-1">Danh mục cha</label>
+                            <select class="form-select" v-model="filters.id_category">
+                                <option value="">-- Tất cả --</option>
+                                <template v-for="(c, i) in list_category" :key="i">
+                                    <option :value="c.id">@{{ c.name }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="form-label mb-1">Danh mục con</label>
+                            <select class="form-select" v-model="filters.id_subcategory" :disabled="!filters.id_category">
+                                <option value="">-- Tất cả --</option>
+                                <template v-for="(s, i) in list_subcategory" :key="i">
+                                    <option :value="s.id">@{{ s.name }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 d-flex gap-2">
+                            <button class="btn btn-primary w-100" v-on:click="applyFilters()">Lọc</button>
+                            <button class="btn btn-outline-secondary w-100" v-on:click="resetFilters()">Reset</button>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead class="">
@@ -31,7 +60,7 @@
                             <tbody>
                                 <template v-for="(value, index) in list">
                                     <tr class="align-middle">
-                                        <th class="text-center align-middle">@{{ index + 1 }}</th>
+                                        <th class="text-center align-middle">@{{ ((meta.current_page - 1) * meta.per_page) + index + 1 }}</th>
                                         <td class="text-nowrap">
                                             @{{ value.title }}
                                         </td>
@@ -57,6 +86,29 @@
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3" v-if="meta.total">
+                        <div class="text-muted">
+                            Tổng: <b>@{{ meta.total }}</b> bài đăng
+                        </div>
+                        <nav aria-label="Pagination">
+                            <ul class="pagination mb-0">
+                                <li class="page-item" :class="{ disabled: meta.current_page <= 1 }">
+                                    <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(meta.current_page - 1)">«</a>
+                                </li>
+                                <template v-for="p in pagesToShow()" :key="p.key">
+                                    <li class="page-item" v-if="p.type === 'page'" :class="{ active: p.page === meta.current_page }">
+                                        <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(p.page)">@{{ p.page }}</a>
+                                    </li>
+                                    <li class="page-item disabled" v-else>
+                                        <span class="page-link">...</span>
+                                    </li>
+                                </template>
+                                <li class="page-item" :class="{ disabled: meta.current_page >= meta.last_page }">
+                                    <a class="page-link" href="javascript:void(0)" v-on:click="goToPage(meta.current_page + 1)">»</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -173,21 +225,98 @@
             el: '#app',
             data: {
                 list: [],
+                list_category: [],
+                list_subcategory: [],
+                filters: {
+                    q: '',
+                    id_category: '',
+                    id_subcategory: '',
+                },
+                meta: {
+                    current_page: 1,
+                    last_page: 1,
+                    per_page: 10,
+                    total: 0,
+                },
                 post_detail: {
                     images: []
                 },
                 del: {},
             },
             created() {
-                this.loadData();
+                this.loadDataCategory();
+                this.loadData(1);
+            },
+            watch: {
+                'filters.id_category'(newVal) {
+                    this.filters.id_subcategory = '';
+                    this.list_subcategory = [];
+                    if (!newVal) return;
+                    axios
+                        .post('/admin/subcategory/data-post', {
+                            id_category: newVal
+                        })
+                        .then((res) => {
+                            this.list_subcategory = res.data.data || [];
+                        });
+                }
             },
             methods: {
-                loadData() {
+                loadDataCategory() {
                     axios
-                        .post('/admin/post/data')
+                        .get('/admin/category/data-open')
                         .then((res) => {
-                            this.list = res.data.data;
+                            this.list_category = res.data.data || [];
+                        });
+                },
+                loadData(page) {
+                    axios
+                        .post('/admin/post/data', {
+                            page: page,
+                            q: this.filters.q,
+                            id_category: this.filters.id_category,
+                            id_subcategory: this.filters.id_subcategory,
                         })
+                        .then((res) => {
+                            this.list = res.data.data || [];
+                            this.meta = Object.assign(this.meta, res.data.meta || {});
+                        })
+                },
+                applyFilters() {
+                    this.loadData(1);
+                },
+                resetFilters() {
+                    this.filters = {
+                        q: '',
+                        id_category: '',
+                        id_subcategory: '',
+                    };
+                    this.list_subcategory = [];
+                    this.loadData(1);
+                },
+                goToPage(page) {
+                    if (!page || page < 1 || page > this.meta.last_page) return;
+                    this.loadData(page);
+                },
+                pagesToShow() {
+                    const current = this.meta.current_page || 1;
+                    const last = this.meta.last_page || 1;
+                    const windowSize = 2;
+                    const pages = new Set([1, last]);
+                    for (let p = current - windowSize; p <= current + windowSize; p++) {
+                        if (p >= 1 && p <= last) pages.add(p);
+                    }
+                    const sorted = Array.from(pages).sort((a, b) => a - b);
+                    const out = [];
+                    let prev = null;
+                    sorted.forEach((p) => {
+                        if (prev !== null && p - prev > 1) {
+                            out.push({ type: 'gap', key: `gap-${prev}-${p}` });
+                        }
+                        out.push({ type: 'page', page: p, key: `page-${p}` });
+                        prev = p;
+                    });
+                    return out;
                 },
                 formatVND(number) {
                     return new Intl.NumberFormat("vi-VI", {
@@ -203,7 +332,7 @@
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
-                                this.loadData();
+                                this.loadData(this.meta.current_page);
                                 this.del = {};
                                 $('#deleteModal').modal('hide');
                             } else {

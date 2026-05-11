@@ -201,16 +201,19 @@
                 },
                 loadPost() {
                     axios
-                        .post('/admin/post/data')
+                        .post('/admin/post/detail', {
+                            id: this.postId
+                        })
                         .then((res) => {
-                            const post = (res.data.data || []).find(p => Number(p.id) === Number(this.postId));
-                            if (!post) {
-                                toastr.error('Không tìm thấy bài viết.', 'Error');
+                            if (!res.data.status) {
+                                toastr.error(res.data.message || 'Không tìm thấy bài viết.', 'Error');
                                 setTimeout(() => {
                                     window.location.href = '/admin/post';
                                 }, 1500);
                                 return;
                             }
+
+                            const post = res.data.data;
                             this.update = Object.assign({}, post);
                             if (!Array.isArray(this.update.images)) {
                                 this.update.images = typeof this.update.images === 'string' ?
@@ -219,6 +222,7 @@
                             this.preview = this.update.thumbnail || '';
                             this.priceFormatted = this.formatNumberWithDots(this.update.price);
                             this.loaded = true;
+
                             if (this.update.id_category) {
                                 axios
                                     .post('/admin/subcategory/data-post', {
@@ -228,6 +232,7 @@
                                         this.list_subcategory = r.data.data || [];
                                     });
                             }
+
                             this.$nextTick(() => {
                                 if (typeof tinymce !== 'undefined') {
                                     if (!tinymce.get('ckeditor-content')) {
@@ -248,8 +253,9 @@
                                                 removeformat | help",
                                             content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
                                         });
-                                        tinymce.get('ckeditor-content').setContent(this.update
-                                            .content || '');
+                                        tinymce.get('ckeditor-content').setContent(this.update.content || '');
+                                    } else {
+                                        tinymce.get('ckeditor-content').setContent(this.update.content || '');
                                     }
                                 }
                             });

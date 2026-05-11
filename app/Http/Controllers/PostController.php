@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Post\CreateRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -37,15 +38,73 @@ class PostController extends Controller
 
     public function getDataPost()
     {
-        $data = Post::orderByDESC('id')->get();
+        $page = (int) request()->input('page', 1);
+        if ($page < 1) $page = 1;
 
-        // Chuyển đổi images từ JSON string sang array
-        foreach ($data as $post) {
-            $post->images = json_decode($post->images ?? '[]', true);
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $q = trim((string) request()->input('q', ''));
+        $idCategory = request()->input('id_category');
+        $idSubcategory = request()->input('id_subcategory');
+
+        $query = Post::query()->orderByDesc('id');
+
+        if ($q !== '') {
+            $query->where(function ($sub) use ($q) {
+                $sub->where('title', 'like', "%{$q}%")
+                    ->orWhere('address', 'like', "%{$q}%")
+                    ->orWhere('location', 'like', "%{$q}%")
+                    ->orWhere('phone', 'like', "%{$q}%");
+            });
         }
 
+        if ($idCategory !== null && $idCategory !== '') {
+            $query->where('id_category', $idCategory);
+        }
+
+        if ($idSubcategory !== null && $idSubcategory !== '') {
+            $query->where('id_subcategory', $idSubcategory);
+        }
+
+        $paginator = $query->paginate(10);
+
+        $items = $paginator->getCollection()->map(function ($post) {
+            $post->images = json_decode($post->images ?? '[]', true);
+            return $post;
+        })->values();
+
         return response()->json([
-            'data'    => $data,
+            'data' => $items,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page'    => $paginator->lastPage(),
+                'per_page'     => $paginator->perPage(),
+                'total'        => $paginator->total(),
+            ],
+        ]);
+    }
+
+    public function getPostDetail(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'integer'],
+        ]);
+
+        $post = Post::find($request->id);
+        if (!$post) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Bài viết không tồn tại!',
+            ], 404);
+        }
+
+        $post->images = json_decode($post->images ?? '[]', true);
+
+        return response()->json([
+            'status' => true,
+            'data'   => $post,
         ]);
     }
 
@@ -69,7 +128,7 @@ class PostController extends Controller
             'phone'         => $request->phone,
             'zalo_link'     => $request->zalo_link,
             'map_link'      => $request->map_link,
-            'images'        => json_encode($request->images)
+            'images'        => json_encode($request->images ?? []),
         ]);
 
         return response()->json([
@@ -80,6 +139,10 @@ class PostController extends Controller
 
     public function deletePost(Request $request)
     {
+        $request->validate([
+            'id' => ['required', 'integer'],
+        ]);
+
         $post = Post::find($request->id);
 
         if (!$post) {
@@ -114,12 +177,44 @@ class PostController extends Controller
 
     public function updatePost(Request $request)
     {
+        $request->validate([
+            'id'             => ['required', 'integer'],
+            'title'          => ['required'],
+            'content'        => ['required'],
+            'id_category'    => ['required'],
+            'id_subcategory' => ['required'],
+            'thumbnail'      => ['required'],
+            'price'          => ['required'],
+            'area'           => ['required'],
+            'location'       => ['required'],
+            'address'        => ['required'],
+            'phone'          => ['required'],
+            'zalo_link'      => ['required'],
+            'map_link'       => ['required'],
+        ]);
+
         $post = Post::find($request->id);
         if (!$post) {
             return response()->json([
                 'status'    => false,
                 'message'  => 'Bài viết không tồn tại!'
             ]);
+        }
+
+        $oldThumbnail = $post->thumbnail;
+        $oldImages = json_decode($post->images ?? '[]', true) ?: [];
+        $newImages = $request->images ?? [];
+        if (!is_array($newImages)) $newImages = [];
+
+        // Nếu đổi thumbnail thì xóa thumbnail cũ
+        if ($oldThumbnail && $request->thumbnail && $oldThumbnail !== $request->thumbnail) {
+            $this->deleteImageFile($oldThumbnail);
+        }
+
+        // Xóa các ảnh detail bị bỏ đi khi update
+        $removed = array_diff($oldImages, $newImages);
+        foreach ($removed as $img) {
+            $this->deleteImageFile($img);
         }
 
         $post->update([
@@ -140,7 +235,7 @@ class PostController extends Controller
             'phone'         => $request->phone,
             'zalo_link'     => $request->zalo_link,
             'map_link'      => $request->map_link,
-            'images'        => json_encode($request->images)
+            'images'        => json_encode($newImages),
         ]);
 
         return response()->json([

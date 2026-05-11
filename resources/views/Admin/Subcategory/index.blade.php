@@ -33,7 +33,17 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary" v-on:click="createSubCategory()">Thêm mới</button>
+                    <button class="btn btn-primary" :disabled="is_loading_create" v-on:click="createSubCategory()">
+
+                        <span v-if="is_loading_create">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xử lý...
+                        </span>
+
+                        <span v-else>
+                            Thêm mới
+                        </span>
+
+                    </button>
                 </div>
             </div>
         </div>
@@ -65,10 +75,31 @@
                                             <span class="fa-2x" v-html="v.icon"></span>
                                         </td>
                                         <td class="text-center align-middle">
-                                            <button class="btn btn-success btn-sm text-white" v-if="v.status == 1"
-                                                v-on:click="changeStatus(v)">Đang mở</button>
+                                            <button class="btn btn-success btn-sm" v-if="v.status == 1"
+                                                :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
+
+                                                <span v-if="is_loading_change == v.id">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+
+                                                <span v-else>
+                                                    Đang mở
+                                                </span>
+
+                                            </button>
+
                                             <button class="btn btn-warning btn-sm text-white" v-else
-                                                v-on:click="changeStatus(v)">Đã tắt</button>
+                                                :disabled="is_loading_change == v.id" v-on:click="changeStatus(v)">
+
+                                                <span v-if="is_loading_change == v.id">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+
+                                                <span v-else>
+                                                    Đã tắt
+                                                </span>
+
+                                            </button>
                                         </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="update = Object.assign({}, v)" class="btn btn-info btn-sm"
@@ -125,7 +156,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="updateSubCategory()">Xác nhận</button>
+                    <button type="button" class="btn btn-primary" :disabled="is_loading_update"
+                        v-on:click="updateSubCategory()">
+
+                        <span v-if="is_loading_update">
+                            <i class="fa fa-spinner fa-spin"></i> Đang cập nhật...
+                        </span>
+
+                        <span v-else>
+                            Xác nhận
+                        </span>
+
+                    </button>
                 </div>
             </div>
         </div>
@@ -153,7 +195,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" v-on:click="deleteSubCategory()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" :disabled="is_loading_delete"
+                        v-on:click="deleteSubCategory()">
+
+                        <span v-if="is_loading_delete">
+                            <i class="fa fa-spinner fa-spin"></i> Đang xóa...
+                        </span>
+
+                        <span v-else>
+                            Xác nhận
+                        </span>
+
+                    </button>
                 </div>
             </div>
         </div>
@@ -174,6 +227,10 @@
                 },
                 update: {},
                 del: {},
+                is_loading_create: false,
+                is_loading_update: false,
+                is_loading_delete: false,
+                is_loading_change: null,
             },
             created() {
                 this.loadDataCategory();
@@ -196,6 +253,7 @@
                         })
                 },
                 createSubCategory() {
+                    this.is_loading_create = true;
                     axios
                         .post('/admin/subcategory/create', this.create)
                         .then((res) => {
@@ -211,9 +269,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_create = false;
                         });
                 },
                 updateSubCategory() {
+                    this.is_loading_update = true;
                     axios
                         .post('/admin/subcategory/update', this.update)
                         .then((res) => {
@@ -230,9 +292,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_update = false;
                         });
                 },
                 deleteSubCategory() {
+                    this.is_loading_delete = true;
                     axios
                         .post('/admin/subcategory/delete', this.del)
                         .then((res) => {
@@ -249,9 +315,13 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_delete = false;
                         });
                 },
                 changeStatus(value) {
+                    this.is_loading_change = value.id;
                     var payload = {
                         id: value.id,
                     }
@@ -269,6 +339,9 @@
                             $.each(err.response.data.errors, function(k, v) {
                                 toastr.error(v[0], 'Error');
                             });
+                        })
+                        .finally(() => {
+                            this.is_loading_change = null;
                         });
                 }
             }
