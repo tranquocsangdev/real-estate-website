@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
@@ -15,6 +16,8 @@ class Post extends Model
         'id_client',
         'id_category',
         'id_subcategory',
+        'id_tinh_thanh',
+        'id_xa_phuong',
         'thumbnail',
         'price',
         'area',
@@ -28,4 +31,15 @@ class Post extends Model
         'map_link',
         'images',
     ];
+
+    public function tinhThanh(): BelongsTo
+    {
+        return $this->belongsTo(TinhThanh::class, 'id_tinh_thanh');
+    }
+
+    public function xaPhuong(): BelongsTo
+    {
+        return $this->belongsTo(XaPhuong::class, 'id_xa_phuong');
+    }
 }
+

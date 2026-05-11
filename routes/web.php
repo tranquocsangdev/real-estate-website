@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiaPhanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\MessageController;
@@ -45,6 +46,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::post('/update', [SubCategoryController::class, 'updateSubCategory']);
         Route::post('/delete', [SubCategoryController::class, 'deleteSubCategory']);
         Route::post('/change', [SubCategoryController::class, 'changeStatusSubCategory']);
+    });
+
+    Route::prefix('/dia-phan')->group(function () {
+        Route::get('/tinh-thanh', [DiaPhanController::class, 'listTinhThanh']);
+        Route::get('/xa-phuong', [DiaPhanController::class, 'listXaPhuong']);
     });
 
     Route::prefix('/post')->group(function () {

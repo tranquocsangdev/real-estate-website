@@ -3,6 +3,7 @@
 @section('title', 'Cập nhật bài đăng')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -75,10 +76,16 @@
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label">Khu vực (Quận, Tỉnh/TP) ( <span class="text-danger">*</span>
-                                )</label>
-                            <input type="text" class="form-control" v-model="update.location"
-                                placeholder="VD: Cầu Giấy, Hà Nội">
+                            <label class="form-label">Tỉnh / Thành phố ( <span class="text-danger">*</span> )</label>
+                            <select ref="selectTinh" class="form-select" autocomplete="address-level1">
+                                <option value="">-- Chọn tỉnh thành --</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label">Xã / Phường ( <span class="text-danger">*</span> )</label>
+                            <select ref="selectXa" class="form-select" autocomplete="address-level2">
+                                <option value="">-- Chọn xã phường --</option>
+                            </select>
                         </div>
 
                         <div class="col-lg-6 mb-3">
@@ -182,6 +189,7 @@
 @endsection
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         new Vue({
             el: '#app',
@@ -193,10 +201,16 @@
                 },
                 list_category: [],
                 list_subcategory: [],
+                list_tinh_thanh: [],
                 contactSuggestions: [],
                 preview: '',
                 priceFormatted: '',
-                is_loading_update: false
+                is_loading_update: false,
+                _tsTinh: null,
+                _tsXa: null,
+            },
+            beforeDestroy() {
+                this.destroyTomLocationSelects();
             },
             created() {
                 this.loadDataCategory();
@@ -248,6 +262,10 @@
                             }
                             this.preview = this.update.thumbnail || '';
                             this.priceFormatted = this.formatNumberWithDots(this.update.price);
+                            this.update.id_tinh_thanh = this.update.id_tinh_thanh ?
+                                parseInt(this.update.id_tinh_thanh, 10) : '';
+                            this.update.id_xa_phuong = this.update.id_xa_phuong ?
+                                parseInt(this.update.id_xa_phuong, 10) : '';
                             this.loaded = true;
 
                             if (this.update.id_category) {
@@ -260,7 +278,7 @@
                                     });
                             }
 
-                            this.$nextTick(() => {
+                            this.$nextTick(async () => {
                                 if (typeof tinymce !== 'undefined') {
                                     if (!tinymce.get('ckeditor-content')) {
                                         tinymce.init({
@@ -287,6 +305,7 @@
                                             .content || '');
                                     }
                                 }
+                                await this.initTomLocationAfterLoad();
                             });
                         })
                         .catch(() => {
@@ -312,6 +331,84 @@
                             }
                         })
                         .catch(() => {});
+                },
+                loadTinhThanhForLocation() {
+                    return axios
+                        .get('/admin/dia-phan/tinh-thanh')
+                        .then((res) => {
+                            this.list_tinh_thanh = res.data.data || [];
+                        });
+                },
+                destroyTomLocationSelects() {
+                    if (this._tsTinh) {
+                        this._tsTinh.destroy();
+                        this._tsTinh = null;
+                    }
+                    if (this._tsXa) {
+                        this._tsXa.destroy();
+                        this._tsXa = null;
+                    }
+                },
+                async refreshTomXaOptionsUpdate() {
+                    if (!this._tsXa) return;
+                    this._tsXa.clear(true);
+                    this._tsXa.clearOptions();
+                    if (!this.update.id_tinh_thanh) return;
+                    const res = await axios.get('/admin/dia-phan/xa-phuong', {
+                        params: {
+                            id_tinh_thanh: this.update.id_tinh_thanh
+                        },
+                    });
+                    (res.data.data || []).forEach((r) => this._tsXa.addOption({
+                        id: String(r.id),
+                        name: r.name,
+                    }));
+                    this._tsXa.refreshOptions(false);
+                },
+                async initTomLocationAfterLoad() {
+                    if (typeof TomSelect === 'undefined') return;
+                    await this.loadTinhThanhForLocation();
+                    await this.$nextTick();
+                    this.destroyTomLocationSelects();
+                    await this.$nextTick();
+                    const self = this;
+                    const tinhOpts = (this.list_tinh_thanh || []).map((t) => ({
+                        id: String(t.id),
+                        name: t.name,
+                    }));
+                    this._tsTinh = new TomSelect(this.$refs.selectTinh, {
+                        plugins: ['clear_button'],
+                        maxOptions: 10000,
+                        valueField: 'id',
+                        labelField: 'name',
+                        searchField: ['name'],
+                        options: tinhOpts,
+                        placeholder: 'Tìm và chọn tỉnh thành...',
+                        onChange(val) {
+                            self.update.id_tinh_thanh = val ? parseInt(val, 10) : '';
+                            self.update.id_xa_phuong = '';
+                            self.refreshTomXaOptionsUpdate();
+                        },
+                    });
+                    this._tsXa = new TomSelect(this.$refs.selectXa, {
+                        plugins: ['clear_button'],
+                        maxOptions: 20000,
+                        valueField: 'id',
+                        labelField: 'name',
+                        searchField: ['name'],
+                        options: [],
+                        placeholder: 'Tìm và chọn xã phường...',
+                        onChange(val) {
+                            self.update.id_xa_phuong = val ? parseInt(val, 10) : '';
+                        },
+                    });
+                    if (this.update.id_tinh_thanh) {
+                        this._tsTinh.setValue(String(this.update.id_tinh_thanh), true);
+                        await this.refreshTomXaOptionsUpdate();
+                        if (this.update.id_xa_phuong) {
+                            this._tsXa.setValue(String(this.update.id_xa_phuong), true);
+                        }
+                    }
                 },
                 zaloLinkFromPhone(phone) {
                     const digits = String(phone || '').replace(/\D/g, '');

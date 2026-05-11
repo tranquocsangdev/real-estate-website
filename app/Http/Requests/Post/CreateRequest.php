@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Post;
 
+use App\Models\TinhThanh;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -31,7 +33,17 @@ class CreateRequest extends FormRequest
             'bathrooms'      => 'nullable|integer|min:0',
             'address'        => 'required|min:5|max:255',
             'project_name'   => 'nullable|max:255',
-            'location'       => 'required|max:255',
+            'id_tinh_thanh'  => 'required|integer|exists:tinh_thanhs,id',
+            'id_xa_phuong'   => [
+                'required',
+                'integer',
+                Rule::exists('xa_phuongs', 'id')->where(function ($query) {
+                    $code = TinhThanh::query()
+                        ->whereKey((int) $this->input('id_tinh_thanh'))
+                        ->value('code');
+                    $query->where('id_thuoc_tinh_thanh', $code);
+                }),
+            ],
             'map_link'       => 'required|url',
             'phone'          => 'required|max:20',
             'zalo_link'      => 'required|url',
@@ -72,7 +84,8 @@ class CreateRequest extends FormRequest
             'bathrooms'      => 'Phòng vệ sinh',
             'address'        => 'Địa chỉ cụ thể',
             'project_name'   => 'Tên dự án',
-            'location'       => 'Khu vực',
+            'id_tinh_thanh'  => 'Tỉnh/Thành phố',
+            'id_xa_phuong'   => 'Xã/Phường',
             'map_link'       => 'Link bản đồ',
             'phone'          => 'Số điện thoại liên hệ',
             'zalo_link'      => 'Zalo liên hệ',

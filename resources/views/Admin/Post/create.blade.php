@@ -82,10 +82,16 @@
                         </div>
 
                         <div class="col-lg-6 mb-3">
-                            <label class="form-label">Khu vực (Quận, Tỉnh/TP) ( <span class="text-danger">*</span>
-                                )</label>
-                            <input type="text" class="form-control" v-model="create.location"
-                                placeholder="VD: Cầu Giấy, Hà Nội">
+                            <label class="form-label">Tỉnh / Thành phố ( <span class="text-danger">*</span> )</label>
+                            <select ref="selectTinh" class="form-select" autocomplete="address-level1">
+                                <option value="">-- Chọn tỉnh thành --</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label class="form-label">Xã / Phường ( <span class="text-danger">*</span> )</label>
+                            <select ref="selectXa" class="form-select" autocomplete="address-level2">
+                                <option value="">-- Chọn xã phường --</option>
+                            </select>
                         </div>
 
                         <div class="col-lg-6 mb-3">
@@ -200,12 +206,14 @@
 @endsection
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         new Vue({
             el: '#app',
             data: {
                 list_category: [],
                 list_subcategory: [],
+                list_tinh_thanh: [],
                 contactSuggestions: [],
                 priceFormatted: '',
                 create: {
@@ -215,12 +223,13 @@
                     id_client: 1,
                     id_category: '',
                     id_subcategory: '',
+                    id_tinh_thanh: '',
+                    id_xa_phuong: '',
                     thumbnail: null,
                     price: '',
                     area: null,
                     bedrooms: null,
                     bathrooms: null,
-                    location: '',
                     address: '',
                     project_name: '',
                     phone: '',
@@ -229,7 +238,9 @@
                     images: []
                 },
                 preview: '',
-                is_loading_create: false
+                is_loading_create: false,
+                _tsTinh: null,
+                _tsXa: null,
             },
             mounted() {
                 tinymce.init({
@@ -249,6 +260,12 @@
                                       removeformat | help",
                     content_style: "body { font-family:Arial,sans-serif; font-size:14px }"
                 });
+                this.loadTinhThanhForLocation().then(() => {
+                    this.$nextTick(() => this.initTomLocationSelects());
+                });
+            },
+            beforeDestroy() {
+                this.destroyTomLocationSelects();
             },
             created() {
                 this.loadDataCategory();
@@ -332,6 +349,75 @@
                             this.list_category = res.data.data;
                         });
                 },
+                loadTinhThanhForLocation() {
+                    return axios
+                        .get('/admin/dia-phan/tinh-thanh')
+                        .then((res) => {
+                            this.list_tinh_thanh = res.data.data || [];
+                        });
+                },
+                destroyTomLocationSelects() {
+                    if (this._tsTinh) {
+                        this._tsTinh.destroy();
+                        this._tsTinh = null;
+                    }
+                    if (this._tsXa) {
+                        this._tsXa.destroy();
+                        this._tsXa = null;
+                    }
+                },
+                initTomLocationSelects() {
+                    if (typeof TomSelect === 'undefined') return;
+                    const self = this;
+                    this.destroyTomLocationSelects();
+                    const tinhOpts = (this.list_tinh_thanh || []).map((t) => ({
+                        id: String(t.id),
+                        name: t.name,
+                    }));
+                    this._tsTinh = new TomSelect(this.$refs.selectTinh, {
+                        plugins: ['clear_button'],
+                        maxOptions: 10000,
+                        valueField: 'id',
+                        labelField: 'name',
+                        searchField: ['name'],
+                        options: tinhOpts,
+                        placeholder: 'Tìm và chọn tỉnh thành...',
+                        onChange(val) {
+                            self.create.id_tinh_thanh = val ? parseInt(val, 10) : '';
+                            self.create.id_xa_phuong = '';
+                            self.refreshTomXaOptions();
+                        },
+                    });
+                    this._tsXa = new TomSelect(this.$refs.selectXa, {
+                        plugins: ['clear_button'],
+                        maxOptions: 20000,
+                        valueField: 'id',
+                        labelField: 'name',
+                        searchField: ['name'],
+                        options: [],
+                        placeholder: 'Tìm và chọn xã phường...',
+                        onChange(val) {
+                            self.create.id_xa_phuong = val ? parseInt(val, 10) : '';
+                        },
+                    });
+                },
+                async refreshTomXaOptions() {
+                    if (!this._tsXa) return;
+                    this._tsXa.clear(true);
+                    this._tsXa.clearOptions();
+                    if (!this.create.id_tinh_thanh) return;
+                    const res = await axios.get('/admin/dia-phan/xa-phuong', {
+                        params: {
+                            id_tinh_thanh: this.create.id_tinh_thanh
+                        },
+                    });
+                    const rows = res.data.data || [];
+                    rows.forEach((r) => this._tsXa.addOption({
+                        id: String(r.id),
+                        name: r.name,
+                    }));
+                    this._tsXa.refreshOptions(false);
+                },
                 loadContactSuggestions() {
                     axios
                         .get('/admin/post/contact-suggestions')
@@ -366,28 +452,31 @@
                             if (res.data.status) {
                                 toastr.success(res.data.message, 'Success');
                                 this.create = {
-                                        title: '',
-                                        slug: '',
-                                        content: '',
-                                        id_client: 1,
-                                        id_category: '',
-                                        id_subcategory: '',
-                                        thumbnail: null,
-                                        price: '',
-                                        area: null,
-                                        bedrooms: null,
-                                        bathrooms: null,
-                                        location: '',
-                                        address: '',
-                                        project_name: '',
-                                        phone: '',
-                                        zalo_link: '',
-                                        map_link: '',
-                                        images: []
-                                    },
-                                    setTimeout(() => {
-                                        window.location.href = '/admin/post';
-                                    }, 1000);
+                                    title: '',
+                                    slug: '',
+                                    content: '',
+                                    id_client: 1,
+                                    id_category: '',
+                                    id_subcategory: '',
+                                    id_tinh_thanh: '',
+                                    id_xa_phuong: '',
+                                    thumbnail: null,
+                                    price: '',
+                                    area: null,
+                                    bedrooms: null,
+                                    bathrooms: null,
+                                    address: '',
+                                    project_name: '',
+                                    phone: '',
+                                    zalo_link: '',
+                                    map_link: '',
+                                    images: []
+                                };
+                                if (this._tsTinh) this._tsTinh.clear(true);
+                                if (this._tsXa) this._tsXa.clear(true);
+                                setTimeout(() => {
+                                    window.location.href = '/admin/post';
+                                }, 1000);
                             }
                         })
                         .catch((err) => {

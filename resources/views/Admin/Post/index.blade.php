@@ -55,7 +55,6 @@
                                     <th>Giá</th>
                                     <th>Diện tích</th>
                                     <th>Địa chỉ</th>
-                                    <th>Số Điện Thoại - Zalo</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -79,9 +78,7 @@
                                         </td>
                                         <td class="text-end text-danger"><b>@{{ formatVND(value.price) }}</b></td>
                                         <td class="text-center"><b>@{{ value.area }}</b> m <sup>2</sup></td>
-                                        <td class="text-nowrap">@{{ value.address }}</td>
-                                        <td class="text-center">@{{ value.phone }} / <a :href="value.zalo_link"
-                                                target="_blank">Zalo</a></td>
+                                        <td class="text-nowrap">@{{ value.address }} - </td>
                                         <td class="text-center align-middle">
                                             <button v-on:click="post_detail = Object.assign({}, value)"
                                                 class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#postModal">

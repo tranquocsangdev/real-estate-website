@@ -19,12 +19,13 @@ return new class extends Migration
             $table->integer('id_client');
             $table->integer('id_category')->nullable()->comment('Danh mục cha');
             $table->integer('id_subcategory')->nullable()->comment('Danh mục con');
+            $table->integer('id_tinh_thanh')->nullable()->comment('Tỉnh/Thành phố');
+            $table->integer('id_xa_phuong')->nullable()->comment('Xã/Phường');
             $table->string('thumbnail')->nullable()->comment('Ảnh đại diện bài viết');
             $table->string('price')->nullable()->comment('Giá bán hoặc giá thỏa thuận');
             $table->integer('area')->nullable()->comment('Diện tích (m²)');
             $table->integer('bedrooms')->nullable()->comment('Số phòng ngủ');
             $table->integer('bathrooms')->nullable()->comment('Số phòng vệ sinh');
-            $table->string('location')->nullable()->comment('Quận, Tỉnh/Thành phố');
             $table->string('address')->nullable()->comment('Địa chỉ cụ thể');
             $table->string('project_name')->nullable()->comment('Tên dự án (nếu có)');
             $table->string('phone')->nullable()->comment('Số điện thoại liên hệ');
