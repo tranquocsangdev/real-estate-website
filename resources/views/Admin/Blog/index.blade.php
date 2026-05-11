@@ -17,7 +17,6 @@
                                 <tr class="text-center text-uppercase">
                                     <th>#</th>
                                     <th>Tiêu đề</th>
-                                    <th>Slug</th>
                                     <th>Ảnh đại diện</th>
                                     <th>Nội dung</th>
                                     <th>Ngày tạo</th>
@@ -31,31 +30,32 @@
                                     <tr class="align-middle">
                                         <th class="text-center">@{{ index + 1 }}</th>
                                         <td>@{{ value.title }}</td>
-                                        <td class="small text-break">@{{ value.slug }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <img :src="value.thumbnail" alt="Ảnh đại diện" class="img-fluid"
-                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                style="width: 150px; height: 150px; object-fit: cover;">
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-success" v-on:click="blog_detail = value"
+                                            <button class="btn btn-success btn-sm" v-on:click="blog_detail = value"
                                             data-bs-toggle="modal" data-bs-target="#postModal">
-                                                <i class="fa-solid fa-eye ms-1"></i>
+                                                <i class="fa-solid fa-eye me-0"></i>
                                             </button>
                                         </td>
-                                        <td v-html="date_format_full(value.created_at)"></td>
-                                        <td class="text-center">@{{ value.views }}</td>
+                                        <td class="text-center" v-html="date_format_full(value.created_at)"></td>
+                                        <td class="text-center align-middle">@{{ value.views }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-success text-white" v-if="value.status == 1">Đang hoạt
+                                            <button class="btn btn-success btn-sm text-white" v-if="value.status == 1">Đang hoạt
                                                 động</button>
-                                            <button class="btn btn-danger text-white" v-else>Đã
+                                            <button class="btn btn-danger btn-sm text-white" v-else>Đã
                                                 ẩn hiện</button>
                                         </td>
-                                        <td>
-                                            <button class="btn btn-primary">
-                                                <i class="fa-solid fa-pencil ms-1"></i>
-                                            </button>
-                                            <button class="btn btn-danger">
-                                                <i class="fa-regular fa-trash-can ms-1"></i>
+                                        <td class="text-center">
+                                            <a :href="'/admin/blog/update/' + value.id" class="btn btn-info btn-sm">
+                                                <i class="fa-solid fa-pen-to-square me-0"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                v-on:click="del = Object.assign({}, value)"
+                                                data-bs-toggle="modal" data-bs-target="#deleteBlogModal">
+                                                <i class="fa-solid fa-trash-can-arrow-up me-0"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -89,7 +89,35 @@
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal Xóa tin tức -->
+    <div class="modal fade" id="deleteBlogModal" tabindex="-1" role="dialog" aria-labelledby="deleteBlogModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white text-uppercase" id="deleteBlogModalLabel">Xác nhận xóa tin tức
+                        <b>@{{ del.title }}</b>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong><i class="fas fa-exclamation-triangle"></i> Cảnh báo!</strong> Bạn có chắc chắn muốn xóa
+                        tin tức <b>@{{ del.title }}</b> không?
+                        <br>
+                        <span>Hành động này <b>không thể hoàn tác</b>. Nếu bạn đồng ý, hãy nhấn <b>Xác nhận</b> bên
+                            dưới.</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deleteBlog()">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -98,7 +126,8 @@
             el: '#app',
             data: {
                 list_blog: [],
-                blog_detail : {}
+                blog_detail: {},
+                del: {},
             },
             mounted() {
                 this.getDataBlog();
@@ -111,9 +140,34 @@
                             this.list_blog = res.data.data;
                         })
                         .catch((err) => {
-                            $.each(err.response.data.errors, function(k, v) {
-                                toastr.error(v[0], 'Error');
-                            });
+                            if (err.response && err.response.data && err.response.data.errors) {
+                                $.each(err.response.data.errors, function(k, v) {
+                                    toastr.error(v[0], 'Error');
+                                });
+                            }
+                        });
+                },
+                deleteBlog() {
+                    axios
+                        .post('/admin/blog/delete', this.del)
+                        .then((res) => {
+                            if (res.data.status) {
+                                toastr.success(res.data.message, 'Success');
+                                this.getDataBlog();
+                                this.del = {};
+                                $('#deleteBlogModal').modal('hide');
+                            } else {
+                                toastr.error(res.data.message, 'Error');
+                            }
+                        })
+                        .catch((err) => {
+                            if (err.response && err.response.data && err.response.data.errors) {
+                                $.each(err.response.data.errors, function(k, v) {
+                                    toastr.error(v[0], 'Error');
+                                });
+                            } else {
+                                toastr.error('Không xóa được tin tức.', 'Error');
+                            }
                         });
                 },
             },

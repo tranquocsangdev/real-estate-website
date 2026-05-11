@@ -27,33 +27,86 @@
                 </nav>
             </section>
 
-            <section class="market-section fade-up">
-                <div class="market-section-card market-blog-detail-card">
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-8">
+                    <section class="market-section fade-up">
+                        <div class="market-section-card market-blog-detail-card">
 
-                    <div class="market-blog-detail-head">
-                        <span class="market-blog-detail-badge">
-                            Tin tức bất động sản
-                        </span>
+                            <div class="market-blog-detail-head">
+                                <span class="market-blog-detail-badge">
+                                    Tin tức bất động sản
+                                </span>
 
-                        <h1 class="market-blog-detail-title">
-                            {{ $blog_detail->title }}
-                        </h1>
+                                <h1 class="market-blog-detail-title">
+                                    {{ $blog_detail->title }}
+                                </h1>
 
-                        <div class="market-blog-detail-meta">
-                            <span>
-                                <i class="fas fa-calendar-alt me-1"></i>
-                                Ngày đăng:
-                                {{ $blog_detail->created_at->format('d/m/Y') }}
-                            </span>
+                                <div class="market-blog-detail-meta">
+                                    <span>
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        Ngày đăng:
+                                        {{ $blog_detail->created_at->format('d/m/Y') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="market-blog-detail-content">
+                                {!! $blog_detail->content !!}
+                            </div>
+
                         </div>
-                    </div>
-
-                    <div class="market-blog-detail-content">
-                        {!! $blog_detail->content !!}
-                    </div>
-
+                    </section>
                 </div>
-            </section>
+
+                <aside class="col-lg-4 fade-up">
+                    <div class="market-blog-sidebar">
+                        <h2 class="market-blog-sidebar-title">Bài viết khác</h2>
+
+                        @if (isset($blog_related) && $blog_related->count() > 0)
+                            <div class="market-news-card-stack market-news-card-stack--compact">
+                                @foreach ($blog_related as $hot)
+                                    @php
+                                        $hotHref = '/home/blog/' . $hot->slug . '/' . $hot->id;
+                                        $hotExcerpt = \Illuminate\Support\Str::limit(
+                                            \Illuminate\Support\Str::squish(strip_tags($hot->content)),
+                                            120,
+                                            '…',
+                                        );
+                                    @endphp
+                                    <article class="market-news-card market-news-card--thumb-left market-news-card--compact">
+                                        <div class="market-news-card-thumb">
+                                            <a href="{{ $hotHref }}" title="{{ $hot->title }}"
+                                                class="market-news-card-thumb-link thumb-5x3">
+                                                <img src="{{ $hot->thumbnail }}" alt="{{ $hot->title }}" loading="lazy"
+                                                    width="400" height="240">
+                                            </a>
+                                        </div>
+                                        <div class="market-news-card-body">
+                                            <h3 class="market-news-card-title">
+                                                <a href="{{ $hotHref }}" title="{{ $hot->title }}">{{ $hot->title }}</a>
+                                            </h3>
+                                            <p class="market-news-card-description">
+                                                <a href="{{ $hotHref }}"
+                                                    title="{{ $hot->title }}">{{ $hotExcerpt }}</a>
+                                            </p>
+                                            <p class="market-news-card-meta-line">
+                                                <span
+                                                    class="market-news-card-meta-date">{{ $hot->created_at->format('d/m/Y') }}</span>
+                                                <span class="market-news-card-meta-dot" aria-hidden="true">·</span>
+                                                <span
+                                                    class="market-news-card-meta-author">{{ number_format($hot->views ?? 0) }}
+                                                    lượt xem</span>
+                                            </p>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-muted mb-0 small">Chưa có bài viết khác.</p>
+                        @endif
+                    </div>
+                </aside>
+            </div>
 
         </div>
     </div>
@@ -162,6 +215,188 @@
 
         .market-blog-breadcrumb {
             max-width: 14rem;
+        }
+
+        /* Sidebar + cards (giống trang list tin) */
+        .market-blog-sidebar {
+            border: 1px solid var(--mk-border);
+            border-radius: 12px;
+            padding: 20px 18px;
+            background: #fff;
+            position: sticky;
+            top: 100px;
+        }
+
+        .market-blog-sidebar-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin: 0 0 14px;
+            color: var(--mk-text);
+        }
+
+        .market-news-card-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .market-news-card-stack--compact {
+            gap: 12px;
+        }
+
+        .market-news-card {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 18px;
+            margin: 0;
+            padding: 16px 18px;
+            width: 100%;
+            box-sizing: border-box;
+            background: #fff;
+            border: 1px solid var(--mk-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .market-news-card--compact {
+            gap: 12px;
+            padding: 12px 12px;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+        }
+
+        .market-news-card-thumb {
+            flex: 0 0 clamp(72px, 26%, 108px);
+            align-self: flex-start;
+        }
+
+        .market-news-card-thumb-link {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #e2e8f0;
+        }
+
+        .market-news-card-thumb-link.thumb-5x3 {
+            aspect-ratio: 5 / 3;
+        }
+
+        .market-news-card-thumb-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .market-news-card-body {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .market-news-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 0 0 6px;
+        }
+
+        .market-news-card-title a {
+            color: var(--mk-text);
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .market-news-card-description {
+            margin: 0 0 6px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .market-news-card-description a {
+            color: var(--mk-muted);
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+        }
+
+        .market-news-card-meta-line {
+            margin: 0;
+            font-size: 11px;
+            color: #94a3b8;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .market-news-card-meta-dot {
+            opacity: 0.75;
+        }
+
+        @media (max-width: 991.98px) {
+            .market-blog-sidebar {
+                position: static;
+            }
+        }
+
+        .blog-content {
+            line-height: 1.8;
+            font-size: 15px;
+            color: #374151;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            margin: 16px auto;
+        }
+
+        .blog-content iframe {
+            max-width: 100%;
+            width: 100%;
+            border: 0;
+        }
+
+        .blog-content table {
+            width: 100% !important;
+            display: block;
+            overflow-x: auto;
+            border-collapse: collapse;
+        }
+
+        .blog-content table td,
+        .blog-content table th {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .blog-content pre {
+            overflow-x: auto;
+            background: #111827;
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .blog-content * {
+            max-width: 100%;
         }
     </style>
 @endsection

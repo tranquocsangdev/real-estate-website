@@ -12,13 +12,19 @@
                         <li class="breadcrumb-item">
                             <a href="/" class="text-decoration-none">Trang chủ</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+                        <li class="breadcrumb-item active market-blog-breadcrumb text-truncate" aria-current="page"
+                            title="{{ $category->name }}">
+                            {{ $category->name }}
+                        </li>
                     </ol>
                 </nav>
-                <div class="market-section-head align-items-start flex-column flex-md-row">
+            </section>
+
+            <header class="market-blog-page-header market-category-page-header fade-up market-section mb-4">
+                <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3">
                     <div>
-                        <h2 class="mb-2">{{ $category->name }}</h2>
-                        <p class="mb-0">
+                        <h1 class="market-blog-page-heading mb-2">{{ $category->name }}</h1>
+                        <p class="market-blog-page-lead text-muted mb-0">
                             @if ($list_posts->count() > 0)
                                 {{ $list_posts->count() }} tin đăng bất động sản trong danh mục.
                             @else
@@ -26,9 +32,9 @@
                             @endif
                         </p>
                     </div>
-                    <a href="/home/all-post" class="mt-3 mt-md-0 align-self-start">Xem tất cả tin</a>
+                    <a href="/home/all-post" class="market-category-view-all-link mt-1 mt-md-0">Xem tất cả tin</a>
                 </div>
-            </section>
+            </header>
 
             @if ($list_posts->count() > 0)
                 <section class="market-section market-featured fade-up">
@@ -76,6 +82,41 @@
         }
 
         .market-category-back-home:hover {
+            opacity: 0.88;
+        }
+
+        .market-blog-breadcrumb {
+            max-width: 14rem;
+        }
+
+        .market-blog-page-heading {
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        .market-blog-page-lead {
+            max-width: 680px;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .market-category-page-header {
+            border: 1px solid var(--mk-border);
+            border-radius: 12px;
+            background: #fff;
+            padding: clamp(1rem, 2vw, 1.4rem);
+        }
+
+        .market-category-view-all-link {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--mk-primary);
+            white-space: nowrap;
+        }
+
+        .market-category-view-all-link:hover {
             opacity: 0.88;
         }
     </style>

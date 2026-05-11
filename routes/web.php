@@ -92,8 +92,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
     Route::prefix('/blog')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewBlog']);
         Route::get('/create', [ViewAdminController::class, 'viewCreateBlog']);
+        Route::get('/update/{id}', [ViewAdminController::class, 'viewUpdateBlog']);
         Route::post('/data', [BlogController::class, 'getDataBlog']);
+        Route::post('/detail', [BlogController::class, 'getBlogAdmin']);
         Route::post('/create', [BlogController::class, 'createBlog']);
+        Route::post('/update', [BlogController::class, 'updateBlog']);
+        Route::post('/delete', [BlogController::class, 'deleteBlog']);
     });
 
     Route::prefix('/profile')->group(function () {

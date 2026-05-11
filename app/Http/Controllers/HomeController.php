@@ -49,7 +49,13 @@ class HomeController extends Controller
     public function viewBlog()
     {
         $ds_blog = Blog::orderByDESC('id')->get();
-        return view('Client.Blog.index', compact('ds_blog'));
+        $blog_most_viewed = Blog::query()
+            ->orderByDesc('views')
+            ->orderByDesc('id')
+            ->take(5)
+            ->get();
+
+        return view('Client.Blog.index', compact('ds_blog', 'blog_most_viewed'));
     }
 
     public function viewBlogDetail($slug, $id)
@@ -61,7 +67,13 @@ class HomeController extends Controller
         $blog_detail->views++;
         $blog_detail->save();
 
-        return view('Client.BlogDetail.index', compact('blog_detail'));
+        $blog_related = Blog::query()
+            ->where('id', '!=', $blog_detail->id)
+            ->orderByDesc('id')
+            ->take(6)
+            ->get();
+
+        return view('Client.BlogDetail.index', compact('blog_detail', 'blog_related'));
     }
 
     public function viewAllPost()

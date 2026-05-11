@@ -87,4 +87,9 @@ class ViewAdminController extends Controller
     {
         return view('Admin.Blog.create');
     }
+
+    public function viewUpdateBlog($id)
+    {
+        return view('Admin.Blog.update', compact('id'));
+    }
 }
