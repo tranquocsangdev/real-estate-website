@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiaPhanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhachHangController;
@@ -26,6 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
 
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', [ViewAdminController::class, 'viewDashboard']);
+        Route::get('/data', [DashboardController::class, 'getDataDashboard']);
     });
 
     Route::prefix('/category')->group(function () {
@@ -126,11 +128,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminMiddle'], function () {
         Route::get('/user', [MessageController::class, 'userAdmin']);
         Route::post('/send', [MessageController::class, 'sendMessage']);
     });
-
-    // conversation: đoạn hội thoại
-    // Route::prefix('/conversation')->group(function () {
-    //     Route::post('/data', [MessageController::class, 'getDataConversation']);
-    // });
 });
 
 Route::get('/', [HomeController::class, 'viewHome']);
@@ -168,19 +165,3 @@ Route::prefix('/user')->middleware('userMiddle')->group(function () {
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
-
-
-// Lấy 50 tin gần nhất (test)
-// Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-
-// Lấy cuộc hội thoại giữa 2 user
-// Route::get('/messages/{from}/{to}', [MessageController::class, 'between'])->name('messages.between');
-
-// Gửi tin nhắn
-// Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
-
-// Đánh dấu đã đọc
-// Route::patch('/messages/{id}/read', [MessageController::class, 'markAsRead'])->name('messages.read');
-
-// Đánh dấu đã đọc theo cặp user
-// Route::patch('/messages/read-between/{from}/{to}', [MessageController::class, 'markBetweenAsRead'])->name('messages.readBetween');
