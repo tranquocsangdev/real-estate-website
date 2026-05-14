@@ -226,8 +226,8 @@
                     bathrooms: null,
                     address: '',
                     project_name: '',
-                    phone: '',
-                    zalo_link: '',
+                    phone: '0394410447',
+                    zalo_link: 'https://zalo.me/0394410447',
                     map_link: '',
                     images: []
                 },

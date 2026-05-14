@@ -22,7 +22,11 @@
                             @if ($ds_post->count() > 0)
                                 {{ $ds_post->count() }} tin bất động sản đang được hiển thị.
                             @else
-                                Hiện chưa có tin đăng nào.
+                                @if (!empty($hasFilters))
+                                    Không có tin đăng phù hợp bộ lọc tìm kiếm.
+                                @else
+                                    Hiện chưa có tin đăng nào.
+                                @endif
                             @endif
                         </p>
                     </div>
@@ -34,7 +38,7 @@
                 <section class="market-section market-featured fade-up">
                     <div class="row g-3">
                         @foreach ($ds_post as $value)
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-6 col-lg-3">
                                 <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
                                     class="d-block h-100 text-decoration-none text-reset">
                                     <div class="market-property-card h-100">
@@ -57,7 +61,13 @@
                 <section class="market-section fade-up">
                     <div class="market-section-card text-center py-5 px-3">
                         <i class="fa-solid fa-folder-open fs-1 text-muted mb-3 d-block opacity-50"></i>
-                        <p class="text-muted mb-3 mb-md-4">Chưa có tin đăng bất động sản.</p>
+                        <p class="text-muted mb-3 mb-md-4">
+                            @if (!empty($hasFilters))
+                                Không có tin đăng phù hợp bộ lọc tìm kiếm.
+                            @else
+                                Chưa có tin đăng bất động sản.
+                            @endif
+                        </p>
                         <a href="/" class="market-viewall-back-home d-inline-block">Về trang chủ</a>
                     </div>
                 </section>

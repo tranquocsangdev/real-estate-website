@@ -2,6 +2,10 @@
 
 @section('title', 'Trang chủ')
 
+@section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css">
+@endsection
+
 @section('content')
     <div class="market-home">
         <section class="fade-up">
@@ -47,52 +51,41 @@
 
         <div class="container market-container">
             <section class="market-search-section fade-up">
-                <div class="market-search-card">
-                    <div class="market-search-tabs">
-                        <button class="active">Mua bán</button>
-                        <button>Cho thuê</button>
-                        <button>Dự án</button>
-                    </div>
+                <form method="get" action="/home/all-post" class="market-search-card" id="homeQuickSearchForm">
                     <div class="market-search-main">
                         <div class="market-input-wrap">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Nhập từ khóa: dự án, quận huyện, tuyến đường...">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
+                            <input type="text" name="q" value="{{ request('q') }}"
+                                placeholder="Nhập từ khóa: dự án, địa chỉ, tuyến đường...">
                         </div>
-                        <button type="button">Tìm kiếm</button>
+                        <button type="submit">Tìm kiếm</button>
                     </div>
                     <div class="market-filter-row">
-                        <select>
-                            <option>Thành phố</option>
-                            <option>TP.HCM</option>
-                            <option>Hà Nội</option>
-                            <option>Đà Nẵng</option>
+                        <select name="id_tinh_thanh" id="homeSearchTinh" class="form-select" autocomplete="address-level1">
+                            <option value="">-- Tỉnh / Thành phố --</option>
                         </select>
-                        <select>
-                            <option>Quận huyện</option>
-                            <option>Quận 1</option>
-                            <option>Quận 7</option>
-                            <option>Hải Châu</option>
+                        <select name="id_xa_phuong" id="homeSearchXa" class="form-select" autocomplete="address-level2">
+                            <option value="">-- Xã / Phường --</option>
                         </select>
-                        <select>
-                            <option>Giá</option>
-                            <option>Dưới 2 tỷ</option>
-                            <option>2 - 5 tỷ</option>
-                            <option>Trên 5 tỷ</option>
+                        <select name="price_band" class="form-select">
+                            <option value="">Giá</option>
+                            <option value="lt1" @selected(request('price_band') === 'lt1')>Dưới 1 tỷ</option>
+                            <option value="1to2" @selected(request('price_band') === '1to2')>1 tỷ đến 2 tỷ</option>
+                            <option value="2to5" @selected(request('price_band') === '2to5')>2 tỷ đến 5 tỷ</option>
+                            <option value="gt5" @selected(request('price_band') === 'gt5')>Trên 5 tỷ</option>
                         </select>
-                        <select>
-                            <option>Diện tích</option>
-                            <option>Dưới 50m2</option>
-                            <option>50 - 100m2</option>
-                            <option>Trên 100m2</option>
-                        </select>
-                        <select>
-                            <option>Loại bất động sản</option>
-                            <option>Căn hộ</option>
-                            <option>Nhà phố</option>
-                            <option>Đất nền</option>
+                        <select name="area_band" class="form-select">
+                            <option value="">Diện tích</option>
+                            <option value="lt100" @selected(request('area_band') === 'lt100')>Dưới 100m²</option>
+                            <option value="100to200" @selected(request('area_band') === '100to200')>100m² đến 200m²</option>
+                            <option value="200to500" @selected(request('area_band') === '200to500')>200m² đến 500m²</option>
+                            <option value="gt500" @selected(request('area_band') === 'gt500')>Trên 500m²</option>
                         </select>
                     </div>
-                </div>
+                    <div class="market-search-filter-actions">
+                        <button type="submit" class="market-filter-submit-btn">Tìm kiếm</button>
+                    </div>
+                </form>
             </section>
 
             <section class="market-section market-featured fade-up">
@@ -110,7 +103,7 @@
                 </div>
                 <div id="marketPropertyGrid" class="row g-3 d-none">
                     @forelse ($ds_post->take(4) as $value)
-                        <div class="col-lg-3 col-md-6">
+                        <div class="col-6 col-lg-3">
                             <a href="/home/post/{{ $value->slug }}/{{ $value->id }}">
                                 <article class="card h-100 border-0 shadow-sm">
                                     <img src="{{ $value->thumbnail }}" class="card-img-top" alt="{{ $value->title }}">
@@ -221,6 +214,7 @@
 @endsection
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const skeleton = document.getElementById('marketSkeleton');
@@ -244,6 +238,79 @@
             });
             fadeElements.forEach(el => observer.observe(el));
 
+            const tinhEl = document.getElementById('homeSearchTinh');
+            const xaEl = document.getElementById('homeSearchXa');
+            if (!tinhEl || !xaEl || typeof TomSelect === 'undefined') {
+                return;
+            }
+
+            const tinhOptions = @json($list_tinh_thanh_options);
+            const presetTinh = @json((string) request('id_tinh_thanh', ''));
+            const presetXa = @json((string) request('id_xa_phuong', ''));
+
+            let tsTinh = null;
+            let tsXa = null;
+
+            function refreshXaOptions(idTinh) {
+                if (!tsXa) {
+                    return Promise.resolve();
+                }
+                tsXa.clear(true);
+                tsXa.clearOptions();
+                if (!idTinh) {
+                    return Promise.resolve();
+                }
+                return fetch('/home/dia-phan/xa-phuong?id_tinh_thanh=' + encodeURIComponent(idTinh))
+                    .then(function(res) {
+                        return res.json();
+                    })
+                    .then(function(body) {
+                        const rows = body.data || [];
+                        rows.forEach(function(row) {
+                            tsXa.addOption({
+                                id: String(row.id),
+                                name: row.name
+                            });
+                        });
+                        tsXa.refreshOptions(false);
+                    })
+                    .catch(function() {
+                        tsXa.clear(true);
+                        tsXa.clearOptions();
+                    });
+            }
+
+            tsXa = new TomSelect(xaEl, {
+                plugins: ['clear_button'],
+                maxOptions: 20000,
+                valueField: 'id',
+                labelField: 'name',
+                searchField: ['name'],
+                options: [],
+                placeholder: 'Tìm xã / phường...',
+            });
+
+            tsTinh = new TomSelect(tinhEl, {
+                plugins: ['clear_button'],
+                maxOptions: 10000,
+                valueField: 'id',
+                labelField: 'name',
+                searchField: ['name'],
+                options: tinhOptions,
+                placeholder: 'Tìm tỉnh / thành phố...',
+                onChange: function(val) {
+                    refreshXaOptions(val);
+                },
+            });
+
+            if (presetTinh) {
+                tsTinh.setValue(presetTinh, true);
+                refreshXaOptions(presetTinh).then(function() {
+                    if (presetXa) {
+                        tsXa.setValue(presetXa, true);
+                    }
+                });
+            }
         });
     </script>
     <style>

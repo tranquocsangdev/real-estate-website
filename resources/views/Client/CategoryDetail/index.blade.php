@@ -40,7 +40,7 @@
                 <section class="market-section market-featured fade-up">
                     <div class="row g-3">
                         @foreach ($list_posts as $value)
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-6 col-lg-3">
                                 <a href="/home/post/{{ $value->slug }}/{{ $value->id }}"
                                     class="d-block h-100 text-decoration-none text-reset">
                                     <div class="market-property-card h-100">

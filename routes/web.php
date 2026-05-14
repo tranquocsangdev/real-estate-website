@@ -137,6 +137,8 @@ Route::get('/', [HomeController::class, 'viewHome']);
 Route::prefix('/home')->group(function () {
     Route::get('/all-post', [HomeController::class, 'viewAllPost']);
 
+    Route::get('/dia-phan/xa-phuong', [DiaPhanController::class, 'listXaPhuong']);
+
     Route::get('/blog', [HomeController::class, 'viewBlog']);
     Route::get('/blog/{slug}/{id}', [HomeController::class, 'viewBlogDetail']);
 
